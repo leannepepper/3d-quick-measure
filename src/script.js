@@ -9,26 +9,50 @@ const canvas = document.querySelector('canvas.webgl')
 
 const scene = new THREE.Scene()
 
+const mesh1Geometry = new THREE.BoxGeometry(1, 1, 1)
 const mesh1 = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
+  mesh1Geometry,
   new THREE.MeshBasicMaterial({
-    color: 0xff0000,
+    color: 0x2c3e4c,
     side: THREE.DoubleSide
   })
 )
 const mesh2 = new THREE.Mesh(
   new THREE.BoxGeometry(1, 1, 1),
   new THREE.MeshBasicMaterial({
-    color: 0xffff00,
+    color: 0x48aaad,
     side: THREE.DoubleSide
   })
 )
 
 mesh1.translateX(-1)
-mesh2.translateX(1)
+mesh2.translateX(3)
 
 scene.add(mesh1)
 scene.add(mesh2)
+scene.updateMatrixWorld(true)
+
+/*
+ ** Measure
+ */
+
+const position1 = new THREE.Vector3()
+const position2 = new THREE.Vector3()
+
+position1.setFromMatrixPosition(mesh1.matrixWorld)
+position2.setFromMatrixPosition(mesh2.matrixWorld)
+
+// Create Line
+const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff })
+
+const points = []
+points.push(new THREE.Vector3(position1.x, position1.y, position1.z))
+//points.push(new THREE.Vector3(position2.x, position2.y, position2.z))
+const lineGeometry = new THREE.BufferGeometry().setFromPoints(points)
+
+const line = new THREE.Line(lineGeometry, lineMaterial)
+
+//scene.add(line)
 
 /*
  ** Boilerplate
@@ -64,7 +88,7 @@ window.addEventListener('pointermove', event => {
   checkIntersection('pointermove')
 })
 
-window.addEventListener('click', event => {
+window.addEventListener('click', () => {
   checkIntersection('click')
 })
 
@@ -86,16 +110,45 @@ function checkIntersection (eventName) {
   const intersects = raycaster.intersectObjects(objectsToTest, true)
 
   if (intersects.length > 0) {
-    const selectedObject = intersects[0].object
-    if (eventName === 'pointermove') {
-      addSelectedObject(selectedObject)
-      outlinePass.selectedObjects = selectedObjects
+    const intersectObject = intersects[0].object
+    // find the face that was selected
+    var vA = new THREE.Vector3()
+    var vB = new THREE.Vector3()
+    var vC = new THREE.Vector3()
+
+    const face = intersects[0].face
+
+    var geometry = intersects[0].object.geometry
+    var position = geometry.attributes.position
+
+    vA.fromBufferAttribute(position, face.a)
+    vB.fromBufferAttribute(position, face.b)
+    vC.fromBufferAttribute(position, face.c)
+
+    vA.applyMatrix4(intersectObject.matrixWorld)
+    vB.applyMatrix4(intersectObject.matrixWorld)
+    vC.applyMatrix4(intersectObject.matrixWorld)
+
+    //console.log(vA, vB, vC)
+
+    points.push(new THREE.Vector3(vA.x, vA.y, vA.z))
+    lineGeometry.setFromPoints(points)
+    scene.add(line)
+
+    if (eventName === 'pointermove' && intersectObject !== selectedObjects[0]) {
+      addHoveredObject(intersectObject)
+      hoverOutlinePass.selectedObjects = hoveredObjects
     } else if (eventName === 'click') {
-      addHoveredObject(selectedObject)
-      //outlinePass.selectedObjects = selectedObjects
+      // remove hovered objects
+      hoverOutlinePass.selectedObjects = []
+      hoveredObjects = []
+
+      addSelectedObject(intersectObject)
+      selectedOutlinePass.selectedObjects = selectedObjects
     }
+    //console.log(selectedObjects, hoveredObjects)
   } else {
-    outlinePass.selectedObjects = []
+    hoverOutlinePass.selectedObjects = []
   }
 }
 
@@ -131,26 +184,36 @@ effectComposer.setSize(sizes.width, sizes.height)
 const renderPass = new RenderPass(scene, camera)
 effectComposer.addPass(renderPass)
 
-const outlinePass = new OutlinePass(
+const hoverOutlinePass = new OutlinePass(
   new THREE.Vector2(sizes.width, sizes.height),
   scene,
   camera
 )
 
-outlinePass.visibleEdgeColor = new THREE.Color(0xffffff)
-outlinePass.hiddenEdgeColor = new THREE.Color(0x000000)
-outlinePass.edgeThickness = 1
-outlinePass.edgeStrength = 3
+hoverOutlinePass.visibleEdgeColor = new THREE.Color(0x7a0606)
+hoverOutlinePass.hiddenEdgeColor = new THREE.Color(0x000000)
+hoverOutlinePass.edgeThickness = 2
+hoverOutlinePass.edgeStrength = 10
 
-effectComposer.addPass(outlinePass)
+effectComposer.addPass(hoverOutlinePass)
+
+const selectedOutlinePass = new OutlinePass(
+  new THREE.Vector2(sizes.width, sizes.height),
+  scene,
+  camera
+)
+
+selectedOutlinePass.visibleEdgeColor = new THREE.Color(0xffffff)
+selectedOutlinePass.hiddenEdgeColor = new THREE.Color(0x000000)
+selectedOutlinePass.edgeThickness = 2
+selectedOutlinePass.edgeStrength = 10
+
+effectComposer.addPass(selectedOutlinePass)
 
 const clock = new THREE.Clock()
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime()
-
-  mesh1.position.y = Math.sin(elapsedTime * 0.1) * 1.5
-  mesh2.position.y = Math.sin(elapsedTime * 0.8) * 1.5
 
   controls.update()
 

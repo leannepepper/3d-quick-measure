@@ -4,7 +4,8 @@ import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import * as THREE from '../node_modules/three/build/three.module.js'
 import './style.css'
-import { faceVertex } from './measure'
+import { findFaceVertex, findStartPoint } from './measure'
+import { createLine } from './line'
 
 const canvas = document.querySelector('canvas.webgl')
 
@@ -27,33 +28,11 @@ const mesh2 = new THREE.Mesh(
 )
 
 mesh1.translateX(-1)
-mesh2.translateX(3)
+mesh2.translateX(1)
 
 scene.add(mesh1)
 scene.add(mesh2)
 scene.updateMatrixWorld(true)
-
-/*
- ** Measure
- */
-
-const position1 = new THREE.Vector3()
-const position2 = new THREE.Vector3()
-
-position1.setFromMatrixPosition(mesh1.matrixWorld)
-position2.setFromMatrixPosition(mesh2.matrixWorld)
-
-// Create Line
-const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff })
-
-const points = []
-points.push(new THREE.Vector3(position1.x, position1.y, position1.z))
-//points.push(new THREE.Vector3(position2.x, position2.y, position2.z))
-const lineGeometry = new THREE.BufferGeometry().setFromPoints(points)
-
-const line = new THREE.Line(lineGeometry, lineMaterial)
-
-//scene.add(line)
 
 /*
  ** Boilerplate
@@ -103,6 +82,8 @@ function addHoveredObject (object) {
   hoveredObjects.push(object)
 }
 
+let line = null
+
 function checkIntersection (eventName) {
   // Raycast
   raycaster.setFromCamera(mouse, camera)
@@ -112,12 +93,23 @@ function checkIntersection (eventName) {
 
   if (intersects.length > 0) {
     const intersectObject = intersects[0].object
-    // find the face that was selected
+    // don't draw lines to self or if theres no selectedObj
+    if (
+      selectedObjects.length !== 0 &&
+      intersectObject !== selectedObjects[0]
+    ) {
+      //does line exisit? if so delete it
+      const measureLine = scene.getObjectByName('x-axis')
+      if (measureLine) {
+        scene.remove(measureLine)
+      }
 
-    const vertex = faceVertex(intersects[0])
-    points.push(vertex)
-    lineGeometry.setFromPoints(points)
-    scene.add(line)
+      const startPoint = findStartPoint(selectedObjects[0])
+      const endPoint = findFaceVertex(intersects[0])
+      line = createLine(startPoint, endPoint)
+
+      scene.add(line)
+    }
 
     if (eventName === 'pointermove' && intersectObject !== selectedObjects[0]) {
       addHoveredObject(intersectObject)
@@ -130,9 +122,10 @@ function checkIntersection (eventName) {
       addSelectedObject(intersectObject)
       selectedOutlinePass.selectedObjects = selectedObjects
     }
-    //console.log(selectedObjects, hoveredObjects)
   } else {
     hoverOutlinePass.selectedObjects = []
+    const measureLine = scene.getObjectByName('x-axis')
+    scene.remove(measureLine)
   }
 }
 

@@ -1,6 +1,6 @@
 import * as THREE from '../node_modules/three/build/three.module.js'
 
-export const faceVertex = function (intersect) {
+export const findFaceVertex = function (intersect) {
   var vA = new THREE.Vector3()
   // var vB = new THREE.Vector3()
   // var vC = new THREE.Vector3()
@@ -18,4 +18,16 @@ export const faceVertex = function (intersect) {
 
   const faceVertex = new THREE.Vector3(vA.x, vA.y, vA.z)
   return faceVertex
+}
+
+export const findStartPoint = function (selectedObject) {
+  const toPositions = new THREE.Vector3()
+  toPositions.setFromMatrixPosition(selectedObject.matrixWorld)
+
+  const startPoint = new THREE.Vector3(
+    toPositions.x,
+    toPositions.y,
+    toPositions.z
+  )
+  return startPoint
 }

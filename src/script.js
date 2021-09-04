@@ -4,6 +4,7 @@ import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import * as THREE from '../node_modules/three/build/three.module.js'
 import './style.css'
+import { faceVertex } from './measure'
 
 const canvas = document.querySelector('canvas.webgl')
 
@@ -112,26 +113,9 @@ function checkIntersection (eventName) {
   if (intersects.length > 0) {
     const intersectObject = intersects[0].object
     // find the face that was selected
-    var vA = new THREE.Vector3()
-    var vB = new THREE.Vector3()
-    var vC = new THREE.Vector3()
 
-    const face = intersects[0].face
-
-    var geometry = intersects[0].object.geometry
-    var position = geometry.attributes.position
-
-    vA.fromBufferAttribute(position, face.a)
-    vB.fromBufferAttribute(position, face.b)
-    vC.fromBufferAttribute(position, face.c)
-
-    vA.applyMatrix4(intersectObject.matrixWorld)
-    vB.applyMatrix4(intersectObject.matrixWorld)
-    vC.applyMatrix4(intersectObject.matrixWorld)
-
-    //console.log(vA, vB, vC)
-
-    points.push(new THREE.Vector3(vA.x, vA.y, vA.z))
+    const vertex = faceVertex(intersects[0])
+    points.push(vertex)
     lineGeometry.setFromPoints(points)
     scene.add(line)
 

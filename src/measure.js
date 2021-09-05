@@ -1,12 +1,12 @@
 import * as THREE from '../node_modules/three/build/three.module.js'
 
 export const findFaceVertex = function (intersect) {
-  var vA = new THREE.Vector3()
+  const vA = new THREE.Vector3()
   // var vB = new THREE.Vector3()
   // var vC = new THREE.Vector3()
 
-  var geometry = intersect.object.geometry
-  var position = geometry.attributes.position
+  const geometry = intersect.object.geometry
+  const position = geometry.attributes.position
 
   vA.fromBufferAttribute(position, intersect.face.a)
   // vB.fromBufferAttribute(position, face.b)
@@ -18,16 +18,4 @@ export const findFaceVertex = function (intersect) {
 
   const faceVertex = new THREE.Vector3(vA.x, vA.y, vA.z)
   return faceVertex
-}
-
-export const findStartPoint = function (selectedObject) {
-  const toPositions = new THREE.Vector3()
-  toPositions.setFromMatrixPosition(selectedObject.matrixWorld)
-
-  const startPoint = new THREE.Vector3(
-    toPositions.x,
-    toPositions.y,
-    toPositions.z
-  )
-  return startPoint
 }

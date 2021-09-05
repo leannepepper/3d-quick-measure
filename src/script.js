@@ -5,7 +5,7 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import * as THREE from '../node_modules/three/build/three.module.js'
 import './style.css'
 import { findFaceVertex, findStartPoint } from './measure'
-import { createLine } from './line'
+import { createLine, maybeDrawMeasurements } from './line'
 
 const canvas = document.querySelector('canvas.webgl')
 
@@ -58,7 +58,7 @@ scene.add(camera)
 // Mouse
 const mouse = new THREE.Vector2()
 let hoveredObjects = []
-let selectedObjects = []
+let selectedIntersect = []
 
 // Events
 window.addEventListener('pointermove', event => {
@@ -72,17 +72,15 @@ window.addEventListener('click', () => {
   checkIntersection('click')
 })
 
-function addSelectedObject (object) {
-  selectedObjects = []
-  selectedObjects.push(object)
+function addSelectedObject (intersect) {
+  selectedIntersect = []
+  selectedIntersect.push(intersect)
 }
 
 function addHoveredObject (object) {
   hoveredObjects = []
   hoveredObjects.push(object)
 }
-
-let line = null
 
 function checkIntersection (eventName) {
   // Raycast
@@ -93,25 +91,15 @@ function checkIntersection (eventName) {
 
   if (intersects.length > 0) {
     const intersectObject = intersects[0].object
-    // don't draw lines to self or if theres no selectedObj
+    const intersect = intersects[0]
+
+    maybeDrawMeasurements(scene, selectedIntersect, intersectObject, intersects)
+
     if (
-      selectedObjects.length !== 0 &&
-      intersectObject !== selectedObjects[0]
+      eventName === 'pointermove' &&
+      (selectedIntersect.length === 0 ||
+        intersectObject !== selectedIntersect[0].object)
     ) {
-      //does line exisit? if so delete it
-      const measureLine = scene.getObjectByName('x-axis')
-      if (measureLine) {
-        scene.remove(measureLine)
-      }
-
-      const startPoint = findStartPoint(selectedObjects[0])
-      const endPoint = findFaceVertex(intersects[0])
-      line = createLine(startPoint, endPoint)
-
-      scene.add(line)
-    }
-
-    if (eventName === 'pointermove' && intersectObject !== selectedObjects[0]) {
       addHoveredObject(intersectObject)
       hoverOutlinePass.selectedObjects = hoveredObjects
     } else if (eventName === 'click') {
@@ -119,8 +107,8 @@ function checkIntersection (eventName) {
       hoverOutlinePass.selectedObjects = []
       hoveredObjects = []
 
-      addSelectedObject(intersectObject)
-      selectedOutlinePass.selectedObjects = selectedObjects
+      addSelectedObject(intersect)
+      selectedOutlinePass.selectedObjects = [selectedIntersect[0].object]
     }
   } else {
     hoverOutlinePass.selectedObjects = []
@@ -191,6 +179,9 @@ const clock = new THREE.Clock()
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime()
+
+  mesh2.position.y = Math.sin(elapsedTime * 0.8) * 1.5
+  checkIntersection('pointermove')
 
   controls.update()
 

@@ -20,6 +20,9 @@ module.exports = {
     }),
     new MiniCSSExtractPlugin()
   ],
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js']
+  },
   module: {
     rules: [
       // HTML
@@ -33,6 +36,13 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: ['babel-loader']
+      },
+
+      // TS
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: 'ts-loader'
       },
 
       // CSS

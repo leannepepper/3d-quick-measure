@@ -3,7 +3,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import * as THREE from '../node_modules/three/build/three.module.js'
-import { maybeDrawMeasurements } from './line'
+import { maybeDrawMeasurements } from './line.ts'
 import './style.css'
 
 export const canvas = document.querySelector('canvas.webgl')
@@ -200,7 +200,7 @@ const clock = new THREE.Clock()
 const tick = () => {
   const elapsedTime = clock.getElapsedTime()
 
-  //mesh2.position.y = Math.sin(elapsedTime * 0.8) * 1.5
+  mesh2.position.y = Math.sin(elapsedTime * 0.8) * 1.5
   checkIntersection('pointermove')
 
   controls.update()

@@ -3,11 +3,10 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import * as THREE from '../node_modules/three/build/three.module.js'
+import { maybeDrawMeasurements } from './line'
 import './style.css'
-import { findFaceVertex, findStartPoint } from './measure'
-import { createLine, maybeDrawMeasurements } from './line'
 
-const canvas = document.querySelector('canvas.webgl')
+export const canvas = document.querySelector('canvas.webgl')
 
 const scene = new THREE.Scene()
 
@@ -27,11 +26,24 @@ const mesh2 = new THREE.Mesh(
   })
 )
 
+const mesh3 = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({
+    color: 0xff00f0,
+    side: THREE.DoubleSide
+  })
+)
+
 mesh1.translateX(-1)
 mesh2.translateX(1)
+mesh2.translateY(3)
+mesh3.translateY(4)
+mesh3.translateX(-2)
 
 scene.add(mesh1)
 scene.add(mesh2)
+scene.add(mesh3)
+
 scene.updateMatrixWorld(true)
 
 /*
@@ -40,12 +52,12 @@ scene.updateMatrixWorld(true)
 
 const raycaster = new THREE.Raycaster()
 
-const sizes = {
+export const sizes = {
   width: window.innerWidth,
   height: window.innerHeight
 }
 
-const camera = new THREE.PerspectiveCamera(
+export const camera = new THREE.PerspectiveCamera(
   75,
   sizes.width / sizes.height,
   0.1,
@@ -53,6 +65,9 @@ const camera = new THREE.PerspectiveCamera(
 )
 
 camera.position.z = 5
+camera.position.x = 5
+camera.position.y = 5
+
 scene.add(camera)
 
 // Mouse
@@ -86,7 +101,7 @@ function checkIntersection (eventName) {
   // Raycast
   raycaster.setFromCamera(mouse, camera)
 
-  const objectsToTest = [mesh1, mesh2]
+  const objectsToTest = [mesh1, mesh2, mesh3]
   const intersects = raycaster.intersectObjects(objectsToTest, true)
 
   if (intersects.length > 0) {
@@ -113,6 +128,11 @@ function checkIntersection (eventName) {
   } else {
     hoverOutlinePass.selectedObjects = []
     const measureLine = scene.getObjectByName('x-axis')
+    const previousText = document.getElementById('distanceText')
+    if (previousText) {
+      document.body.removeChild(previousText)
+    }
+
     scene.remove(measureLine)
   }
 }
@@ -180,7 +200,7 @@ const clock = new THREE.Clock()
 const tick = () => {
   const elapsedTime = clock.getElapsedTime()
 
-  mesh2.position.y = Math.sin(elapsedTime * 0.8) * 1.5
+  //mesh2.position.y = Math.sin(elapsedTime * 0.8) * 1.5
   checkIntersection('pointermove')
 
   controls.update()

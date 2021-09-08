@@ -38,7 +38,7 @@ mesh1.translateX(-1)
 mesh2.translateX(1)
 mesh2.translateY(3)
 mesh3.translateY(4)
-mesh3.translateX(-2)
+mesh3.translateX(-4)
 
 scene.add(mesh1)
 scene.add(mesh2)

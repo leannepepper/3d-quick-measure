@@ -2,20 +2,49 @@ const THREE = require("three/build/three.module");
 
 export const findFaceVertex = function (intersect: any) {
   const vA = new THREE.Vector3();
-  // var vB = new THREE.Vector3()
-  // var vC = new THREE.Vector3()
+  const vB = new THREE.Vector3();
+  const vC = new THREE.Vector3();
 
   const geometry = intersect.object.geometry;
   const position = geometry.attributes.position;
 
   vA.fromBufferAttribute(position, intersect.face.a);
-  // vB.fromBufferAttribute(position, face.b)
-  // vC.fromBufferAttribute(position, face.c)
+  vB.fromBufferAttribute(position, intersect.face.b);
+  vC.fromBufferAttribute(position, intersect.face.c);
 
   vA.applyMatrix4(intersect.object.matrixWorld);
-  // vB.applyMatrix4(intersectObject.matrixWorld)
-  // vC.applyMatrix4(intersectObject.matrixWorld)
+  vB.applyMatrix4(intersect.object.matrixWorld);
+  vC.applyMatrix4(intersect.object.matrixWorld);
+
+  // console.log({ vA, vB, vC });
 
   const faceVertex = new THREE.Vector3(vA.x, vA.y, vA.z);
   return faceVertex;
+};
+
+export const findImplicitLineStart = function (
+  selectedIntersect: any,
+  hoverIntersect: any
+) {
+  // SelectedObj will provide the end point for implicit lines
+  // HoverIntersect will provide the start point
+
+  return findFaceVertex(hoverIntersect);
+};
+
+export const findImplicitLineEnd = function (
+  selectedIntersect: any,
+  hoverIntersect: any
+) {
+  // SelectedObj will provide the end point for implicit lines
+  // HoverIntersect will provide the start point
+  const hoverIntersectFaceVertex = findFaceVertex(hoverIntersect);
+  const selectedIntersectFaceVertex = findFaceVertex(selectedIntersect);
+
+  const endPoint = new THREE.Vector3(
+    selectedIntersectFaceVertex.x,
+    hoverIntersectFaceVertex.y,
+    hoverIntersectFaceVertex.z
+  );
+  return endPoint;
 };

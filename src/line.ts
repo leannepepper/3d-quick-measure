@@ -1,13 +1,19 @@
 const THREE = require("three/build/three.module");
 
-import { findFaceVertex } from "./measure";
+import { findImplicitLineStart, findImplicitLineEnd } from "./measure";
 import { convertToScreenCoordinates } from "./utils";
 
 const createLine = function (
   startPoint: THREE.Vector3,
   endPoint: THREE.Vector3
 ) {
-  const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00ff00 });
+  const lineMaterial = new THREE.LineDashedMaterial({
+    color: 0xffff00,
+    linewidth: 1,
+    scale: 0.1,
+    dashSize: 5,
+    gapSize: 5,
+  });
   const points = [];
   const lineGeometry = new THREE.BufferGeometry();
 
@@ -68,8 +74,11 @@ export const maybeDrawMeasurements = function (
       scene.remove(measureLine);
     }
 
-    const startPoint = findFaceVertex(selectedIntersect[0]);
-    const endPoint = findFaceVertex(intersects[0]);
+    const startPoint = findImplicitLineStart(
+      selectedIntersect[0],
+      intersects[0]
+    );
+    const endPoint = findImplicitLineEnd(selectedIntersect[0], intersects[0]);
     line = createLine(startPoint, endPoint);
     const distanceText = createText(startPoint, endPoint);
 

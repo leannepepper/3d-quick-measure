@@ -1,7 +1,7 @@
 const THREE = require("three/build/three.module");
 
-import { camera, sizes } from "./script";
 import { findFaceVertex } from "./measure";
+import { convertToScreenCoordinates } from "./utils";
 
 const createLine = function (
   startPoint: THREE.Vector3,
@@ -18,19 +18,6 @@ const createLine = function (
   const line = new THREE.Line(lineGeometry, lineMaterial);
   line.name = "x-axis";
   return line;
-};
-
-const convertToScreenCoordinates = function (point: THREE.Vector3) {
-  point.project(camera);
-
-  let widthHalf = sizes.width / 2;
-  let heightHalf = sizes.height / 2;
-
-  point.x = point.x * widthHalf + widthHalf;
-  point.y = -(point.y * heightHalf) + heightHalf;
-  point.z = 0;
-
-  return point;
 };
 
 const createText = function (
@@ -64,10 +51,10 @@ const createText = function (
 };
 
 export const maybeDrawMeasurements = function (
-  scene: any,
-  selectedIntersect: any,
-  intersectObject: any,
-  intersects: any
+  scene: THREE.Scene,
+  selectedIntersect: any[],
+  intersectObject: {},
+  intersects: any[]
 ) {
   if (
     selectedIntersect.length !== 0 &&

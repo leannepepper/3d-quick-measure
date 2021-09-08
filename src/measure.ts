@@ -22,7 +22,7 @@ export const findFaceVertex = function (intersect: any) {
   return faceVertex;
 };
 
-export const findImplicitLineStart = function (
+export const findXAxisImplicitLineStart = function (
   selectedIntersect: any,
   hoverIntersect: any
 ) {
@@ -32,7 +32,7 @@ export const findImplicitLineStart = function (
   return findFaceVertex(hoverIntersect);
 };
 
-export const findImplicitLineEnd = function (
+export const findXAxisImplicitLineEnd = function (
   selectedIntersect: any,
   hoverIntersect: any
 ) {
@@ -44,6 +44,33 @@ export const findImplicitLineEnd = function (
   const endPoint = new THREE.Vector3(
     selectedIntersectFaceVertex.x,
     hoverIntersectFaceVertex.y,
+    hoverIntersectFaceVertex.z
+  );
+  return endPoint;
+};
+
+export const findYAxisImplicitLineStart = function (
+  selectedIntersect: any,
+  hoverIntersect: any
+) {
+  // SelectedObj will provide the end point for implicit lines
+  // HoverIntersect will provide the start point
+
+  return findFaceVertex(hoverIntersect);
+};
+
+export const findYAxisImplicitLineEnd = function (
+  selectedIntersect: any,
+  hoverIntersect: any
+) {
+  // SelectedObj will provide the end point for implicit lines
+  // HoverIntersect will provide the start point
+  const hoverIntersectFaceVertex = findFaceVertex(hoverIntersect);
+  const selectedIntersectFaceVertex = findFaceVertex(selectedIntersect);
+
+  const endPoint = new THREE.Vector3(
+    hoverIntersectFaceVertex.x,
+    selectedIntersectFaceVertex.y,
     hoverIntersectFaceVertex.z
   );
   return endPoint;

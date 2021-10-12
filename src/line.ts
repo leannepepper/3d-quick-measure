@@ -5,20 +5,20 @@ import {
   findXAxisImplicitLineEnd,
   findYAxisImplicitLineStart,
   findYAxisImplicitLineEnd,
+  findXAxisExplicitLineStart,
+  findXAxisExplicitLineEnd,
 } from "./measure";
 import { convertToScreenCoordinates } from "./utils";
 
 const createLine = function (
   startPoint: THREE.Vector3,
   endPoint: THREE.Vector3,
-  name: string
+  name: string,
+  color: THREE.Color
 ) {
-  const lineMaterial = new THREE.LineDashedMaterial({
-    color: 0xffff00,
+  const lineMaterial = new THREE.LineBasicMaterial({
+    color,
     linewidth: 1,
-    scale: 0.1,
-    dashSize: 5,
-    gapSize: 5,
   });
   const points = [];
   const lineGeometry = new THREE.BufferGeometry();
@@ -41,7 +41,7 @@ const createText = function (
     document.body.removeChild(previousText);
   }
 
-  const text = Math.abs(startPoint.y - endPoint.y);
+  const text = Math.abs(startPoint.x - endPoint.x);
 
   const x = (startPoint.x + endPoint.x) / 2;
   const y = (startPoint.y + endPoint.y) / 2;
@@ -62,6 +62,12 @@ const createText = function (
   return distanceText;
 };
 
+function removeLines(scene: THREE.Scene) {
+  scene.remove(scene.getObjectByName("x-axis"));
+  scene.remove(scene.getObjectByName("y-axis"));
+  scene.remove(scene.getObjectByName("x-axis-explicit"));
+}
+
 export const maybeDrawMeasurements = function (
   scene: THREE.Scene,
   selectedIntersect: any[],
@@ -74,22 +80,15 @@ export const maybeDrawMeasurements = function (
   ) {
     let xAxisImplicitLine = null;
     let yAxisImplicitLine = null;
+    let xAxisExplicitLine = null;
 
-    // Remove previously drawn lines
-    const xAxisLine = scene.getObjectByName("x-axis");
-    if (xAxisLine) {
-      scene.remove(xAxisLine);
-    }
-
-    const yAxisLine = scene.getObjectByName("y-axis");
-    if (yAxisLine) {
-      scene.remove(yAxisLine);
-    }
+    removeLines(scene);
 
     const xAxisStartPoint = findXAxisImplicitLineStart(
       selectedIntersect[0],
       intersects[0]
     );
+
     const xAxisEndPoint = findXAxisImplicitLineEnd(
       selectedIntersect[0],
       intersects[0]
@@ -99,13 +98,39 @@ export const maybeDrawMeasurements = function (
       selectedIntersect[0],
       intersects[0]
     );
+
     const yAxisEndPoint = findYAxisImplicitLineEnd(
       selectedIntersect[0],
       intersects[0]
     );
 
-    xAxisImplicitLine = createLine(xAxisStartPoint, xAxisEndPoint, "x-axis");
-    yAxisImplicitLine = createLine(yAxisStartPoint, yAxisEndPoint, "y-axis");
+    const xAxisExplicitStartPoint = findXAxisExplicitLineStart(
+      selectedIntersect[0],
+      intersects[0]
+    );
+
+    const xAxisExplicitEndPoint = findXAxisExplicitLineEnd(
+      selectedIntersect[0]
+    );
+
+    xAxisImplicitLine = createLine(
+      xAxisStartPoint,
+      xAxisEndPoint,
+      "x-axis",
+      new THREE.Color(0xff0000)
+    );
+    yAxisImplicitLine = createLine(
+      yAxisStartPoint,
+      yAxisEndPoint,
+      "y-axis",
+      new THREE.Color(0xff0000)
+    );
+    xAxisExplicitLine = createLine(
+      xAxisExplicitStartPoint,
+      xAxisExplicitEndPoint,
+      "x-axis-explicit",
+      new THREE.Color(0xff00ff)
+    );
 
     const distanceText = createText(xAxisStartPoint, xAxisEndPoint);
     let midPoint = new THREE.Vector3();
@@ -119,6 +144,7 @@ export const maybeDrawMeasurements = function (
 
     scene.add(xAxisImplicitLine);
     scene.add(yAxisImplicitLine);
-    // document.body.appendChild(distanceText);
+    scene.add(xAxisExplicitLine);
+    //document.body.appendChild(distanceText);
   }
 };

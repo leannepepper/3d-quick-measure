@@ -75,3 +75,14 @@ export const findYAxisImplicitLineEnd = function (
   );
   return endPoint;
 };
+
+export const findXAxisExplicitLineStart = function (
+  selectedIntersect: any,
+  hoverIntersect: any
+) {
+  return findYAxisImplicitLineEnd(selectedIntersect, hoverIntersect);
+};
+
+export const findXAxisExplicitLineEnd = function (selectedIntersect: any) {
+  return findFaceVertex(selectedIntersect);
+};

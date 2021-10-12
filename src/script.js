@@ -3,6 +3,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import * as THREE from '../node_modules/three/build/three.module.js'
+
 import { maybeDrawMeasurements } from './line.ts'
 import './style.css'
 
@@ -40,9 +41,7 @@ mesh2.translateY(3)
 mesh3.translateY(4)
 mesh3.translateX(-4)
 
-scene.add(mesh1)
-scene.add(mesh2)
-scene.add(mesh3)
+scene.add(mesh1, mesh2, mesh3)
 
 scene.updateMatrixWorld(true)
 
@@ -127,13 +126,18 @@ function checkIntersection (eventName) {
     }
   } else {
     hoverOutlinePass.selectedObjects = []
-    const measureLine = scene.getObjectByName('x-axis')
+    const xAxisImplicitMeasureLine = scene.getObjectByName('x-axis')
+    const yAxisImplicitMeasureLine = scene.getObjectByName('y-axis')
+    const xAxisExplicitMeasureLine = scene.getObjectByName('x-axis-explicit')
+
     const previousText = document.getElementById('distanceText')
     if (previousText) {
       document.body.removeChild(previousText)
     }
 
-    scene.remove(measureLine)
+    scene.remove(xAxisImplicitMeasureLine)
+    scene.remove(yAxisImplicitMeasureLine)
+    scene.remove(xAxisExplicitMeasureLine)
   }
 }
 

@@ -86,3 +86,14 @@ export const findXAxisExplicitLineStart = function (
 export const findXAxisExplicitLineEnd = function (selectedIntersect: any) {
   return findFaceVertex(selectedIntersect);
 };
+
+export const findYAxisExplicitLineStart = function (
+  selectedIntersect: any,
+  hoverIntersect: any
+) {
+  return findXAxisImplicitLineEnd(selectedIntersect, hoverIntersect);
+};
+
+export const findYAxisExplicitLineEnd = function (selectedIntersect: any) {
+  return findFaceVertex(selectedIntersect);
+};

@@ -30,7 +30,7 @@ const mesh2 = new THREE.Mesh(
 const mesh3 = new THREE.Mesh(
   new THREE.BoxGeometry(1, 1, 1),
   new THREE.MeshBasicMaterial({
-    color: 0xff00f0,
+    color: 0x00ffff,
     side: THREE.DoubleSide
   })
 )
@@ -129,6 +129,7 @@ function checkIntersection (eventName) {
     const xAxisImplicitMeasureLine = scene.getObjectByName('x-axis')
     const yAxisImplicitMeasureLine = scene.getObjectByName('y-axis')
     const xAxisExplicitMeasureLine = scene.getObjectByName('x-axis-explicit')
+    const yAxisExplicitMeasureLine = scene.getObjectByName('y-axis-explicit')
 
     const previousText = document.getElementById('distanceText')
     if (previousText) {
@@ -138,6 +139,7 @@ function checkIntersection (eventName) {
     scene.remove(xAxisImplicitMeasureLine)
     scene.remove(yAxisImplicitMeasureLine)
     scene.remove(xAxisExplicitMeasureLine)
+    scene.remove(yAxisExplicitMeasureLine)
   }
 }
 

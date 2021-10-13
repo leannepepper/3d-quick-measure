@@ -131,9 +131,13 @@ function checkIntersection (eventName) {
     const xAxisExplicitMeasureLine = scene.getObjectByName('x-axis-explicit')
     const yAxisExplicitMeasureLine = scene.getObjectByName('y-axis-explicit')
 
-    const previousText = document.getElementById('distanceText')
-    if (previousText) {
-      document.body.removeChild(previousText)
+    const previousXAxisText = document.getElementById('distanceTextY')
+    if (previousXAxisText) {
+      document.body.removeChild(previousXAxisText)
+    }
+    const previousYAxisText = document.getElementById('distanceTextX')
+    if (previousYAxisText) {
+      document.body.removeChild(previousYAxisText)
     }
 
     scene.remove(xAxisImplicitMeasureLine)

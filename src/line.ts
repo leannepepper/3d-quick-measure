@@ -34,19 +34,16 @@ const createLine = function (
   return line;
 };
 
-const createText = function (
-  startPoint: THREE.Vector3,
-  endPoint: THREE.Vector3
-) {
-  const previousText = document.getElementById("distanceText");
+const createText = function (id: string, startPoint: number, endPoint: number) {
+  const previousText = document.getElementById(id);
   if (previousText) {
     document.body.removeChild(previousText);
   }
 
-  const text = Math.abs(startPoint.x - endPoint.x);
+  const text = Math.abs(startPoint - endPoint);
 
-  const x = (startPoint.x + endPoint.x) / 2;
-  const y = (startPoint.y + endPoint.y) / 2;
+  // const x = (startPoint.x + endPoint.x) / 2;
+  // const y = (startPoint.y + endPoint.y) / 2;
 
   const distanceText = document.createElement("div");
   distanceText.style.position = "absolute";
@@ -59,9 +56,26 @@ const createText = function (
   distanceText.innerHTML = text.toString();
   distanceText.style.top = 0 + "px";
   distanceText.style.left = 0 + "px";
-  distanceText.id = "distanceText";
+  distanceText.id = id;
 
   return distanceText;
+};
+
+const positionDistanceText = function (
+  distanceText: HTMLDivElement,
+  axisStart: any,
+  axisEnd: any
+) {
+  let midPoint = new THREE.Vector3();
+
+  midPoint.x = (axisEnd.x + axisStart.x) / 2;
+  midPoint.y = (axisEnd.y + axisStart.y) / 2;
+  midPoint.z = 0;
+
+  const midPointScreenCoordinates = convertToScreenCoordinates(midPoint);
+  distanceText.style.transform = `translate(-50%, -50%) translate(${midPointScreenCoordinates.x}px,${midPointScreenCoordinates.y}px)`;
+
+  document.body.appendChild(distanceText);
 };
 
 function removeLines(scene: THREE.Scene) {
@@ -151,20 +165,32 @@ export const maybeDrawMeasurements = function (
       new THREE.Color(0xff00ff)
     );
 
-    const distanceText = createText(xAxisStartPoint, xAxisEndPoint);
-    let midPoint = new THREE.Vector3();
+    const xDistanceText = createText(
+      "distanceTextX",
+      xAxisExplicitStartPoint.x,
+      xAxisExplicitEndPoint.x
+    );
 
-    midPoint.x = (xAxisEndPoint.x + xAxisStartPoint.x) / 2;
-    midPoint.y = (xAxisEndPoint.y + xAxisStartPoint.y) / 2;
-    midPoint.z = 0;
+    positionDistanceText(
+      xDistanceText,
+      xAxisExplicitStartPoint,
+      xAxisExplicitEndPoint
+    );
+    const yDistanceText = createText(
+      "distanceTextY",
+      yAxisExplicitStartPoint.y,
+      yAxisExplicitEndPoint.y
+    );
 
-    const midPointScreenCoordinates = convertToScreenCoordinates(midPoint);
-    distanceText.style.transform = `translate(-50%, -50%) translate(${midPointScreenCoordinates.x}px,${midPointScreenCoordinates.y}px)`;
+    positionDistanceText(
+      yDistanceText,
+      yAxisExplicitStartPoint,
+      yAxisExplicitEndPoint
+    );
 
     scene.add(xAxisImplicitLine);
     scene.add(yAxisImplicitLine);
     scene.add(xAxisExplicitLine);
     scene.add(yAxisExplicitLine);
-    //document.body.appendChild(distanceText);
   }
 };

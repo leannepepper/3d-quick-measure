@@ -1,4 +1,4 @@
-const THREE = require("three/build/three.module");
+import * as THREE from "three";
 
 export const findFaceVertex = function (intersect: any) {
   const vA = new THREE.Vector3();

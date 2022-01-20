@@ -2,12 +2,17 @@
   margin: 0;
   padding: 0;
 }
-
-body {
-  font-family: sans-serif;
+html,
+body,
+#root,
+canvas {
+  height: 100%;
 }
 
-.webgl {
-  height: 100vh;
-  width: 100vw;
+html {
+  background: #151515;
+}
+
+body {
+  margin: 0;
 }

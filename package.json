@@ -32,7 +32,14 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "@react-three/drei": "^8.6.1",
+    "@react-three/fiber": "^7.0.24",
+    "@types/react": "^17.0.38",
+    "@types/react-dom": "^17.0.11",
     "polyline-normals": "^2.0.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "^5.0.0",
     "three": "^0.132.2",
     "webpack-cli": "4.7.2",
     "webpack-dev-server": "3.11.2"

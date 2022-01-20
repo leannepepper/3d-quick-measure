@@ -1,4 +1,4 @@
-const THREE = require("three/build/three.module");
+import * as THREE from "three";
 
 import {
   findXAxisImplicitLineStart,

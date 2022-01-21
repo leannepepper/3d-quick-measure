@@ -1,7 +1,7 @@
 import "./style.css";
 import * as THREE from "three";
 // import React, { useEffect, useMemo, useRef } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useThree, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
 // import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
@@ -11,7 +11,13 @@ import { OrbitControls } from "@react-three/drei";
 // import { maybeDrawMeasurements } from "./line";
 import * as React from "react";
 
-//export const canvas = document.querySelector("canvas.webgl");
+import { Effects } from "./Effects";
+
+function Measure(): any {
+  const { size } = useThree();
+
+  return null;
+}
 
 export default function App() {
   return (
@@ -27,55 +33,12 @@ export default function App() {
       <color attach="background" args={["#151515"]} />
       <ambientLight intensity={1.5} color={0x444444} />
       <OrbitControls autoRotate={false} enableZoom={false} enablePan={false} />
-      <mesh position={[-1, 0, 0]}>
-        <boxGeometry args={[2, 2, 2]} />
-        <meshBasicMaterial color={"hotpink"} />
-      </mesh>
-      <mesh position={[1, 3, 0]}>
-        <boxGeometry args={[2, 2, 2]} />
-        <meshBasicMaterial color={"blue"} />
-      </mesh>
-      <mesh position={[4, -4, 0]}>
-        <boxGeometry args={[2, 2, 2]} />
-        <meshBasicMaterial color={"yellow"} />
-      </mesh>
+      <Measure />
+
+      <Effects />
     </Canvas>
   );
 }
-
-// const scene = new THREE.Scene();
-
-// const mesh1Geometry = new THREE.BoxGeometry(1, 1, 1);
-// const mesh1 = new THREE.Mesh(
-//   mesh1Geometry,
-//   new THREE.MeshBasicMaterial({
-//     color: 0x2c3e4c,
-//     side: THREE.DoubleSide,
-//   })
-// );
-// const mesh2 = new THREE.Mesh(
-//   new THREE.BoxGeometry(1, 1, 1),
-//   new THREE.MeshBasicMaterial({
-//     color: 0x48aaad,
-//     side: THREE.DoubleSide,
-//   })
-// );
-
-// const mesh3 = new THREE.Mesh(
-//   new THREE.BoxGeometry(1, 1, 1),
-//   new THREE.MeshBasicMaterial({
-//     color: 0x00ffff,
-//     side: THREE.DoubleSide,
-//   })
-// );
-
-// mesh1.translateX(-1);
-// mesh2.translateX(1);
-// mesh2.translateY(3);
-// mesh3.translateY(4);
-// mesh3.translateX(-4);
-
-// scene.add(mesh1, mesh2, mesh3);
 
 // scene.updateMatrixWorld(true);
 
@@ -84,24 +47,6 @@ export default function App() {
 //  */
 
 // const raycaster = new THREE.Raycaster();
-
-// export const sizes = {
-//   width: window.innerWidth,
-//   height: window.innerHeight,
-// };
-
-// export const camera = new THREE.PerspectiveCamera(
-//   75,
-//   sizes.width / sizes.height,
-//   0.1,
-//   100
-// );
-
-// camera.position.z = 5;
-// camera.position.x = 5;
-// camera.position.y = 5;
-
-// scene.add(camera);
 
 // // Mouse
 // const mouse = new THREE.Vector2();
@@ -186,29 +131,6 @@ export default function App() {
 //   }
 // }
 
-// window.addEventListener("resize", () => {
-//   sizes.width = window.innerWidth;
-//   sizes.height = window.innerHeight;
-
-//   camera.aspect = sizes.width / sizes.height;
-//   camera.updateProjectionMatrix();
-
-//   renderer.setSize(sizes.width, sizes.height);
-//   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-// });
-
-// const controls = new OrbitControls(camera, canvas);
-// controls.enableDamping = true;
-
-// // Render
-
-// const renderer = new THREE.WebGLRenderer({
-//   canvas: canvas,
-// });
-
-// renderer.setSize(sizes.width, sizes.height);
-// renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
 // // Post processing
 
 // const effectComposer = new EffectComposer(renderer);
@@ -247,9 +169,7 @@ export default function App() {
 // const clock = new THREE.Clock();
 
 // const tick = () => {
-//   const elapsedTime = clock.getElapsedTime();
 
-//   mesh2.position.y = Math.sin(elapsedTime * 0.8) * 1.5;
 //   checkIntersection("pointermove");
 
 //   controls.update();

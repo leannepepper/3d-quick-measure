@@ -39,13 +39,17 @@ declare global {
   }
 }
 
-function useHover(ref: React.MutableRefObject<undefined>) {
+function useHover(ref: React.MutableRefObject<undefined>, selected: any[]) {
   const setHovered = useContext(hoverContext);
 
-  const onPointerOver = useCallback(
-    () => setHovered((state: any) => [...state, ref.current]),
-    []
-  );
+  const onPointerOver = useCallback(() => {
+    setHovered((state: any) => {
+      return selected.includes(ref.current)
+        ? [...state]
+        : [...state, ref.current];
+    });
+  }, [selected]);
+
   const onPointerOut = useCallback(
     () =>
       setHovered((state: any) =>
@@ -71,20 +75,22 @@ function useSelect(ref: React.MutableRefObject<undefined>) {
 }
 
 const MeasuredMesh = ({ ...props }) => {
-  const mesh = useRef(null);
-  const ref = useRef();
+  const ref = useRef<any>();
 
   useFrame((state) => {
     if (props.animate) {
       const elapsedTime = state.clock.elapsedTime;
-      if (mesh.current) {
-        mesh.current.position.y = Math.sin(elapsedTime * 0.8) * 1.5;
+      if (ref.current) {
+        ref.current.position.y = Math.sin(elapsedTime * 0.8) * 1.5;
       }
     }
   });
 
+  const selectProps = useSelect(ref);
+  const hoverProps = useHover(ref, props.selected);
+
   return (
-    <mesh {...props} ref={ref} {...useHover(ref)} {...useSelect(ref)}>
+    <mesh {...props} ref={ref} {...hoverProps} {...selectProps}>
       <boxGeometry args={[2, 2, 2]} />
       <meshBasicMaterial color={props.color} />
     </mesh>
@@ -113,9 +119,24 @@ export function Effects() {
   return (
     <hoverContext.Provider value={setHover}>
       <selectedContext.Provider value={setSelected}>
-        <MeasuredMesh position={[-2, 0, 0]} color={"hotpink"} animate={false} />
-        <MeasuredMesh position={[1, 3, 0]} color={"yellow"} animate={true} />
-        <MeasuredMesh position={[4, -4, 0]} color={"blue"} animate={false} />
+        <MeasuredMesh
+          position={[-2, 0, 0]}
+          color={"hotpink"}
+          animate={false}
+          selected={selected}
+        />
+        <MeasuredMesh
+          position={[1, 3, 0]}
+          color={"yellow"}
+          animate={true}
+          selected={selected}
+        />
+        <MeasuredMesh
+          position={[4, -4, 0]}
+          color={"blue"}
+          animate={false}
+          selected={selected}
+        />
         <effectComposer ref={composer} args={[gl]}>
           <renderPass attachArray="passes" scene={scene} camera={camera} />
           <outlinePass

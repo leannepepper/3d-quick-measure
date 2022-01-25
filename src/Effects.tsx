@@ -18,7 +18,8 @@ import {
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
 import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
-// import { maybeDrawMeasurements } from "./line";
+import { Measurements } from "./line";
+import { CycleRaycast } from "@react-three/drei";
 
 extend({
   EffectComposer,
@@ -40,28 +41,41 @@ declare global {
 }
 
 function useHover(ref: React.MutableRefObject<undefined>, selected: any[]) {
-  const setHovered = useContext(hoverContext);
+  //const hovered = useContext(hoverContext);
 
   const onPointerOver = useCallback(() => {
-    setHovered((state: any) => {
-      return selected.includes(ref.current)
-        ? [...state]
-        : [...state, ref.current];
-    });
-  }, [selected]);
+    //console.log("In");
+  }, []);
 
-  const onPointerOut = useCallback(
-    () =>
-      setHovered((state: any) =>
-        state.filter((mesh: any) => mesh !== ref.current)
-      ),
-    []
-  );
+  const onPointerOut = useCallback(() => {
+    //console.log("Out");
+  }, []);
+
+  // const onPointerOver = useCallback(() => {
+  //   setHovered((state: any) => {
+  //     return selected.includes(ref.current)
+  //       ? [...state]
+  //       : [...state, ref.current];
+  //   });
+  // }, [selected]);
+
+  // const onPointerOut = useCallback(
+  //   () =>
+  //     setHovered((state: any) => {
+  //       return state.filter((mesh: any) => mesh !== ref.current);
+  //     }),
+
+  //   []
+  // );
   return { onPointerOver, onPointerOut };
 }
 
 function useSelect(ref: React.MutableRefObject<undefined>) {
-  const setSelected = useContext(selectedContext);
+  const [selected, setSelected] = useContext(selectedContext);
+  const hovered = useContext(hoverContext);
+  // console.log("hit", hovered);
+  //console.log("selected", selected);
+
   const onClick = useCallback(
     () =>
       setSelected((state: any[]) => {
@@ -71,6 +85,7 @@ function useSelect(ref: React.MutableRefObject<undefined>) {
       }),
     []
   );
+
   return { onClick };
 }
 
@@ -86,16 +101,23 @@ const MeasuredMesh = ({ ...props }) => {
     }
   });
 
-  const selectProps = useSelect(ref);
-  const hoverProps = useHover(ref, props.selected);
-
   return (
-    <mesh {...props} ref={ref} {...hoverProps} {...selectProps}>
+    <mesh
+      ref={ref}
+      {...props}
+      {...useHover(ref, props.selected)}
+      {...useSelect(ref)}
+    >
       <boxGeometry args={[2, 2, 2]} />
       <meshBasicMaterial color={props.color} />
     </mesh>
   );
 };
+
+export interface Measure {
+  selected: any[];
+  hovered: any[];
+}
 
 export function Effects() {
   const composer = useRef(null);
@@ -117,8 +139,8 @@ export function Effects() {
   }, 1);
 
   return (
-    <hoverContext.Provider value={setHover}>
-      <selectedContext.Provider value={setSelected}>
+    <hoverContext.Provider value={hovered}>
+      <selectedContext.Provider value={[selected, setSelected]}>
         <MeasuredMesh
           position={[-2, 0, 0]}
           color={"hotpink"}
@@ -142,7 +164,7 @@ export function Effects() {
           <outlinePass
             attachArray="passes"
             args={[aspect, scene, camera]}
-            selectedObjects={hovered}
+            selectedObjects={hovered.map((obj) => obj.object)}
             visibleEdgeColor={new THREE.Color(0xffffff)}
             edgeStrength={25}
             edgeThickness={0.25}
@@ -156,6 +178,16 @@ export function Effects() {
             edgeThickness={0.15}
           />
         </effectComposer>
+        <CycleRaycast
+          preventDefault={true}
+          scroll={true}
+          keyCode={9}
+          onChanged={(objects, cycle) => {
+            setHover(objects);
+            return null;
+          }}
+        />
+        <Measurements selected={selected} hovered={hovered} />
       </selectedContext.Provider>
     </hoverContext.Provider>
   );

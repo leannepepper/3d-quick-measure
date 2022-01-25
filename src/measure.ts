@@ -1,6 +1,7 @@
 import * as THREE from "three";
 
 export const findFaceVertex = function (intersect: any) {
+  //console.log({ intersect });
   const vA = new THREE.Vector3();
   const vB = new THREE.Vector3();
   const vC = new THREE.Vector3();

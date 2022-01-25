@@ -19,7 +19,6 @@ import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer
 import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
 import { Measurements } from "./line";
-import { CycleRaycast } from "@react-three/drei";
 
 extend({
   EffectComposer,
@@ -42,7 +41,8 @@ declare global {
 
 const MeasuredMesh = ({ ...props }) => {
   const ref = useRef<any>();
-  const setSelected = useContext(selectedContext);
+  const [selected, setSelected] = useContext(selectedContext);
+  const [hovered, setHover] = useContext(hoverContext);
 
   useFrame((state) => {
     if (props.animate) {
@@ -57,14 +57,22 @@ const MeasuredMesh = ({ ...props }) => {
     <mesh
       ref={ref}
       {...props}
-      onPointerOver={() => {}}
-      onPointerOut={() => {}}
+      onPointerOver={(event) => {
+        setHover((state: any) => {
+          const isItemSelected = selected.filter(
+            (obj: any) => obj.object === event.intersections[0].object
+          );
+          return isItemSelected.length > 0 ? [] : [event.intersections[0]];
+        });
+      }}
+      onPointerOut={(event) => {
+        setHover([]);
+      }}
       onClick={(event) =>
         setSelected((state: any) => {
           const itemToRemove = state.filter(
             (obj: any) => obj.object === event.intersections[0].object
           );
-
           return itemToRemove.length > 0
             ? state.filter(
                 (obj: any) => obj.object !== event.intersections[0].object
@@ -104,26 +112,11 @@ export function Effects() {
   }, 1);
 
   return (
-    <hoverContext.Provider value={hovered}>
-      <selectedContext.Provider value={setSelected}>
-        <MeasuredMesh
-          position={[-2, 0, 0]}
-          color={"hotpink"}
-          animate={false}
-          selected={selected}
-        />
-        <MeasuredMesh
-          position={[1, 3, 0]}
-          color={"yellow"}
-          animate={true}
-          selected={selected}
-        />
-        <MeasuredMesh
-          position={[4, -4, 0]}
-          color={"blue"}
-          animate={false}
-          selected={selected}
-        />
+    <hoverContext.Provider value={[hovered, setHover]}>
+      <selectedContext.Provider value={[selected, setSelected]}>
+        <MeasuredMesh position={[-2, 0, 0]} color={"hotpink"} animate={false} />
+        <MeasuredMesh position={[1, 3, 0]} color={"yellow"} animate={true} />
+        <MeasuredMesh position={[4, -4, 0]} color={"blue"} animate={false} />
         <effectComposer ref={composer} args={[gl]}>
           <renderPass attachArray="passes" scene={scene} camera={camera} />
           <outlinePass
@@ -143,15 +136,6 @@ export function Effects() {
             edgeThickness={0.15}
           />
         </effectComposer>
-        <CycleRaycast
-          preventDefault={true}
-          scroll={true}
-          keyCode={9}
-          onChanged={(objects, cycle) => {
-            setHover(objects);
-            return null;
-          }}
-        />
         <Measurements selected={selected} hovered={hovered} />
       </selectedContext.Provider>
     </hoverContext.Provider>

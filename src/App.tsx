@@ -12,7 +12,7 @@ export default function App() {
         fov: 27,
         aspect: window.innerWidth / 2 / (window.innerHeight / 2),
         near: 1,
-        far: 800,
+        far: 1500,
       }}
     >
       <color attach="background" args={["#151515"]} />
@@ -22,59 +22,3 @@ export default function App() {
     </Canvas>
   );
 }
-
-// function checkIntersection(eventName:any) {
-//   // Raycast
-//   raycaster.setFromCamera(mouse, camera);
-
-//   const objectsToTest = [mesh1, mesh2, mesh3];
-//   const intersects = raycaster.intersectObjects(objectsToTest, true);
-
-//   if (intersects.length > 0) {
-//     const intersectObject = intersects[0].object;
-//     const intersect = intersects[0];
-
-//     maybeDrawMeasurements(
-//       scene,
-//       selectedIntersect,
-//       intersectObject,
-//       intersects
-//     );
-
-//     if (
-//       eventName === "pointermove" &&
-//       (selectedIntersect.length === 0 ||
-//         intersectObject !== selectedIntersect[0].object)
-//     ) {
-//       addHoveredObject(intersectObject);
-//       hoverOutlinePass.selectedObjects = hoveredObjects;
-//     } else if (eventName === "click") {
-//       // remove hovered objects
-//       hoverOutlinePass.selectedObjects = [];
-//       hoveredObjects = [];
-
-//       addSelectedObject(intersect);
-//       selectedOutlinePass.selectedObjects = [selectedIntersect[0].object];
-//     }
-//   } else {
-//     hoverOutlinePass.selectedObjects = [];
-//     const xAxisImplicitMeasureLine = scene.getObjectByName("x-axis");
-//     const yAxisImplicitMeasureLine = scene.getObjectByName("y-axis");
-//     const xAxisExplicitMeasureLine = scene.getObjectByName("x-axis-explicit");
-//     const yAxisExplicitMeasureLine = scene.getObjectByName("y-axis-explicit");
-
-//     const previousXAxisText = document.getElementById("distanceTextY");
-//     if (previousXAxisText) {
-//       document.body.removeChild(previousXAxisText);
-//     }
-//     const previousYAxisText = document.getElementById("distanceTextX");
-//     if (previousYAxisText) {
-//       document.body.removeChild(previousYAxisText);
-//     }
-
-//     scene.remove(xAxisImplicitMeasureLine);
-//     scene.remove(yAxisImplicitMeasureLine);
-//     scene.remove(xAxisExplicitMeasureLine);
-//     scene.remove(yAxisExplicitMeasureLine);
-//   }
-// }

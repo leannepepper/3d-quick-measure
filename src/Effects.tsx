@@ -40,57 +40,9 @@ declare global {
   }
 }
 
-function useHover(ref: React.MutableRefObject<undefined>, selected: any[]) {
-  //const hovered = useContext(hoverContext);
-
-  const onPointerOver = useCallback(() => {
-    //console.log("In");
-  }, []);
-
-  const onPointerOut = useCallback(() => {
-    //console.log("Out");
-  }, []);
-
-  // const onPointerOver = useCallback(() => {
-  //   setHovered((state: any) => {
-  //     return selected.includes(ref.current)
-  //       ? [...state]
-  //       : [...state, ref.current];
-  //   });
-  // }, [selected]);
-
-  // const onPointerOut = useCallback(
-  //   () =>
-  //     setHovered((state: any) => {
-  //       return state.filter((mesh: any) => mesh !== ref.current);
-  //     }),
-
-  //   []
-  // );
-  return { onPointerOver, onPointerOut };
-}
-
-function useSelect(ref: React.MutableRefObject<undefined>) {
-  const [selected, setSelected] = useContext(selectedContext);
-  const hovered = useContext(hoverContext);
-  // console.log("hit", hovered);
-  //console.log("selected", selected);
-
-  const onClick = useCallback(
-    () =>
-      setSelected((state: any[]) => {
-        return state.includes(ref.current)
-          ? state.filter((mesh: any) => mesh !== ref.current)
-          : [...state, ref.current];
-      }),
-    []
-  );
-
-  return { onClick };
-}
-
 const MeasuredMesh = ({ ...props }) => {
   const ref = useRef<any>();
+  const setSelected = useContext(selectedContext);
 
   useFrame((state) => {
     if (props.animate) {
@@ -105,8 +57,21 @@ const MeasuredMesh = ({ ...props }) => {
     <mesh
       ref={ref}
       {...props}
-      {...useHover(ref, props.selected)}
-      {...useSelect(ref)}
+      onPointerOver={() => {}}
+      onPointerOut={() => {}}
+      onClick={(event) =>
+        setSelected((state: any) => {
+          const itemToRemove = state.filter(
+            (obj: any) => obj.object === event.intersections[0].object
+          );
+
+          return itemToRemove.length > 0
+            ? state.filter(
+                (obj: any) => obj.object !== event.intersections[0].object
+              )
+            : [...state, event.intersections[0]];
+        })
+      }
     >
       <boxGeometry args={[2, 2, 2]} />
       <meshBasicMaterial color={props.color} />
@@ -140,7 +105,7 @@ export function Effects() {
 
   return (
     <hoverContext.Provider value={hovered}>
-      <selectedContext.Provider value={[selected, setSelected]}>
+      <selectedContext.Provider value={setSelected}>
         <MeasuredMesh
           position={[-2, 0, 0]}
           color={"hotpink"}
@@ -172,7 +137,7 @@ export function Effects() {
           <outlinePass
             attachArray="passes"
             args={[aspect, scene, camera]}
-            selectedObjects={selected}
+            selectedObjects={selected.map((obj) => obj.object)}
             visibleEdgeColor={new THREE.Color(0xff0000)}
             edgeStrength={25}
             edgeThickness={0.15}

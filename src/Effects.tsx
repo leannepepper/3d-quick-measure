@@ -114,9 +114,9 @@ export function Effects() {
   return (
     <hoverContext.Provider value={[hovered, setHover]}>
       <selectedContext.Provider value={[selected, setSelected]}>
-        <MeasuredMesh position={[-4, 0, 0]} color={"hotpink"} animate={false} />
+        <MeasuredMesh position={[-8, 0, 0]} color={"hotpink"} animate={false} />
         <MeasuredMesh position={[1, 3, 0]} color={"yellow"} animate={true} />
-        <MeasuredMesh position={[4, -4, 0]} color={"blue"} animate={false} />
+        <MeasuredMesh position={[8, -4, 0]} color={"blue"} animate={false} />
         <effectComposer ref={composer} args={[gl]}>
           <renderPass attachArray="passes" scene={scene} camera={camera} />
           <outlinePass

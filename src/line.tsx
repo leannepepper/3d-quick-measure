@@ -1,6 +1,7 @@
 import { Html, Line } from "@react-three/drei";
 import * as React from "react";
 import { useMemo } from "react";
+import * as THREE from "three";
 import { Measure } from "./Effects";
 import {
   findXAxisExplicitLineEnd,
@@ -68,48 +69,57 @@ export function Measurements(props: Measure) {
     []
   );
 
+  function midPoint(points: THREE.Vector3[]) {
+    const midPoint = new THREE.Vector3();
+    midPoint.x = (points[1].x + points[0].x) / 2;
+    midPoint.y = (points[1].y + points[0].y) / 2;
+    midPoint.z = 0;
+    return midPoint;
+  }
+
   return (
     <>
       <Line
         points={pointsIX}
         color={"red"}
-        lineWidth={2}
+        lineWidth={1}
         dashed={true}
         dashScale={2}
       />
       <Line
         points={pointsIY}
         color={"red"}
-        lineWidth={2}
+        lineWidth={1}
         dashed={true}
         dashScale={2}
       />
-      <Line points={pointsEY} color={"blue"} lineWidth={2} dashed={false}>
-        <Html
-          as="div"
-          wrapperClass="measure-text"
-          center
-          distanceFactor={10}
-          zIndexRange={[100, 0]}
-          transform={false}
-          sprite={true}
-          onOcclude={(visible) => null}
-        >
-          <h1>{Math.abs(pointsEY[0].y - pointsEY[1].y)}</h1>
-        </Html>
+      <Line points={pointsEY} color={"blue"} lineWidth={1} dashed={false}>
+        <group position={midPoint(pointsEY)}>
+          <Html
+            as="div"
+            wrapperClass="measure-text"
+            zIndexRange={[100, 0]}
+            center
+            transform={false}
+            sprite={true}
+          >
+            <p>{Math.round(Math.abs(pointsEY[0].y - pointsEY[1].y))}</p>
+          </Html>
+        </group>
       </Line>
-      <Line points={pointsEX} color={"blue"} lineWidth={2} dashed={false}>
-        <Html
-          as="div"
-          wrapperClass="measure-text"
-          distanceFactor={10}
-          zIndexRange={[100, 0]}
-          transform={false}
-          sprite={true}
-          onOcclude={(visible) => null}
-        >
-          <h1>{Math.abs(pointsEX[0].x - pointsEX[1].x)}</h1>
-        </Html>
+      <Line points={pointsEX} color={"blue"} lineWidth={1} dashed={false}>
+        <group position={midPoint(pointsEX)}>
+          <Html
+            as="div"
+            wrapperClass="measure-text"
+            zIndexRange={[100, 0]}
+            center
+            transform={false}
+            sprite={true}
+          >
+            <p>{Math.round(Math.abs(pointsEX[0].x - pointsEX[1].x))}</p>
+          </Html>
+        </group>
       </Line>
     </>
   );

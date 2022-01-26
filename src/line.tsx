@@ -4,78 +4,25 @@ import { useMemo } from "react";
 import * as THREE from "three";
 import { Measure } from "./Effects";
 import {
-  findXAxisExplicitLineEnd,
-  findXAxisExplicitLineStart,
-  findXAxisImplicitLineEnd,
-  findXAxisImplicitLineStart,
-  findYAxisExplicitLineEnd,
-  findYAxisExplicitLineStart,
-  findYAxisImplicitLineEnd,
-  findYAxisImplicitLineStart,
-} from "./measure";
+  getYIntersect,
+  getXIntersect,
+  getFaceVertex,
+  getMidPoint,
+} from "./measureUtils";
 
 export function Measurements(props: Measure) {
   if (props.hovered.length === 0 || props.selected.length === 0) {
     return null;
   }
+  const implicitAxisStartPoint = getFaceVertex(props.hovered[0]);
+  const explicitAxisEndPoint = getFaceVertex(props.selected[0]);
+  const xIntersectPoint = getXIntersect(props.selected[0], props.hovered[0]);
+  const yIntersectPoint = getYIntersect(props.selected[0], props.hovered[0]);
 
-  // Line 1
-  const xAxisStartPoint = findXAxisImplicitLineStart(
-    props.selected[0],
-    props.hovered[0]
-  );
-  const xAxisEndPoint = findXAxisImplicitLineEnd(
-    props.selected[0],
-    props.hovered[0]
-  );
-
-  const pointsIX = useMemo(() => [xAxisStartPoint, xAxisEndPoint], []);
-
-  // Line 2
-  const yAxisStartPoint = findYAxisImplicitLineStart(
-    props.selected[0],
-    props.hovered[0]
-  );
-  const yAxisEndPoint = findYAxisImplicitLineEnd(
-    props.selected[0],
-    props.hovered[0]
-  );
-
-  const pointsIY = useMemo(() => [yAxisStartPoint, yAxisEndPoint], []);
-
-  // Line 3
-  const xAxisExplicitStartPoint = findXAxisExplicitLineStart(
-    props.selected[0],
-    props.hovered[0]
-  );
-
-  const xAxisExplicitEndPoint = findXAxisExplicitLineEnd(props.selected[0]);
-
-  const pointsEX = useMemo(
-    () => [xAxisExplicitStartPoint, xAxisExplicitEndPoint],
-    []
-  );
-
-  // Line 4
-  const yAxisExplicitStartPoint = findYAxisExplicitLineStart(
-    props.selected[0],
-    props.hovered[0]
-  );
-
-  const yAxisExplicitEndPoint = findYAxisExplicitLineEnd(props.selected[0]);
-
-  const pointsEY = useMemo(
-    () => [yAxisExplicitStartPoint, yAxisExplicitEndPoint],
-    []
-  );
-
-  function midPoint(points: THREE.Vector3[]) {
-    const midPoint = new THREE.Vector3();
-    midPoint.x = (points[1].x + points[0].x) / 2;
-    midPoint.y = (points[1].y + points[0].y) / 2;
-    midPoint.z = 0;
-    return midPoint;
-  }
+  const pointsIX = useMemo(() => [implicitAxisStartPoint, xIntersectPoint], []);
+  const pointsIY = useMemo(() => [implicitAxisStartPoint, yIntersectPoint], []);
+  const pointsEX = useMemo(() => [yIntersectPoint, explicitAxisEndPoint], []);
+  const pointsEY = useMemo(() => [xIntersectPoint, explicitAxisEndPoint], []);
 
   return (
     <>
@@ -94,7 +41,7 @@ export function Measurements(props: Measure) {
         dashScale={2}
       />
       <Line points={pointsEY} color={"blue"} lineWidth={1} dashed={false}>
-        <group position={midPoint(pointsEY)}>
+        <group position={getMidPoint(pointsEY)}>
           <Html
             as="div"
             wrapperClass="measure-text"
@@ -108,7 +55,7 @@ export function Measurements(props: Measure) {
         </group>
       </Line>
       <Line points={pointsEX} color={"blue"} lineWidth={1} dashed={false}>
-        <group position={midPoint(pointsEX)}>
+        <group position={getMidPoint(pointsEX)}>
           <Html
             as="div"
             wrapperClass="measure-text"

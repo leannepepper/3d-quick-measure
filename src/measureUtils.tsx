@@ -1,4 +1,8 @@
+import { useHelper } from "@react-three/drei";
+import * as React from "react";
+import { useRef } from "react";
 import * as THREE from "three";
+import { Box3Helper } from "three";
 
 export const getFaceVertex = function (intersect: any) {
   const vA = new THREE.Vector3();
@@ -56,4 +60,23 @@ export function getMidPoint(points: THREE.Vector3[]) {
   midPoint.y = (points[1].y + points[0].y) / 2;
   midPoint.z = 0;
   return midPoint;
+}
+
+export function MultiObjectBoundingBox({ ...props }) {
+  if (props.multiSelectedObjs.length < 2) {
+    return null;
+  }
+  const boundingBox = new THREE.Box3();
+  const group = new THREE.Group();
+  const clones: any[] = [];
+
+  props.multiSelectedObjs.forEach((obj3D: THREE.Mesh) => {
+    const clone = obj3D.clone();
+    clones.push(clone);
+  });
+
+  group.add(...clones);
+  boundingBox.setFromObject(group);
+
+  return <box3Helper box={boundingBox} />;
 }

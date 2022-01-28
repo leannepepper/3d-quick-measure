@@ -20,7 +20,8 @@ import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer
 import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
 import { Measurements } from "./line";
-import { CycleRaycast, useIntersect } from "@react-three/drei";
+import { CycleRaycast, useIntersect, Select } from "@react-three/drei";
+import { MultiObjectBoundingBox } from "./measureUtils";
 
 extend({
   EffectComposer,
@@ -82,11 +83,10 @@ const MeasuredMesh = ({ ...props }) => {
   useFrame((state) => {
     if (props.animate) {
       const elapsedTime = state.clock.elapsedTime;
-      if (ref.current) {
-        ref.current.position.y = Math.sin(elapsedTime * 0.8) * 1.5;
-        ref.current.scale.x = Math.sin(elapsedTime * 0.8) * 0.5 + 1;
-        // ref.current.object.geometry.attributes.position.needsUpdate = true;
-      }
+      // if (ref.current) {
+      //   ref.current.position.y = Math.sin(elapsedTime * 0.8) * 1.5;
+      //   ref.current.scale.x = Math.sin(elapsedTime * 0.8) * 0.5 + 1;
+      // }
     }
   });
 
@@ -112,6 +112,7 @@ export function Effects() {
   const aspect = useMemo(() => new THREE.Vector2(512, 512), []);
   const [hovered, setHover] = useState([]);
   const [selected, setSelected] = useState([]);
+  const [multiSelectedObjs, setMultiSelectedObjs] = useState([]);
 
   useEffect(() => {
     if (composer.current) {
@@ -125,20 +126,24 @@ export function Effects() {
     }
   }, 1);
 
-  function updateRaycast(objects: THREE.Intersection[], cycle: number) {
-    //console.log(objects);
-    if (cycle) {
-      //console.log(objects);
-      //measurementsRef.current.updateRaycast(hovered, selected);
-    }
-  }
-
   return (
     <hoverContext.Provider value={[hovered, setHover]}>
       <selectedContext.Provider value={[selected, setSelected]}>
-        <MeasuredMesh position={[-8, 0, 0]} color={"hotpink"} animate={false} />
-        <MeasuredMesh position={[1, 3, 0]} color={"yellow"} animate={true} />
-        <MeasuredMesh position={[8, -4, 0]} color={"blue"} animate={false} />
+        <Select
+          box
+          multiple
+          onChange={(selectedObjs) => {
+            setMultiSelectedObjs(selectedObjs);
+          }}
+        >
+          <MeasuredMesh
+            position={[-8, 0, 0]}
+            color={"hotpink"}
+            animate={false}
+          />
+          <MeasuredMesh position={[1, 3, 0]} color={"yellow"} animate={true} />
+          <MeasuredMesh position={[8, -4, 0]} color={"blue"} animate={false} />
+        </Select>
         <Measurements selected={selected} hovered={hovered} />
         <effectComposer ref={composer} args={[gl]}>
           <renderPass attachArray="passes" scene={scene} camera={camera} />
@@ -159,12 +164,7 @@ export function Effects() {
             edgeThickness={0.15}
           />
         </effectComposer>
-        <CycleRaycast
-          onChanged={(objects, cycle) => {
-            updateRaycast(objects, cycle);
-            return null;
-          }}
-        />
+        <MultiObjectBoundingBox multiSelectedObjs={multiSelectedObjs} />
       </selectedContext.Provider>
     </hoverContext.Provider>
   );

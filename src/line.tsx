@@ -1,7 +1,7 @@
 import { Html, Line } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import * as React from "react";
 import { useMemo } from "react";
-import * as THREE from "three";
 import { Measure } from "./Effects";
 import {
   getYIntersect,
@@ -14,33 +14,46 @@ export function Measurements(props: Measure) {
   if (props.hovered.length === 0 || props.selected.length === 0) {
     return null;
   }
+
   const implicitAxisStartPoint = getFaceVertex(props.hovered[0]);
   const explicitAxisEndPoint = getFaceVertex(props.selected[0]);
   const xIntersectPoint = getXIntersect(props.selected[0], props.hovered[0]);
   const yIntersectPoint = getYIntersect(props.selected[0], props.hovered[0]);
 
-  const pointsIX = useMemo(() => [implicitAxisStartPoint, xIntersectPoint], []);
-  const pointsIY = useMemo(() => [implicitAxisStartPoint, yIntersectPoint], []);
-  const pointsEX = useMemo(() => [yIntersectPoint, explicitAxisEndPoint], []);
-  const pointsEY = useMemo(() => [xIntersectPoint, explicitAxisEndPoint], []);
+  const pointsIX = useMemo(
+    () => [implicitAxisStartPoint, xIntersectPoint],
+    [implicitAxisStartPoint, xIntersectPoint]
+  );
+  const pointsIY = useMemo(
+    () => [implicitAxisStartPoint, yIntersectPoint],
+    [implicitAxisStartPoint, yIntersectPoint]
+  );
+  const pointsEX = useMemo(
+    () => [yIntersectPoint, explicitAxisEndPoint],
+    [yIntersectPoint, explicitAxisEndPoint]
+  );
+  const pointsEY = useMemo(
+    () => [xIntersectPoint, explicitAxisEndPoint],
+    [xIntersectPoint, explicitAxisEndPoint]
+  );
 
   return (
     <>
       <Line
         points={pointsIX}
-        color={"red"}
+        color={"#e17327"}
         lineWidth={1}
         dashed={true}
         dashScale={2}
       />
       <Line
         points={pointsIY}
-        color={"red"}
+        color={"#e17327"}
         lineWidth={1}
         dashed={true}
         dashScale={2}
       />
-      <Line points={pointsEY} color={"blue"} lineWidth={1} dashed={false}>
+      <Line points={pointsEY} color={"#932191"} lineWidth={2} dashed={false}>
         <group position={getMidPoint(pointsEY)}>
           <Html
             as="div"
@@ -54,7 +67,7 @@ export function Measurements(props: Measure) {
           </Html>
         </group>
       </Line>
-      <Line points={pointsEX} color={"blue"} lineWidth={1} dashed={false}>
+      <Line points={pointsEX} color={"#932191"} lineWidth={2} dashed={false}>
         <group position={getMidPoint(pointsEX)}>
           <Html
             as="div"

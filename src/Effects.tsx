@@ -78,15 +78,14 @@ function useSelected() {
 
 const MeasuredMesh = ({ ...props }) => {
   const ref = useRef<any>();
-  const [selected, setSelected] = useContext(selectedContext);
 
   useFrame((state) => {
     if (props.animate) {
       const elapsedTime = state.clock.elapsedTime;
-      // if (ref.current) {
-      //   ref.current.position.y = Math.sin(elapsedTime * 0.8) * 1.5;
-      //   ref.current.scale.x = Math.sin(elapsedTime * 0.8) * 0.5 + 1;
-      // }
+      if (ref.current) {
+        ref.current.position.y = Math.sin(elapsedTime * 0.8) * 1.5;
+        ref.current.scale.x = Math.sin(elapsedTime * 0.8) * 0.5 + 1;
+      }
     }
   });
 
@@ -104,6 +103,7 @@ const MeasuredMesh = ({ ...props }) => {
 export interface Measure {
   selected: any[];
   hovered: any[];
+  multiSelected: any[];
 }
 
 export function Effects() {
@@ -126,6 +126,20 @@ export function Effects() {
     }
   }, 1);
 
+  function clearSingleSelect(multiSelectedObjs: any[]) {
+    const selectedMeshes = selected.map((item) => {
+      return item.object;
+    });
+
+    const multiSelectContainsSelected = multiSelectedObjs.some((obj) =>
+      selectedMeshes.includes(obj)
+    );
+
+    if (multiSelectedObjs.length > 1 && multiSelectContainsSelected) {
+      setSelected([]);
+    }
+  }
+
   return (
     <hoverContext.Provider value={[hovered, setHover]}>
       <selectedContext.Provider value={[selected, setSelected]}>
@@ -133,18 +147,24 @@ export function Effects() {
           box
           multiple
           onChange={(selectedObjs) => {
+            clearSingleSelect(selectedObjs);
             setMultiSelectedObjs(selectedObjs);
           }}
         >
           <MeasuredMesh
-            position={[-8, 0, 0]}
+            position={[-3, 0, -3]}
             color={"hotpink"}
             animate={false}
           />
-          <MeasuredMesh position={[1, 3, 0]} color={"yellow"} animate={true} />
+          <MeasuredMesh position={[1, 3, 0]} color={"yellow"} animate={false} />
           <MeasuredMesh position={[8, -4, 0]} color={"blue"} animate={false} />
         </Select>
-        <Measurements selected={selected} hovered={hovered} />
+        <MultiObjectBoundingBox multiSelected={multiSelectedObjs} />
+        <Measurements
+          selected={selected}
+          hovered={hovered}
+          multiSelected={multiSelectedObjs}
+        />
         <effectComposer ref={composer} args={[gl]}>
           <renderPass attachArray="passes" scene={scene} camera={camera} />
           <outlinePass
@@ -164,7 +184,6 @@ export function Effects() {
             edgeThickness={0.15}
           />
         </effectComposer>
-        <MultiObjectBoundingBox multiSelectedObjs={multiSelectedObjs} />
       </selectedContext.Provider>
     </hoverContext.Provider>
   );

@@ -63,14 +63,14 @@ export function getMidPoint(points: THREE.Vector3[]) {
 }
 
 export function MultiObjectBoundingBox({ ...props }) {
-  if (props.multiSelectedObjs.length < 2) {
+  if (props.multiSelected.length < 2) {
     return null;
   }
   const boundingBox = new THREE.Box3();
   const group = new THREE.Group();
   const clones: any[] = [];
 
-  props.multiSelectedObjs.forEach((obj3D: THREE.Mesh) => {
+  props.multiSelected.forEach((obj3D: THREE.Mesh) => {
     const clone = obj3D.clone();
     clones.push(clone);
   });

@@ -1,5 +1,4 @@
 import { Html, Line } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
 import * as React from "react";
 import { useMemo } from "react";
 import { Measure } from "./Effects";
@@ -8,7 +7,32 @@ import {
   getXIntersect,
   getFaceVertex,
   getMidPoint,
+  getBoundingBox,
 } from "./measureUtils";
+
+export function MeasurementsFromBoundingBox(
+  props: Measure
+): null | JSX.Element {
+  const { multiSelected, hovered } = props;
+
+  if (multiSelected.length < 2 || hovered.length === 0) {
+    return null;
+  }
+  const multiSelectBoundingBox = getBoundingBox(multiSelected);
+  hovered[0].object.geometry.computeBoundingBox();
+  const hoveredBoundingBox = hovered[0].object.geometry.boundingBox.clone();
+  hoveredBoundingBox.applyMatrix4(hovered[0].object.matrixWorld);
+  // console.log({ hoveredBoundingBox });
+  return (
+    <Line
+      points={[multiSelectBoundingBox.min, hoveredBoundingBox.min]}
+      color={"#ffffff"}
+      lineWidth={1}
+      dashed={true}
+      dashScale={2}
+    />
+  );
+}
 
 export function Measurements(props: Measure) {
   if (props.hovered.length === 0 || props.selected.length === 0) {

@@ -19,7 +19,7 @@ import {
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
 import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
-import { Measurements } from "./line";
+import { Measurements, MeasurementsFromBoundingBox } from "./line";
 import { CycleRaycast, useIntersect, Select } from "@react-three/drei";
 import { MultiObjectBoundingBox } from "./measureUtils";
 
@@ -67,10 +67,7 @@ function useSelected() {
 
   const onClick = useCallback((event) => {
     setSelected((state: any) => {
-      const isItemSelected = selected.filter(
-        (obj: any) => obj.object === event.intersections[0].object
-      );
-      return isItemSelected.length > 0 ? [] : [event.intersections[0]];
+      return [event.intersections[0]];
     });
   }, []);
   return { onClick };
@@ -161,6 +158,11 @@ export function Effects() {
         </Select>
         <MultiObjectBoundingBox multiSelected={multiSelectedObjs} />
         <Measurements
+          selected={selected}
+          hovered={hovered}
+          multiSelected={multiSelectedObjs}
+        />
+        <MeasurementsFromBoundingBox
           selected={selected}
           hovered={hovered}
           multiSelected={multiSelectedObjs}

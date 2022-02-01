@@ -22,6 +22,8 @@ extend({
 });
 
 export const hoverContext = createContext(null);
+export const selectContext = createContext(null);
+
 export interface Measure {
   selected: THREE.Mesh[];
   hovered: THREE.Mesh[];
@@ -57,46 +59,58 @@ export function Effects() {
     }
   }, 1);
 
-  console.log({ hovered, selected });
-
   return (
     <hoverContext.Provider value={setHover}>
-      <Select
-        box
-        multiple
-        onChange={(selectedObjs) => {
-          setSelected(selectedObjs);
-        }}
-      >
-        <MeasuredMesh
-          position={[-3, 0, -3]}
-          color={"hotpink"}
-          animate={false}
-        />
-        <MeasuredMesh position={[1, 3, 0]} color={"yellow"} animate={false} />
-        <MeasuredMesh position={[8, -4, 0]} color={"blue"} animate={false} />
-      </Select>
-      <MultiObjectBoundingBox multiSelected={selected} />
-      <MeasurementsFromBoundingBox selected={selected} hovered={hovered} />
-      <effectComposer ref={composer} args={[gl]}>
-        <renderPass attachArray="passes" scene={scene} camera={camera} />
-        <outlinePass
-          attachArray="passes"
-          args={[aspect, scene, camera]}
-          selectedObjects={hovered}
-          visibleEdgeColor={new THREE.Color(0xffffff)}
-          edgeStrength={25}
-          edgeThickness={0.25}
-        />
-        <outlinePass
-          attachArray="passes"
-          args={[aspect, scene, camera]}
-          selectedObjects={selected}
-          visibleEdgeColor={new THREE.Color(0xff0000)}
-          edgeStrength={25}
-          edgeThickness={0.15}
-        />
-      </effectComposer>
+      <selectContext.Provider value={selected}>
+        <Select
+          box
+          multiple
+          onChange={(selectedObjs) => {
+            setHover([]);
+            setSelected(selectedObjs);
+          }}
+        >
+          <MeasuredMesh
+            position={[-3, 0, -10]}
+            color={"hotpink"}
+            animate={false}
+            boxSize={[3, 2, 2]}
+          />
+          <MeasuredMesh
+            position={[1, 3, 0]}
+            color={"yellow"}
+            animate={false}
+            boxSize={[3, 1, 2]}
+          />
+          <MeasuredMesh
+            position={[8, -4, 0]}
+            color={"blue"}
+            animate={false}
+            boxSize={[3, 3, 3]}
+          />
+        </Select>
+        <MultiObjectBoundingBox multiSelected={selected} />
+        <MeasurementsFromBoundingBox selected={selected} hovered={hovered} />
+        <effectComposer ref={composer} args={[gl]}>
+          <renderPass attachArray="passes" scene={scene} camera={camera} />
+          <outlinePass
+            attachArray="passes"
+            args={[aspect, scene, camera]}
+            selectedObjects={hovered}
+            visibleEdgeColor={new THREE.Color(0xffffff)}
+            edgeStrength={25}
+            edgeThickness={0.25}
+          />
+          <outlinePass
+            attachArray="passes"
+            args={[aspect, scene, camera]}
+            selectedObjects={selected}
+            visibleEdgeColor={new THREE.Color(0xff0000)}
+            edgeStrength={25}
+            edgeThickness={0.15}
+          />
+        </effectComposer>
+      </selectContext.Provider>
     </hoverContext.Provider>
   );
 }

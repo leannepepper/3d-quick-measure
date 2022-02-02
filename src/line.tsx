@@ -14,23 +14,23 @@ function getClosestMainAxisPoint(
   axis: Axis
 ) {
   if (selected[0].position[axis] > hovered[0].position[axis]) {
-    return [selectedBoundingBox.min[axis], hoveredBoundingBox.min[axis]];
+    return [hoveredBoundingBox.max[axis], selectedBoundingBox.max[axis]];
   } else if (selected[0].position[axis] < hovered[0].position[axis]) {
-    return [selectedBoundingBox.max[axis], hoveredBoundingBox.max[axis]];
+    return [hoveredBoundingBox.min[axis], selectedBoundingBox.min[axis]];
   } else {
-    return [selectedBoundingBox.min[axis], hoveredBoundingBox.min[axis]];
+    return [hoveredBoundingBox.max[axis], selectedBoundingBox.max[axis]];
   }
 }
 
-function getClosestPointToHovered(
+function getClosestPointToSelected(
   multiSelectBoundingBox: THREE.Box3,
   hoveredBoundingBox: THREE.Box3,
   axis: Axis
 ): number {
-  const goal = hoveredBoundingBox.min[axis];
+  const goal = multiSelectBoundingBox.min[axis];
   const closestPoint = [
-    multiSelectBoundingBox.min[axis],
-    multiSelectBoundingBox.max[axis],
+    hoveredBoundingBox.min[axis],
+    hoveredBoundingBox.max[axis],
   ].reduce(function (prev, curr) {
     return Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev;
   });
@@ -40,15 +40,15 @@ function getClosestPointToHovered(
 function getCrossAxisEndPoint(
   selected: THREE.Mesh[],
   hovered: THREE.Mesh[],
-  hoveredBoundingBox: THREE.Box3,
+  multiSelectBoundingBox: THREE.Box3,
   axis: Axis
 ) {
-  if (selected[0].position[axis] < hovered[0].position[axis]) {
-    return hoveredBoundingBox.min[axis];
-  } else if (selected[0].position[axis] > hovered[0].position[axis]) {
-    return hoveredBoundingBox.max[axis];
+  if (selected[0].position[axis] > hovered[0].position[axis]) {
+    return multiSelectBoundingBox.min[axis];
+  } else if (selected[0].position[axis] < hovered[0].position[axis]) {
+    return multiSelectBoundingBox.max[axis];
   } else {
-    return hoveredBoundingBox.min[axis];
+    return multiSelectBoundingBox.min[axis];
   }
 }
 
@@ -93,64 +93,104 @@ export function MeasurementsFromBoundingBox(
   const mainX = [
     new THREE.Vector3(
       mainXStart,
-      getClosestPointToHovered(multiSelectBoundingBox, hoveredBoundingBox, "y"),
-      multiSelectBoundingBox.max.z
+      getClosestPointToSelected(
+        multiSelectBoundingBox,
+        hoveredBoundingBox,
+        "y"
+      ),
+      hoveredBoundingBox.max.z
     ),
     new THREE.Vector3(
       mainXEnd,
-      getClosestPointToHovered(multiSelectBoundingBox, hoveredBoundingBox, "y"),
-      multiSelectBoundingBox.max.z
+      getClosestPointToSelected(
+        multiSelectBoundingBox,
+        hoveredBoundingBox,
+        "y"
+      ),
+      hoveredBoundingBox.max.z
     ),
   ];
 
   const mainY = [
     new THREE.Vector3(
-      getClosestPointToHovered(multiSelectBoundingBox, hoveredBoundingBox, "x"), //multiSelectBoundingBox.min.x, // this value should be dynamic, find the closest point to the hovered object
+      getClosestPointToSelected(
+        multiSelectBoundingBox,
+        hoveredBoundingBox,
+        "x"
+      ),
       mainYStart,
-      multiSelectBoundingBox.max.z
+      hoveredBoundingBox.max.z
     ),
     new THREE.Vector3(
-      getClosestPointToHovered(multiSelectBoundingBox, hoveredBoundingBox, "x"), // multiSelectBoundingBox.min.x, // this value should be dynamic, find the closest point to the hovered object
+      getClosestPointToSelected(
+        multiSelectBoundingBox,
+        hoveredBoundingBox,
+        "x"
+      ),
       mainYEnd,
-      multiSelectBoundingBox.max.z
+      hoveredBoundingBox.max.z
     ),
   ];
 
   const mainZ = [
     new THREE.Vector3(
-      getClosestPointToHovered(multiSelectBoundingBox, hoveredBoundingBox, "x"),
-      getClosestPointToHovered(multiSelectBoundingBox, hoveredBoundingBox, "y"),
+      getClosestPointToSelected(
+        multiSelectBoundingBox,
+        hoveredBoundingBox,
+        "x"
+      ),
+      getClosestPointToSelected(
+        multiSelectBoundingBox,
+        hoveredBoundingBox,
+        "y"
+      ),
       mainZStart
     ),
     new THREE.Vector3(
-      getClosestPointToHovered(multiSelectBoundingBox, hoveredBoundingBox, "x"),
-      getClosestPointToHovered(multiSelectBoundingBox, hoveredBoundingBox, "y"),
+      getClosestPointToSelected(
+        multiSelectBoundingBox,
+        hoveredBoundingBox,
+        "x"
+      ),
+      getClosestPointToSelected(
+        multiSelectBoundingBox,
+        hoveredBoundingBox,
+        "y"
+      ),
       mainZEnd
     ),
   ];
 
   const crossX = [
     new THREE.Vector3(
-      getClosestPointToHovered(multiSelectBoundingBox, hoveredBoundingBox, "x"),
-      getMidPoint([hoveredBoundingBox.min, hoveredBoundingBox.max]).y,
-      multiSelectBoundingBox.max.z
+      getClosestPointToSelected(
+        multiSelectBoundingBox,
+        hoveredBoundingBox,
+        "x"
+      ),
+      getMidPoint([multiSelectBoundingBox.min, multiSelectBoundingBox.max]).y,
+      hoveredBoundingBox.max.z
     ),
     new THREE.Vector3(
-      getCrossAxisEndPoint(selected, hovered, hoveredBoundingBox, "x"),
-      getMidPoint([hoveredBoundingBox.min, hoveredBoundingBox.max]).y,
-      multiSelectBoundingBox.max.z
+      getCrossAxisEndPoint(selected, hovered, multiSelectBoundingBox, "x"),
+      getMidPoint([multiSelectBoundingBox.min, multiSelectBoundingBox.max]).y,
+      hoveredBoundingBox.max.z
     ),
   ];
   const crossY = [
     new THREE.Vector3(
-      getMidPoint([hoveredBoundingBox.min, hoveredBoundingBox.max]).x,
-      getClosestPointToHovered(multiSelectBoundingBox, hoveredBoundingBox, "y"),
-      multiSelectBoundingBox.max.z
+      getMidPoint([multiSelectBoundingBox.min, multiSelectBoundingBox.max]).x,
+      getClosestPointToSelected(
+        multiSelectBoundingBox,
+        hoveredBoundingBox,
+        "y"
+      ),
+      hoveredBoundingBox.max.z
     ),
     new THREE.Vector3(
-      getMidPoint([hoveredBoundingBox.min, hoveredBoundingBox.max]).x,
-      getCrossAxisEndPoint(selected, hovered, hoveredBoundingBox, "y"),
-      multiSelectBoundingBox.max.z
+      getMidPoint([multiSelectBoundingBox.min, multiSelectBoundingBox.max]).x,
+      getCrossAxisEndPoint(selected, hovered, multiSelectBoundingBox, "y"),
+      hoveredBoundingBox.max.z
     ),
   ];
 
@@ -158,26 +198,26 @@ export function MeasurementsFromBoundingBox(
     <>
       <Line
         points={mainX}
-        color={"#4c9a2a"}
-        lineWidth={1.0}
+        color={"#bf1f2f"}
+        lineWidth={0.75}
         dashed={true}
-        dashScale={5.0}
+        dashScale={10.0}
       />
       <Line
         points={mainY}
-        color={"#4c9a2a"}
-        lineWidth={1.0}
+        color={"#bf1f2f"}
+        lineWidth={0.75}
         dashed={true}
-        dashScale={5.0}
+        dashScale={10.0}
       />
       <Line
         points={mainZ}
-        color={"#4c9a2a"}
-        lineWidth={1.0}
+        color={"#bf1f2f"}
+        lineWidth={0.75}
         dashed={true}
-        dashScale={5.0}
+        dashScale={10.0}
       />
-      <Line points={crossX} color={"#932191"} lineWidth={1.0}>
+      <Line points={crossX} color={"#20c6b6"} lineWidth={0.75}>
         <group position={getMidPoint(crossX)}>
           <Html
             as="div"
@@ -191,7 +231,7 @@ export function MeasurementsFromBoundingBox(
           </Html>
         </group>
       </Line>
-      <Line points={crossY} color={"#932191"} lineWidth={1.0}>
+      <Line points={crossY} color={"#20c6b6"} lineWidth={0.75}>
         <group position={getMidPoint(crossY)}>
           <Html
             as="div"

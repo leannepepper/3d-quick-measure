@@ -72,19 +72,19 @@ export function Effects() {
         >
           <MeasuredMesh
             position={[-3, 0, -10]}
-            color={"hotpink"}
+            color={"#eee"}
             animate={false}
             boxSize={[3, 2, 2]}
           />
           <MeasuredMesh
             position={[1, 3, 0]}
-            color={"yellow"}
+            color={"#eee"}
             animate={false}
             boxSize={[3, 1, 2]}
           />
           <MeasuredMesh
             position={[8, -4, 0]}
-            color={"blue"}
+            color={"#eee"}
             animate={false}
             boxSize={[3, 3, 3]}
           />
@@ -97,17 +97,17 @@ export function Effects() {
             attachArray="passes"
             args={[aspect, scene, camera]}
             selectedObjects={hovered}
-            visibleEdgeColor={new THREE.Color(0xffffff)}
-            edgeStrength={25}
+            visibleEdgeColor={new THREE.Color(0xff0000)}
+            edgeStrength={10}
             edgeThickness={0.25}
           />
           <outlinePass
             attachArray="passes"
             args={[aspect, scene, camera]}
             selectedObjects={selected}
-            visibleEdgeColor={new THREE.Color(0xff0000)}
-            edgeStrength={25}
-            edgeThickness={0.15}
+            visibleEdgeColor={new THREE.Color(0xffffff)}
+            edgeStrength={10}
+            edgeThickness={0.25}
           />
         </effectComposer>
       </selectContext.Provider>

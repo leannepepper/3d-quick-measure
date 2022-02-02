@@ -1,11 +1,18 @@
 import * as THREE from "three";
 import * as React from "react";
 
+export const quickMeasureTheme = {
+  colors: {
+    mainAxis: "#0474ba",
+    crossAxis: "#f17720",
+  },
+};
+
 export function getMidPoint(points: THREE.Vector3[]) {
   const midPoint = new THREE.Vector3();
   midPoint.x = (points[1].x + points[0].x) / 2;
   midPoint.y = (points[1].y + points[0].y) / 2;
-  midPoint.z = 0;
+  midPoint.z = (points[1].z + points[0].z) / 2;
   return midPoint;
 }
 

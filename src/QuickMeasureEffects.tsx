@@ -1,3 +1,4 @@
+import * as THREE from "three";
 import { Select } from "@react-three/drei";
 import {
   extend,
@@ -7,13 +8,11 @@ import {
 } from "@react-three/fiber";
 import * as React from "react";
 import { createContext, useEffect, useMemo, useRef, useState } from "react";
-import * as THREE from "three";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
 import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
-import { MeasuredMesh } from "./ExampleMesh";
 import { MeasurementsFromBoundingBox } from "./line";
-import { MultiObjectBoundingBox } from "./measureUtils";
+import { MultiObjectBoundingBox, quickMeasureTheme } from "./measureUtils";
 
 extend({
   EffectComposer,
@@ -40,10 +39,13 @@ declare global {
   }
 }
 
-export function Effects() {
+export function QuickMeasureEffect({
+  children: _children,
+  ...props
+}: React.PropsWithChildren<{}>) {
   const composer = useRef(null);
   const { scene, gl, size, camera } = useThree();
-  const aspect = useMemo(() => new THREE.Vector2(512, 512), []);
+  const aspect = useMemo(() => new THREE.Vector2(1024, 1024), []);
   const [hovered, setHover] = useState([]);
   const [selected, setSelected] = useState([]);
 
@@ -57,6 +59,9 @@ export function Effects() {
     if (composer.current) {
       composer.current.render();
     }
+
+    setHover((state: any) => [...state]);
+    setSelected((state: any) => [...state]);
   }, 1);
 
   return (
@@ -70,24 +75,7 @@ export function Effects() {
             setSelected(selectedObjs);
           }}
         >
-          <MeasuredMesh
-            position={[-3, 0, -10]}
-            color={"#eee"}
-            animate={false}
-            boxSize={[3, 2, 2]}
-          />
-          <MeasuredMesh
-            position={[1, 3, 0]}
-            color={"#eee"}
-            animate={false}
-            boxSize={[3, 1, 2]}
-          />
-          <MeasuredMesh
-            position={[8, -4, 0]}
-            color={"#eee"}
-            animate={false}
-            boxSize={[3, 3, 3]}
-          />
+          {_children}
         </Select>
         <MultiObjectBoundingBox multiSelected={selected} />
         <MeasurementsFromBoundingBox selected={selected} hovered={hovered} />
@@ -97,9 +85,7 @@ export function Effects() {
             attachArray="passes"
             args={[aspect, scene, camera]}
             selectedObjects={hovered}
-            visibleEdgeColor={new THREE.Color(0xff0000)}
-            edgeStrength={10}
-            edgeThickness={0.25}
+            visibleEdgeColor={new THREE.Color(0x0474ba)}
           />
           <outlinePass
             attachArray="passes"

@@ -1,8 +1,8 @@
 import { Html, Line } from "@react-three/drei";
 import * as React from "react";
 import * as THREE from "three";
-import { Measure } from "./Effects";
-import { getBoundingBox, getMidPoint } from "./measureUtils";
+import { Measure } from "./QuickMeasureEffects";
+import { getBoundingBox, getMidPoint, quickMeasureTheme } from "./measureUtils";
 
 type Axis = "x" | "y" | "z";
 
@@ -198,26 +198,43 @@ export function MeasurementsFromBoundingBox(
     <>
       <Line
         points={mainX}
-        color={"#bf1f2f"}
+        color={quickMeasureTheme.colors.mainAxis}
         lineWidth={0.75}
         dashed={true}
         dashScale={10.0}
       />
       <Line
         points={mainY}
-        color={"#bf1f2f"}
+        color={quickMeasureTheme.colors.mainAxis}
         lineWidth={0.75}
         dashed={true}
         dashScale={10.0}
       />
       <Line
         points={mainZ}
-        color={"#bf1f2f"}
+        color={quickMeasureTheme.colors.mainAxis}
         lineWidth={0.75}
         dashed={true}
         dashScale={10.0}
-      />
-      <Line points={crossX} color={"#20c6b6"} lineWidth={0.75}>
+      >
+        <group position={getMidPoint(mainZ)}>
+          <Html
+            as="div"
+            wrapperClass="measure-text"
+            zIndexRange={[100, 0]}
+            center
+            transform={false}
+            sprite={true}
+          >
+            <p>{Math.round(Math.abs(mainZ[0].z - mainZ[1].z))}</p>
+          </Html>
+        </group>
+      </Line>
+      <Line
+        points={crossX}
+        color={quickMeasureTheme.colors.crossAxis}
+        lineWidth={0.75}
+      >
         <group position={getMidPoint(crossX)}>
           <Html
             as="div"
@@ -231,7 +248,11 @@ export function MeasurementsFromBoundingBox(
           </Html>
         </group>
       </Line>
-      <Line points={crossY} color={"#20c6b6"} lineWidth={0.75}>
+      <Line
+        points={crossY}
+        color={quickMeasureTheme.colors.crossAxis}
+        lineWidth={0.75}
+      >
         <group position={getMidPoint(crossY)}>
           <Html
             as="div"

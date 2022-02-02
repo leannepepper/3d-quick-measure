@@ -1,7 +1,7 @@
 import { useFrame } from "@react-three/fiber";
 import * as React from "react";
 import { useCallback, useContext, useRef } from "react";
-import { hoverContext, selectContext } from "./Effects";
+import { hoverContext, selectContext } from "./QuickMeasureEffects";
 
 function useHover(ref: React.RefObject<any>) {
   const setHover = useContext(hoverContext);

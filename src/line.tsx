@@ -199,21 +199,21 @@ export function MeasurementsFromBoundingBox(
       <Line
         points={mainX}
         color={quickMeasureTheme.colors.mainAxis}
-        lineWidth={0.75}
+        lineWidth={1.0}
         dashed={true}
         dashScale={10.0}
       />
       <Line
         points={mainY}
         color={quickMeasureTheme.colors.mainAxis}
-        lineWidth={0.75}
+        lineWidth={1.0}
         dashed={true}
         dashScale={10.0}
       />
       <Line
         points={mainZ}
         color={quickMeasureTheme.colors.mainAxis}
-        lineWidth={0.75}
+        lineWidth={1.0}
         dashed={true}
         dashScale={10.0}
       >
@@ -233,7 +233,7 @@ export function MeasurementsFromBoundingBox(
       <Line
         points={crossX}
         color={quickMeasureTheme.colors.crossAxis}
-        lineWidth={0.75}
+        lineWidth={1.0}
       >
         <group position={getMidPoint(crossX)}>
           <Html
@@ -251,7 +251,7 @@ export function MeasurementsFromBoundingBox(
       <Line
         points={crossY}
         color={quickMeasureTheme.colors.crossAxis}
-        lineWidth={0.75}
+        lineWidth={1.0}
       >
         <group position={getMidPoint(crossY)}>
           <Html

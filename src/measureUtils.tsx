@@ -3,7 +3,7 @@ import * as React from "react";
 
 export const quickMeasureTheme = {
   colors: {
-    mainAxis: "#0474ba",
+    mainAxis: "#41a5f5",
     crossAxis: "#f17720",
   },
 };

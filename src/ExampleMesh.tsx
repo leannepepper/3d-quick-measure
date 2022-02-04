@@ -1,22 +1,6 @@
 import { useFrame } from "@react-three/fiber";
 import * as React from "react";
-import { useCallback, useContext, useRef } from "react";
-import { hoverContext, selectContext } from "./QuickMeasureEffects";
-
-function useHover(ref: React.RefObject<any>) {
-  const setHover = useContext(hoverContext);
-  const selected = useContext(selectContext);
-
-  const onPointerOver = useCallback(
-    () =>
-      setHover((state: any) => {
-        return selected.includes(ref.current) ? [] : [...state, ref.current];
-      }),
-    [selected]
-  );
-  const onPointerOut = useCallback(() => setHover([]), []);
-  return { onPointerOver, onPointerOut };
-}
+import { useRef } from "react";
 
 export const MeasuredMesh = ({ ...props }) => {
   const ref = useRef<any>();
@@ -32,7 +16,7 @@ export const MeasuredMesh = ({ ...props }) => {
   });
 
   return (
-    <mesh ref={ref} {...props} {...useHover(ref)}>
+    <mesh ref={ref} {...props}>
       <boxGeometry args={props.boxSize} />
       <meshBasicMaterial color={props.color} />
     </mesh>

@@ -13,6 +13,7 @@ import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
 import { MeasurementsFromBoundingBox } from "./line";
 import { MultiObjectBoundingBox, quickMeasureTheme } from "./measureUtils";
+import { Hover } from "./Hover";
 
 extend({
   EffectComposer,
@@ -42,7 +43,7 @@ declare global {
 export function QuickMeasureEffect({
   children: _children,
   ...props
-}: React.PropsWithChildren<{}>) {
+}: ReactThreeFiber.Object3DNode<THREE.Object3D, THREE.Object3D>) {
   const composer = useRef(null);
   const { scene, gl, size, camera } = useThree();
   const aspect = useMemo(() => new THREE.Vector2(1024, 1024), []);
@@ -59,9 +60,9 @@ export function QuickMeasureEffect({
     if (composer.current) {
       composer.current.render();
     }
-
-    setHover((state: any) => [...state]);
-    setSelected((state: any) => [...state]);
+    if (selected.length > 0) {
+      setSelected((state: any) => [...state]);
+    }
   }, 1);
 
   return (
@@ -75,8 +76,9 @@ export function QuickMeasureEffect({
             setSelected(selectedObjs);
           }}
         >
-          {_children}
+          <Hover>{_children}</Hover>
         </Select>
+
         <MultiObjectBoundingBox multiSelected={selected} />
         <MeasurementsFromBoundingBox selected={selected} hovered={hovered} />
         <effectComposer ref={composer} args={[gl]}>

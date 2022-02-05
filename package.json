@@ -14,7 +14,7 @@
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
-    "@types/three": "^0.131.0",
+    "@types/three": "^0.136.1",
     "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "^4.0.0-alpha.0",
     "copy-webpack-plugin": "^9.0.1",
@@ -27,11 +27,12 @@
     "raw-loader": "^4.0.2",
     "style-loader": "^3.2.1",
     "ts-loader": "^9.2.5",
-    "typescript": "^4.4.2",
+    "typescript": "^4.5.4",
     "webpack": "^5.51.1",
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "@compai/font-manrope": "^0.0.2",
     "@react-three/drei": "^8.6.1",
     "@react-three/fiber": "^7.0.24",
     "@types/react": "^17.0.38",
@@ -40,7 +41,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "^5.0.0",
-    "three": "^0.132.2",
+    "three": "^0.136.0",
     "webpack-cli": "4.7.2",
     "webpack-dev-server": "3.11.2"
   }

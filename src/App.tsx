@@ -3,6 +3,8 @@ import { Canvas } from "@react-three/fiber";
 import * as React from "react";
 import { QuickMeasureEffect } from "./QuickMeasureEffects";
 import { MeasuredMesh } from "./ExampleMesh";
+import { MeasureText } from "./MeasureText";
+import { Suspense } from "react";
 import "./style.css";
 
 export default function App() {
@@ -20,7 +22,22 @@ export default function App() {
       <ambientLight intensity={1.5} color={0x444444} />
       <OrbitControls autoRotate={false} enableZoom={false} enablePan={false} />
       <QuickMeasureEffect>
-        <MeasuredMesh
+        <Suspense fallback={null}>
+          <MeasureText text="Q" position={[-5, 5, 0]} />
+          <MeasureText text="u" position={[-1.65, 4.5, 0]} />
+          <MeasureText text="i" position={[0.65, 5, 0]} />
+          <MeasureText text="c" position={[2.65, 4.5, 0]} />
+          <MeasureText text="k" position={[5.65, 5, 0]} />
+
+          <MeasureText text="M" position={[-8, 0, 0]} />
+          <MeasureText text="e" position={[-4.5, -0.5, 0]} />
+          <MeasureText text="a" position={[-1.65, -0.5, 0]} />
+          <MeasureText text="s" position={[1.0, -0.5, 0]} />
+          <MeasureText text="u" position={[3.85, -0.5, 0]} />
+          <MeasureText text="r" position={[6.45, -0.5, 0]} />
+          <MeasureText text="e" position={[8.65, -0.5, 0]} />
+        </Suspense>
+        {/* <MeasuredMesh
           position={[-3, 0, -10]}
           color={"#eee"}
           animate={false}
@@ -37,7 +54,7 @@ export default function App() {
           color={"#eee"}
           animate={false}
           boxSize={[3, 3, 3]}
-        />
+        /> */}
       </QuickMeasureEffect>
     </Canvas>
   );

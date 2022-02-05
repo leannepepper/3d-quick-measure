@@ -11,7 +11,7 @@ import { createContext, useEffect, useMemo, useRef, useState } from "react";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
 import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
-import { MeasurementsFromBoundingBox } from "./line";
+import { Measurements } from "./Measure";
 import { MultiObjectBoundingBox, quickMeasureTheme } from "./measureUtils";
 import { Hover } from "./Hover";
 
@@ -80,7 +80,7 @@ export function QuickMeasureEffect({
         </Select>
 
         <MultiObjectBoundingBox multiSelected={selected} />
-        <MeasurementsFromBoundingBox selected={selected} hovered={hovered} />
+        <Measurements selected={selected} hovered={hovered} />
         <effectComposer ref={composer} args={[gl]}>
           <renderPass attachArray="passes" scene={scene} camera={camera} />
           <outlinePass

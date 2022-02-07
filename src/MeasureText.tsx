@@ -10,19 +10,17 @@ extend({ TextGeometry });
 export function MeasureText({ ...props }) {
   const textMesh = useRef<THREE.Mesh>();
 
-  const material = new THREE.MeshBasicMaterial({ color: "white" });
-
   const font = useLoader(FontLoader, "./fonts/manrope-regular-normal-700.json");
 
   const config = useMemo(
     () => ({
       font,
-      size: 3.5,
-      height: 0.2,
+      size: 1.5,
+      height: 0.02,
       curveSegments: 20,
       bevelEnabled: true,
-      bevelThickness: 0.5,
-      bevelSize: 0.01,
+      bevelThickness: 0.3,
+      bevelSize: 0.05,
       bevelOffset: 0,
       bevelSegments: 10,
     }),
@@ -36,11 +34,15 @@ export function MeasureText({ ...props }) {
   });
 
   return (
-    <mesh
-      ref={textMesh}
-      {...props}
-      material={material}
-      geometry={textGeometry}
-    ></mesh>
+    <mesh ref={textMesh} {...props} geometry={textGeometry}>
+      <meshPhysicalMaterial
+        color={0xffffff}
+        clearcoat={0.5}
+        clearcoatRoughness={0.5}
+        metalness={0.005}
+        reflectivity={0.9}
+        roughness={0.5}
+      />
+    </mesh>
   );
 }

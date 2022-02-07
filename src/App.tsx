@@ -1,4 +1,16 @@
-import { OrbitControls } from "@react-three/drei";
+import {
+  Backdrop,
+  Circle,
+  Cylinder,
+  MeshReflectorMaterial,
+  OrbitControls,
+  Sphere,
+  Stage,
+  Plane,
+  Torus,
+  Tube,
+  TorusKnot,
+} from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import * as React from "react";
 import { QuickMeasureEffect } from "./QuickMeasureEffects";
@@ -6,55 +18,107 @@ import { MeasuredMesh } from "./ExampleMesh";
 import { MeasureText } from "./MeasureText";
 import { Suspense } from "react";
 import "./style.css";
+import * as THREE from "three";
 
 export default function App() {
+  var path = [
+    new THREE.Vector3(-3.5, 0.8, 0),
+    new THREE.Vector3(-2, 1.2, 0),
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(2, 1.2, 0),
+  ];
+  const tubeCurve = new THREE.CatmullRomCurve3(path);
+  //const tubeCurve = new THREE.Curve();
+
   return (
-    <Canvas
-      camera={{
-        position: [0, 0, 60],
-        fov: 27,
-        aspect: window.innerWidth / 2 / (window.innerHeight / 2),
-        near: 1,
-        far: 1500,
-      }}
-    >
-      <color attach="background" args={["#151515"]} />
-      <ambientLight intensity={1.5} color={0x444444} />
-      <OrbitControls autoRotate={false} enableZoom={false} enablePan={false} />
+    <Canvas camera={{ position: [0, 3, 20], near: 0.1, far: 100, fov: 50 }}>
+      <pointLight position={[-5, 10, 5]} intensity={1.0} />
+      <pointLight position={[5, 10, 10]} intensity={1.0} />
+      <ambientLight />
+      <OrbitControls autoRotate={false} enableZoom={true} enablePan={true} />
+      <Plane
+        receiveShadow
+        args={[60, 60]}
+        rotation-x={-Math.PI / 2}
+        position={[0, -5, 0]}
+      >
+        <MeshReflectorMaterial
+          mirror={0}
+          blur={[400, 50]}
+          mixBlur={2.2}
+          mixStrength={1}
+          mixContrast={2}
+          metalness={0.9}
+          roughness={0.3}
+          opacity={0.05}
+        />
+      </Plane>
       <QuickMeasureEffect>
         <Suspense fallback={null}>
-          <MeasureText text="Q" position={[-5, 5, 0]} />
-          <MeasureText text="u" position={[-1.65, 4.5, 0]} />
-          <MeasureText text="i" position={[0.65, 5, 0]} />
-          <MeasureText text="c" position={[2.65, 4.5, 0]} />
-          <MeasureText text="k" position={[5.65, 5, 0]} />
-
-          <MeasureText text="M" position={[-8, 0, 0]} />
-          <MeasureText text="e" position={[-4.5, -0.5, 0]} />
-          <MeasureText text="a" position={[-1.65, -0.5, 0]} />
-          <MeasureText text="s" position={[1.0, -0.5, 0]} />
-          <MeasureText text="u" position={[3.85, -0.5, 0]} />
-          <MeasureText text="r" position={[6.45, -0.5, 0]} />
-          <MeasureText text="e" position={[8.65, -0.5, 0]} />
+          <MeasureText text="Quick" position={[0, 2, 0]} />
+          <MeasureText text="Measure" position={[0, 0, 0]} />
         </Suspense>
-        {/* <MeasuredMesh
-          position={[-3, 0, -10]}
-          color={"#eee"}
-          animate={false}
-          boxSize={[3, 2, 2]}
-        />
-        <MeasuredMesh
-          position={[1, 3, 0]}
-          color={"#eee"}
-          animate={true}
-          boxSize={[3, 1, 2]}
-        />
-        <MeasuredMesh
-          position={[8, -4, 0]}
-          color={"#eee"}
-          animate={false}
-          boxSize={[3, 3, 3]}
-        /> */}
+        <Sphere
+          position={[0, 2, -15]}
+          rotation={[-2.0, -1.0, 0.0]}
+          args={[5, 30, 30, 0, Math.PI]}
+          castShadow
+        >
+          <meshStandardMaterial
+            attach="material"
+            color="#3182f6"
+            roughness={0.7}
+            side={THREE.DoubleSide}
+          />
+        </Sphere>
+        <Torus
+          position={[5, 0.5, -5]}
+          rotation={[-0.6, 0.2, 0.0]}
+          args={[3, 1.2, 22, 115]}
+          castShadow
+        >
+          <meshStandardMaterial
+            attach="material"
+            color="#fe833a"
+            roughness={0.7}
+          />
+        </Torus>
+        <Torus
+          position={[5, 0.5, -5]}
+          rotation={[-0.6, 0.2, 0.0]}
+          args={[1.5, 1.4, 22, 115]}
+          castShadow
+        >
+          <meshStandardMaterial
+            attach="material"
+            color="#fe833a"
+            roughness={0.7}
+          />
+        </Torus>
+        <Tube
+          position={[-5, 2.5, -5]}
+          args={[tubeCurve, 63, 0.5, 10, false]}
+          castShadow
+        >
+          <meshStandardMaterial
+            attach="material"
+            color="#ff9e94"
+            roughness={0.7}
+            side={THREE.DoubleSide}
+          />
+        </Tube>
+        <TorusKnot
+          position={[15, 5.5, -25]}
+          rotation={[0, -0.45, 0.0]}
+          args={[5, 0.633, 260, 20, 3, 18]}
+          castShadow
+        >
+          <meshPhongMaterial
+            attach="material"
+            color="#00a04e"
+            // roughness={0.9}
+          />
+        </TorusKnot>
       </QuickMeasureEffect>
     </Canvas>
   );

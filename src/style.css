@@ -10,13 +10,7 @@ canvas {
 }
 
 html {
-  background: rgb(46 15 28);
-  background: linear-gradient(
-    90deg,
-    rgb(46 15 28) 1%,
-    rgb(22 13 20) 51%,
-    rgb(46 15 28) 100%
-  );
+  background: #fac407;
 }
 
 body {

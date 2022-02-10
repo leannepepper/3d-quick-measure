@@ -1,0 +1,51 @@
+import { Html, Line } from "@react-three/drei";
+import { useThree } from "@react-three/fiber";
+import * as React from "react";
+import * as THREE from "three";
+
+export function GridLines() {
+  const { viewport, size } = useThree();
+  const gridWidth = viewport.width;
+  const gridHeight = viewport.height;
+
+  console.log(gridWidth / 25);
+
+  const xAxisLine = [
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(10, 0, 0),
+    new THREE.Vector3(0, 0, 0),
+  ];
+
+  const yAxisLine1 = [
+    new THREE.Vector3(gridWidth / 6, gridHeight, 0),
+    new THREE.Vector3(gridWidth / 6, 0, 0),
+    new THREE.Vector3(gridWidth / 6, -gridHeight, 0),
+  ];
+
+  const yAxisLine2 = [
+    new THREE.Vector3(-gridWidth / 6, gridHeight, 0),
+    new THREE.Vector3(-gridWidth / 6, 0, 0),
+    new THREE.Vector3(-gridWidth / 6, -gridHeight, 0),
+  ];
+
+  const xAxisLine1 = [
+    new THREE.Vector3(-gridWidth, gridHeight / 6, 0),
+    new THREE.Vector3(0, gridHeight / 6, 0),
+    new THREE.Vector3(gridWidth, gridHeight / 6, 0),
+  ];
+
+  const xAxisLine2 = [
+    new THREE.Vector3(-gridWidth, -gridHeight / 6, 0),
+    new THREE.Vector3(0, -gridHeight / 6, 0),
+    new THREE.Vector3(gridWidth, -gridHeight / 6, 0),
+  ];
+
+  return (
+    <>
+      <Line points={yAxisLine1} color={"#000000"} lineWidth={2.0}></Line>
+      <Line points={yAxisLine2} color={"#000000"} lineWidth={2.0}></Line>
+      <Line points={xAxisLine1} color={"#000000"} lineWidth={2.0}></Line>
+      <Line points={xAxisLine2} color={"#000000"} lineWidth={2.0}></Line>
+    </>
+  );
+}

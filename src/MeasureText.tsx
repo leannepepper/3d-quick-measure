@@ -16,11 +16,11 @@ export function MeasureText({ ...props }) {
     () => ({
       font,
       size: 2.0,
-      height: 0.08,
+      height: 0.1,
       curveSegments: 20,
       bevelEnabled: true,
       bevelThickness: 0.01,
-      bevelSize: 0.05,
+      bevelSize: 0.01,
       bevelOffset: 0,
       bevelSegments: 20,
     }),
@@ -35,14 +35,7 @@ export function MeasureText({ ...props }) {
 
   return (
     <mesh ref={textMesh} {...props} geometry={textGeometry}>
-      <meshPhysicalMaterial
-        color={0x000000}
-        clearcoat={0.5}
-        clearcoatRoughness={0.5}
-        metalness={0.005}
-        reflectivity={0.3}
-        roughness={0.5}
-      />
+      <meshPhysicalMaterial color={0x000000} reflectivity={0} roughness={0} />
     </mesh>
   );
 }

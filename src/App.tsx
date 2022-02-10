@@ -17,8 +17,8 @@ export default function App() {
       <QuickMeasureEffect>
         <GridLines />
         <Suspense fallback={null}>
-          <MeasureText text="Quick" position={[0, 2, -1]} />
-          <MeasureText text="Measure" position={[0, 0, -1]} />
+          <MeasureText text="Quick" position={[0.5, -4.8, 0]} />
+          <MeasureText text="Measure" position={[2.5, -7.8, 0]} />
         </Suspense>
         <ExampleShapes />
       </QuickMeasureEffect>

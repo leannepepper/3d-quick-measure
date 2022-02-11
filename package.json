@@ -34,6 +34,9 @@
   },
   "dependencies": {
     "@compai/font-manrope": "^0.0.2",
+    "@react-spring/core": "^9.4.2",
+    "@react-spring/three": "^9.4.2",
+    "@react-spring/web": "^9.4.2",
     "@react-three/drei": "^8.6.1",
     "@react-three/fiber": "^7.0.24",
     "@types/react-dom": "^17.0.11",

@@ -2,50 +2,39 @@ import * as React from "react";
 import * as THREE from "three";
 import { Line } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
-import { useMemo } from "react";
 
 export function GridLines() {
   const { viewport, camera } = useThree();
   const gridWidth = viewport.width;
   const gridHeight = viewport.height;
 
-  const yAxisLine1 = useMemo(() => {
-    return [
-      new THREE.Vector3(gridWidth / 6, gridHeight, 0),
-      new THREE.Vector3(gridWidth / 6, 0, 0),
-      new THREE.Vector3(gridWidth / 6, -gridHeight / 6, 0),
-    ];
-  }, [camera]);
+  const yAxisLine1 = [
+    new THREE.Vector3(gridWidth / 6, gridHeight, 0),
+    new THREE.Vector3(gridWidth / 6, 0, 0),
+    new THREE.Vector3(gridWidth / 6, -gridHeight / 6, 0),
+  ];
 
-  const yAxisLine2 = useMemo(() => {
-    return [
-      new THREE.Vector3(-gridWidth / 6, gridHeight, 0),
-      new THREE.Vector3(-gridWidth / 6, 0, 0),
-      new THREE.Vector3(-gridWidth / 6, -gridHeight, 0),
-    ];
-  }, [camera]);
+  const yAxisLine2 = [
+    new THREE.Vector3(-gridWidth / 6, gridHeight, 0),
+    new THREE.Vector3(-gridWidth / 6, 0, 0),
+    new THREE.Vector3(-gridWidth / 6, -gridHeight, 0),
+  ];
 
-  const xAxisLine1 = useMemo(() => {
-    return [
-      new THREE.Vector3(-gridWidth, gridHeight / 6, 0),
-      new THREE.Vector3(-gridWidth / 6, gridHeight / 6, 0),
-    ];
-  }, [camera]);
+  const xAxisLine1 = [
+    new THREE.Vector3(-gridWidth, gridHeight / 6, 0),
+    new THREE.Vector3(-gridWidth / 6, gridHeight / 6, 0),
+  ];
 
-  const xAxisLine2 = useMemo(() => {
-    return [
-      new THREE.Vector3(gridWidth / 6, gridHeight / 6, 0),
-      new THREE.Vector3(gridWidth, gridHeight / 6, 0),
-    ];
-  }, [camera]);
+  const xAxisLine2 = [
+    new THREE.Vector3(gridWidth / 6, gridHeight / 6, 0),
+    new THREE.Vector3(gridWidth, gridHeight / 6, 0),
+  ];
 
-  const xAxisLine3 = useMemo(() => {
-    return [
-      new THREE.Vector3(-gridWidth, -gridHeight / 6, 0),
-      new THREE.Vector3(0, -gridHeight / 6, 0),
-      new THREE.Vector3(gridWidth, -gridHeight / 6, 0),
-    ];
-  }, [camera]);
+  const xAxisLine3 = [
+    new THREE.Vector3(-gridWidth, -gridHeight / 6, 0),
+    new THREE.Vector3(0, -gridHeight / 6, 0),
+    new THREE.Vector3(gridWidth, -gridHeight / 6, 0),
+  ];
 
   return (
     <>

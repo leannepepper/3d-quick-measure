@@ -1,6 +1,8 @@
 import { Plane, Sphere, Cone } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import * as React from "react";
+import { Suspense } from "react";
+import { CubeOutline } from "./CubeOutline";
 
 export const ExampleShapes = ({ ...props }) => {
   const { viewport } = useThree();
@@ -52,7 +54,7 @@ export const ExampleShapes = ({ ...props }) => {
       <Cone
         position={[gridWidth / 3, gridHeight / 3, 0]}
         rotation={[0.22, 1.0, 0]}
-        args={[2, 3, 3, 1]}
+        args={[gridWidth / 12, 3, 3, 1]}
       >
         <meshStandardMaterial
           attach="material"
@@ -60,10 +62,13 @@ export const ExampleShapes = ({ ...props }) => {
           roughness={0.9}
         />
       </Cone>
+      <Suspense fallback={null}>
+        <CubeOutline position={[0, gridHeight / 3, 0]} rotation={[0.3, 0, 0]} />
+      </Suspense>
       <Sphere
-        position={[-gridWidth / 3, -gridHeight / 2.1, 0]}
+        position={[-gridWidth / 2, -gridHeight / 6, 0]}
         rotation={[-2.0, -1.0, 0.0]}
-        args={[3.5, 60, 30, 0]}
+        args={[gridWidth / 3.8, 60, 30, 0]}
         castShadow
       >
         <meshStandardMaterial

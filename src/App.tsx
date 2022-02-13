@@ -53,7 +53,7 @@ export default function App() {
       <OrbitControls
         ref={controlsRef}
         autoRotate={false}
-        enableZoom={false}
+        enableZoom={true}
         enablePan={false}
       />
       {/* <Controls /> */}

@@ -9,40 +9,12 @@ import {
 } from "@react-three/fiber";
 import * as React from "react";
 import { Suspense, useRef } from "react";
-import { ExampleShapes } from "./Shapes";
+import { ExampleShapes } from "./components/Shapes";
 import { MeasureText } from "./MeasureText";
 import { QuickMeasureEffect } from "./QuickMeasureEffects";
-import { GridLines } from "./GridLines";
-// import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-
-// extend({ OrbitControls });
-
-// declare global {
-//   namespace JSX {
-//     interface IntrinsicElements {
-//       orbitControls: ReactThreeFiber.Object3DNode<
-//         OrbitControls,
-//         typeof OrbitControls
-//       >;
-//     }
-//   }
-// }
-
-// function Controls() {
-//   const controls = useRef(null);
-//   const { camera, gl } = useThree();
-//   useFrame(() => controls.current.update());
-
-//   return (
-//     <orbitControls
-//       ref={controls}
-//       args={[camera, gl.domElement]}
-//       enableDamping
-//       dampingFactor={0.1}
-//       rotateSpeed={0.5}
-//     />
-//   );
-// }
+import { GridLines } from "./components/GridLines";
+import { Panels } from "./components/Panels";
+import { ExampleText } from "./components/ExampleText";
 
 export default function App() {
   const controlsRef = useRef();
@@ -56,9 +28,10 @@ export default function App() {
         enableZoom={true}
         enablePan={false}
       />
-      {/* <Controls /> */}
+      <GridLines />
+      <Panels />
+      <ExampleText />
       <QuickMeasureEffect>
-        <GridLines />
         <Suspense fallback={null}>
           <MeasureText text="Quick" position={[0.5, -4.8, 0]} />
           <MeasureText text="Measure" position={[2.5, -7.8, 0]} />

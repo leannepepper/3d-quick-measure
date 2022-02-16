@@ -9,19 +9,16 @@ import { GLTF } from "three-stdlib";
 
 type GLTFResult = GLTF & {
   nodes: {
-    Plane: THREE.Mesh;
-    Plane001: THREE.Mesh;
     Cone_cell: THREE.Mesh;
     Cone_cell001: THREE.Mesh;
     Cone_cell002: THREE.Mesh;
     Cone_cell003: THREE.Mesh;
     Cone_cell004: THREE.Mesh;
-    Cone_cell005: THREE.Mesh;
+    Plane: THREE.Mesh;
   };
   materials: {
-    ["Material.002"]: THREE.MeshStandardMaterial;
-    ["Material.003"]: THREE.MeshStandardMaterial;
     ["Material.001"]: THREE.MeshStandardMaterial;
+    ["Material.002"]: THREE.MeshStandardMaterial;
   };
 };
 
@@ -30,77 +27,69 @@ type ActionName =
   | "Cone_cell.001Action"
   | "Cone_cell.002Action"
   | "Cone_cell.003Action"
-  | "Cone_cell.004Action"
-  | "Cone_cell.005Action";
+  | "Cone_cell.004Action";
 type GLTFActions = Record<ActionName, THREE.AnimationAction>;
 
-export function TriangleAnimation({
+export function Triangle({
+  visible,
   ...props
 }: JSX.IntrinsicElements["group"]) {
   const group = useRef<THREE.Group>();
   const { nodes, materials, animations } = useGLTF(
-    "/models/outlineTriangleAnimation.glb"
+    "/models/triangleAnimation.gltf"
   ) as GLTFResult;
-  // const { actions } = useAnimations<GLTFActions>(animations, group)
   const { actions } = useAnimations<any>(animations, group);
 
   useEffect(() => {
-    Object.keys(actions).forEach((key) => {
-      actions[key].play();
-    });
-  }, []);
+    if (visible)
+      Object.keys(actions).forEach((key) => {
+        console.log(actions[key]);
+        actions[key].repetitions = 0;
+        actions[key].clampWhenFinished = true;
+        actions[key].play();
+      });
+  }, [visible]);
+
   return (
-    <group ref={group} {...props} dispose={null} rotation={[0, -1.5, 0]}>
-      <mesh
-        geometry={nodes.Plane.geometry}
-        material={materials["Material.002"]}
-        rotation={[0.39, 0.05, -0.17]}
-        scale={4.02}
-      />
-      <mesh
-        geometry={nodes.Plane001.geometry}
-        material={materials["Material.003"]}
-        position={[0, -6.86, 10.23]}
-        scale={8.91}
-      />
+    <group ref={group} {...props} dispose={null} rotation={[0.2, 0, 0]}>
       <mesh
         name="Cone_cell"
         geometry={nodes.Cone_cell.geometry}
         material={nodes.Cone_cell.material}
-        position={[0.03, 5.93, -0.76]}
+        position={[-0.02, -0.07, -0.94]}
       />
       <mesh
         name="Cone_cell001"
         geometry={nodes.Cone_cell001.geometry}
         material={nodes.Cone_cell001.material}
-        position={[0.78, 5.85, 0.44]}
+        position={[0.99, -0.02, 0.59]}
       />
       <mesh
         name="Cone_cell002"
         geometry={nodes.Cone_cell002.geometry}
         material={nodes.Cone_cell002.material}
-        position={[-0.66, 5.83, 0.43]}
+        position={[-0.91, 0, 0.62]}
       />
       <mesh
         name="Cone_cell003"
         geometry={nodes.Cone_cell003.geometry}
         material={nodes.Cone_cell003.material}
-        position={[0.03, 7.26, 0.04]}
+        position={[0.02, 2.07, -0.01]}
       />
       <mesh
         name="Cone_cell004"
         geometry={nodes.Cone_cell004.geometry}
         material={nodes.Cone_cell004.material}
-        position={[-0.45, 6.75, 0.25]}
+        position={[0.23, -0.25, 0.67]}
       />
-      <mesh
-        name="Cone_cell005"
-        geometry={nodes.Cone_cell005.geometry}
-        material={nodes.Cone_cell005.material}
-        position={[0.53, 6.56, 0.27]}
-      />
+      {/* <mesh
+        geometry={planeGeometry}
+        material={planeMaterial}
+        position={[0, -7.45, 0]}
+        scale={8.1}
+      /> */}
     </group>
   );
 }
 
-useGLTF.preload("/models/outlineTriangleAnimation.glb");
+useGLTF.preload("/models/triangleAnimation.gltf");

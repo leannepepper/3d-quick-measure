@@ -9785,7 +9785,7 @@ text-table@^0.2.0:
 
 three-glitter-material@^0.1.2:
   version "0.1.2"
-  resolved "https://registry.npmjs.org/three-glitter-material/-/three-glitter-material-0.1.2.tgz"
+  resolved "https://registry.yarnpkg.com/three-glitter-material/-/three-glitter-material-0.1.2.tgz#071d4bb90a6d3f6c3906c930d5840194fff36a2b"
   integrity sha512-q/VwJdEQgClnhjLym29NLoiB3lYpTOFHKUEpaJoaJ83TUey1z8DuW/m6nNaA2r/yOYldC3xrvyJxtRluu/BhDw==
 
 three-mesh-bvh@^0.5.2:

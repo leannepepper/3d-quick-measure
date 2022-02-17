@@ -2,7 +2,8 @@ import { Plane, Sphere, Html, Text } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import * as React from "react";
 import { Suspense, useState } from "react";
-import { Triangle } from "./TriangleAnimation";
+import { Triangle } from "./TriangleFracture3";
+import { TriangleSolid } from "./TriangleSolid";
 import { Cube } from "./Cube";
 
 export const ExampleShapes = ({ ...props }) => {
@@ -33,7 +34,8 @@ export const ExampleShapes = ({ ...props }) => {
         <Triangle
           visible={clicked}
           onClick={() => setClicked(true)}
-          position={[gridWidth / 3, gridHeight / 4, -0.5]}
+          position={[gridWidth / 3, -0.2, -0.5]}
+          rotation={[0.24, 0.0, 0.0]}
         />
       </Suspense>
     </>

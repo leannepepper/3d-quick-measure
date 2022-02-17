@@ -1,25 +1,10 @@
-import * as THREE from "three";
-import React, { useEffect, useRef, useState } from "react";
-import { useGLTF } from "@react-three/drei";
-import { GLTF } from "three-stdlib";
-import { useMotionValue, useTransform } from "framer-motion";
 import { motion } from "framer-motion-3d";
-import { a, useSpring } from "@react-spring/three";
-import { useFrame } from "@react-three/fiber";
-
-type GLTFResult = GLTF & {
-  nodes: {
-    Cube: THREE.Mesh;
-  };
-  materials: {
-    Material: THREE.MeshStandardMaterial;
-  };
-};
+import React, { useRef } from "react";
+import * as THREE from "three";
 
 export function Cube({ ...props }) {
   const group = useRef();
   const meshRef = useRef();
-  const { nodes, materials } = useGLTF("/models/cube.glb") as GLTFResult;
   const material = new THREE.MeshStandardMaterial({
     color: 0x000000,
   });
@@ -37,7 +22,6 @@ export function Cube({ ...props }) {
         transition={{
           duration: 8,
           repeat: Infinity,
-          // repeatType: "reverse",
         }}
       >
         <boxGeometry args={[2, 2, 2]} />
@@ -45,5 +29,3 @@ export function Cube({ ...props }) {
     </group>
   );
 }
-
-useGLTF.preload("/models/cube.glb");

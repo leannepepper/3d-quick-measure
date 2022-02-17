@@ -58,7 +58,7 @@ export function Triangle({
   };
 
   const glitterMaterial = new GlitterMaterial(customUniforms, {
-    color: "#142af5",
+    color: "#040305",
   });
 
   return (

@@ -9,13 +9,13 @@ extend({ TextGeometry });
 
 export function MeasureText({ ...props }) {
   const textMesh = useRef<THREE.Mesh>();
-
   const font = useLoader(FontLoader, "./fonts/manrope-regular-normal-200.json");
+  const size = props.size || 2.0;
 
   const config = useMemo(
     () => ({
       font,
-      size: 2.0,
+      size,
       height: 0.1,
       curveSegments: 20,
       bevelEnabled: true,

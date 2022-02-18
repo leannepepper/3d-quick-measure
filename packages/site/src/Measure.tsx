@@ -1,7 +1,7 @@
 import { Html, Line } from "@react-three/drei";
 import * as React from "react";
 import * as THREE from "three";
-import { Measure } from "./QuickMeasureEffects";
+import { Measure } from "./QuickMeasure";
 import { getBoundingBox, getMidPoint, quickMeasureTheme } from "./measureUtils";
 
 type Axis = "x" | "y" | "z";

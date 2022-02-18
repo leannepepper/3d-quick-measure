@@ -11,6 +11,7 @@ import { GlitterMaterial } from "three-glitter-material";
 
 type GLTFResult = GLTF & {
   nodes: {
+    Plane: THREE.Mesh;
     Cone_cell004: THREE.Mesh;
     Cone_cell004_1: THREE.Mesh;
     Cone_cell005: THREE.Mesh;
@@ -31,7 +32,7 @@ type ActionName =
   | "Cone_cell.001Action"
   | "Cone_cell.002Action"
   | "Cone_cell.003Action";
-//type GLTFActions = Record<ActionName, THREE.AnimationAction>
+type GLTFActions = Record<ActionName, THREE.AnimationAction>;
 
 export function Triangle({
   visible,
@@ -39,7 +40,7 @@ export function Triangle({
 }: JSX.IntrinsicElements["group"]) {
   const group = useRef<THREE.Group>();
   const { nodes, materials, animations } = useGLTF(
-    "/models/triangleFracture3.glb"
+    "/models/TriangleFractureBaked6.glb"
   ) as GLTFResult;
   const { actions } = useAnimations(animations, group);
 
@@ -64,10 +65,10 @@ export function Triangle({
   return (
     <group ref={group} {...props} dispose={null}>
       {!visible ? (
-        <TriangleSolid position={[-0.1, 2.24, 0.26]} />
+        <TriangleSolid position={[-0.1, 0, 0.26]} />
       ) : (
         <>
-          <group name="Cone_cell" position={[-0.08, 5, -0.47]}>
+          <group name="Cone_cell" position={[0.02, 4.25, -0.06]}>
             <mesh
               geometry={nodes.Cone_cell004.geometry}
               material={nodes.Cone_cell004.material}
@@ -77,7 +78,7 @@ export function Triangle({
               material={glitterMaterial}
             />
           </group>
-          <group name="Cone_cell001" position={[0.34, 5.04, 0.26]}>
+          <group name="Cone_cell001" position={[0.45, 4.03, 0.45]}>
             <mesh
               geometry={nodes.Cone_cell005.geometry}
               material={nodes.Cone_cell005.material}
@@ -87,7 +88,7 @@ export function Triangle({
               material={glitterMaterial}
             />
           </group>
-          <group name="Cone_cell002" position={[-0.66, 4.95, 0.29]}>
+          <group name="Cone_cell002" position={[-0.36, 4.05, 0.42]}>
             <mesh
               geometry={nodes.Cone_cell001_1.geometry}
               material={nodes.Cone_cell001_1.material}
@@ -97,7 +98,7 @@ export function Triangle({
               material={glitterMaterial}
             />
           </group>
-          <group name="Cone_cell003" position={[-0.05, 6, 0.19]}>
+          <group name="Cone_cell003" position={[-0.01, 4.98, 0.31]}>
             <mesh
               geometry={nodes.Cone_cell002_1.geometry}
               material={nodes.Cone_cell002_1.material}
@@ -113,4 +114,4 @@ export function Triangle({
   );
 }
 
-useGLTF.preload("/models/triangleFracture3.glb");
+useGLTF.preload("/models/TriangleFractureBaked6.glb");

@@ -12,7 +12,7 @@ import * as React from "react";
 import { Suspense, useRef, useEffect, useMemo, useState } from "react";
 import { ExampleShapes } from "./components/Shapes";
 import { MeasureText } from "./components/MeasureText";
-import { QuickMeasureEffect } from "./QuickMeasureEffects";
+import { QuickMeasure } from "./QuickMeasure";
 import { GridLines } from "./components/GridLines";
 import { Panels } from "./components/Panels";
 import { ExampleText } from "./components/ExampleText";
@@ -52,13 +52,13 @@ export default function App() {
           color={"#000000"}
           lineWidth={2.0}
         ></Line>
-        <QuickMeasureEffect>
+        <QuickMeasure>
           <Cube />
           <Suspense fallback={null}>
             <MeasureText text="Quick" position={[-1.5, -4.8, 0]} size={1.5} />
             <MeasureText text="Measure" position={[0, -7.8, 0]} size={1.5} />
           </Suspense>
-        </QuickMeasureEffect>
+        </QuickMeasure>
       </Canvas>
     );
   } else if (windowSize.width >= 768) {
@@ -70,13 +70,13 @@ export default function App() {
         <GridLines />
         <Panels />
         <ExampleText />
-        <QuickMeasureEffect>
+        <QuickMeasure>
           <Suspense fallback={null}>
             <MeasureText text="Quick" position={[0.5, -4.8, 0]} />
             <MeasureText text="Measure" position={[2.5, -7.8, 0]} />
           </Suspense>
           <ExampleShapes />
-        </QuickMeasureEffect>
+        </QuickMeasure>
       </Canvas>
     );
   }

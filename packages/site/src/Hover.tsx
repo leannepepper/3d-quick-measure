@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useCallback, useContext } from "react";
-import { hoverContext, selectContext } from "./QuickMeasureEffects";
+import { hoverContext, selectContext } from "./QuickMeasure";
 
 export function Hover({ children }: JSX.IntrinsicElements["group"]) {
   const setHover = useContext(hoverContext);

@@ -17,22 +17,21 @@ export const ExampleText = ({ ...props }) => {
         position={[-gridWidth / 3, gridHeight / 3, 0]}
         sprite
       >
-        <pre>{` npm-i-three-quick-measure`}</pre>
+        <pre style={{ fontSize: "18px" }}>{` npm-i-three-quick-measure`}</pre>
       </Html>
 
       <Html
         as="div"
         wrapperClass={"html"}
         prepend
-        center
-        position={[gridWidth / 3, gridHeight / 26, 0]}
+        position={[gridWidth / 5.5, gridHeight / 9, 0]}
         sprite
       >
-        <pre>
+        <pre style={{ fontSize: "14px" }}>
           {`
 import {QuickMeasure} from three-quick-measure
 
-function App(){
+function MeasureComponent(){
  return (
     <QuickMeasure>
       <Box/>

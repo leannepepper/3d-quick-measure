@@ -40,7 +40,7 @@ declare global {
   }
 }
 
-export function QuickMeasureEffect({
+export function QuickMeasure({
   children: _children,
   ...props
 }: ReactThreeFiber.Object3DNode<THREE.Object3D, THREE.Object3D>) {

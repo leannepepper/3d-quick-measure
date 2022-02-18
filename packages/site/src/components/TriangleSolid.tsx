@@ -19,18 +19,18 @@ type GLTFResult = GLTF & {
 export function TriangleSolid({ ...props }: JSX.IntrinsicElements["group"]) {
   const group = useRef<THREE.Group>();
   const { nodes, materials } = useGLTF(
-    "/models/triangleSolid.glb"
+    "/models/TriangleSolid2.glb"
   ) as GLTFResult;
   return (
     <group ref={group} {...props} dispose={null}>
       <mesh
         geometry={nodes.Cone.geometry}
         material={materials["Material.001"]}
-        position={[0, 3.8, 0]}
-        scale={1.81}
+        position={[0, 4.85, 0]}
+        scale={[1.87, 1.31, 1.87]}
       />
     </group>
   );
 }
 
-useGLTF.preload("/models/triangleSolid.glb");
+useGLTF.preload("/models/TriangleSolid2.glb");

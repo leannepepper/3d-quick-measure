@@ -3,7 +3,7 @@ import { useThree } from "@react-three/fiber";
 import * as React from "react";
 import { Suspense, useState } from "react";
 import { Cube } from "./Cube";
-import { Triangle } from "./TriangleFractureBaked6";
+//import { Triangle } from "./TriangleFractureBaked6";
 
 export const ExampleShapes = ({ ...props }) => {
   const { viewport } = useThree();
@@ -29,14 +29,14 @@ export const ExampleShapes = ({ ...props }) => {
           roughness={0.9}
         />
       </Sphere>
-      <Suspense fallback={null}>
+      {/* <Suspense fallback={null}>
         <Triangle
           visible={clicked}
           onClick={() => setClicked(true)}
           position={[gridWidth / 3, 1, -0.5]}
           rotation={[0.24, 0.0, 0.0]}
         />
-      </Suspense>
+      </Suspense> */}
     </>
   );
 };

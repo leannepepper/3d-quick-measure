@@ -200,6 +200,7 @@ export function Measurements(props: Measure): null | JSX.Element {
         lineWidth={1.0}
         dashed={true}
         dashScale={10.0}
+        alphaWrite={undefined}
       />
       <Line
         points={mainY}
@@ -207,6 +208,7 @@ export function Measurements(props: Measure): null | JSX.Element {
         lineWidth={1.0}
         dashed={true}
         dashScale={10.0}
+        alphaWrite={undefined}
       />
       <Line
         points={mainZ}
@@ -214,6 +216,7 @@ export function Measurements(props: Measure): null | JSX.Element {
         lineWidth={1.0}
         dashed={true}
         dashScale={10.0}
+        alphaWrite={undefined}
       >
         <group position={getMidPoint(mainZ)}>
           <Html
@@ -232,6 +235,7 @@ export function Measurements(props: Measure): null | JSX.Element {
         points={crossX}
         color={quickMeasureTheme.colors.crossAxis}
         lineWidth={1.0}
+        alphaWrite={undefined}
       >
         <group position={getMidPoint(crossX)}>
           <Html
@@ -250,6 +254,7 @@ export function Measurements(props: Measure): null | JSX.Element {
         points={crossY}
         color={quickMeasureTheme.colors.crossAxis}
         lineWidth={1.0}
+        alphaWrite={undefined}
       >
         <group position={getMidPoint(crossY)}>
           <Html

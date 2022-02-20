@@ -1,9 +1,8 @@
 {
-  "name": "3d-quick-measure",
-  "version": "1.0.0",
-  "description": "quick measure in three.js",
+  "name": "site",
+  "version": "0.1.0",
+  "description": "quick measure example page",
   "main": "index.js",
-  "repository": "https://github.com/leannepepper/3d-quick-measure.git",
   "author": "Leanne Werner <leanne.werner.lw@gmail.com>",
   "license": "MIT",
   "scripts": {

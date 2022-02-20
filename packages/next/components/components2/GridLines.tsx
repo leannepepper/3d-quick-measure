@@ -38,11 +38,36 @@ export function GridLines() {
 
   return (
     <>
-      <Line points={yAxisLine1} color={"#000000"} lineWidth={2.0}></Line>
-      <Line points={yAxisLine2} color={"#000000"} lineWidth={2.0}></Line>
-      <Line points={xAxisLine1} color={"#000000"} lineWidth={2.0}></Line>
-      <Line points={xAxisLine2} color={"#000000"} lineWidth={2.0}></Line>
-      <Line points={xAxisLine3} color={"#000000"} lineWidth={2.0}></Line>
+      <Line
+        points={yAxisLine1}
+        color={"#000000"}
+        lineWidth={2.0}
+        alphaWrite={undefined}
+      ></Line>
+      <Line
+        points={yAxisLine2}
+        color={"#000000"}
+        lineWidth={2.0}
+        alphaWrite={undefined}
+      ></Line>
+      <Line
+        points={xAxisLine1}
+        color={"#000000"}
+        lineWidth={2.0}
+        alphaWrite={undefined}
+      ></Line>
+      <Line
+        points={xAxisLine2}
+        color={"#000000"}
+        lineWidth={2.0}
+        alphaWrite={undefined}
+      ></Line>
+      <Line
+        points={xAxisLine3}
+        color={"#000000"}
+        lineWidth={2.0}
+        alphaWrite={undefined}
+      ></Line>
     </>
   );
 }

@@ -5,29 +5,32 @@
   "repository": "https://github.com/leannepepper/3d-quick-measure",
   "author": "Leanne Werner <leanne.werner.lw@gmail.com>",
   "license": "MIT",
-  "source": "index.js",
-  "main": "./dist/index.cjs",
+  "source": "src/index.ts",
+  "main": "dist/index.cjs",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "webpack --config ./bundler/webpack.prod.js",
-    "dev": "webpack serve --config ./bundler/webpack.dev.js",
-    "deploy": "yarn build && gh-pages -d dist"
+    "prepublishOnly": "yarn build",
+    "build": "microbundle --tsconfig tsconfig.json --jsxFragment React.Fragment --jsx React.createElement",
+    "dev": "microbundle watch --tsconfig tsconfig.json --jsxFragment React.Fragment --jsx React.createElement"
+  },
+  "peerDependencies": {
+    "@react-three/drei": ">=8.0.0",
+    "@react-three/fiber": ">=7.0.0",
+    "react": ">=17.0.0",
+    "three": ">=0.136.0"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
+    "@react-three/drei": "^8.6.1",
+    "@react-three/fiber": "^7.0.24",
     "@types/react": "^17.0.39",
     "@types/three": "^0.136.1",
     "babel-loader": "^8.2.2",
-    "typescript": "^4.5.4"
-  },
-  "dependencies": {
-    "@react-three/drei": "^8.6.1",
-    "@react-three/fiber": "^7.0.24",
-    "@types/react-dom": "^17.0.11",
-    "polyline-normals": "^2.0.2",
+    "microbundle": "^0.14.2",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "^5.0.0",
-    "three": "^0.136.0"
+    "three": "^0.136.0",
+    "typescript": "^4.5.4"
   }
 }

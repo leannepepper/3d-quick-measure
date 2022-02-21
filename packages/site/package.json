@@ -1,53 +1,19 @@
 {
   "name": "site",
   "version": "0.1.0",
-  "description": "quick measure example page",
-  "main": "index.js",
-  "author": "Leanne Werner <leanne.werner.lw@gmail.com>",
-  "license": "MIT",
   "scripts": {
-    "build": "webpack --config ./bundler/webpack.prod.js",
-    "dev": "webpack serve --config ./bundler/webpack.dev.js",
-    "deploy": "yarn build && gh-pages -d dist"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.15.0",
-    "@babel/preset-env": "^7.15.0",
-    "@types/react": "^17.0.39",
-    "@types/three": "^0.136.1",
-    "babel-loader": "^8.2.2",
-    "clean-webpack-plugin": "^4.0.0-alpha.0",
-    "copy-webpack-plugin": "^9.0.1",
-    "css-loader": "^6.2.0",
-    "file-loader": "^6.2.0",
-    "html-loader": "^2.1.2",
-    "html-webpack-plugin": "^5.3.2",
-    "mini-css-extract-plugin": "^2.2.1",
-    "portfinder-sync": "^0.0.2",
-    "raw-loader": "^4.0.2",
-    "style-loader": "^3.2.1",
-    "ts-loader": "^9.2.5",
-    "typescript": "^4.5.4",
-    "webpack": "^5.51.1",
-    "webpack-merge": "^5.8.0"
+    "dev": "next dev",
+    "build": "next build && next export"
   },
   "dependencies": {
-    "@compai/font-manrope": "^0.0.2",
-    "@react-spring/core": "^9.4.2",
-    "@react-spring/three": "^9.4.2",
-    "@react-spring/web": "^9.4.2",
-    "@react-three/drei": "^8.6.1",
-    "@react-three/fiber": "^7.0.24",
-    "@types/react-dom": "^17.0.11",
     "framer-motion": "^6.2.6",
     "framer-motion-3d": "^6.2.6",
-    "polyline-normals": "^2.0.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-scripts": "^5.0.0",
+    "react-three-quick-measure": "*",
+    "next": "^12.1.0",
+    "next-transpile-modules": "^9.0.0",
     "three": "^0.136.0",
-    "three-glitter-material": "^0.1.2",
-    "webpack-cli": "4.7.2",
-    "webpack-dev-server": "3.11.2"
+    "three-glitter-material": "^0.1.2"
   }
 }

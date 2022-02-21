@@ -17,7 +17,9 @@ export const ExampleText = ({ ...props }) => {
         position={[-gridWidth / 3, gridHeight / 3, 0]}
         sprite
       >
-        <pre style={{ fontSize: "18px" }}>{` npm-i-three-quick-measure`}</pre>
+        <pre
+          style={{ fontSize: "18px" }}
+        >{` npm-i-react-three-quick-measure`}</pre>
       </Html>
 
       <Html
@@ -29,8 +31,6 @@ export const ExampleText = ({ ...props }) => {
       >
         <pre style={{ fontSize: "14px" }}>
           {`
-import {QuickMeasure} from three-quick-measure
-
 function MeasureComponent(){
  return (
     <QuickMeasure>

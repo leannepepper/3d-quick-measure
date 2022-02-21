@@ -52,13 +52,13 @@ export default function Scene() {
           lineWidth={2.0}
           alphaWrite={undefined}
         ></Line>
-        {/* <QuickMeasure> */}
-        <Cube />
-        <Suspense fallback={null}>
-          <MeasureText text="Quick" position={[-1.5, -4.8, 0]} size={1.5} />
-          <MeasureText text="Measure" position={[0, -7.8, 0]} size={1.5} />
-        </Suspense>
-        {/* </QuickMeasure> */}
+        <QuickMeasure>
+          <Cube />
+          <Suspense fallback={null}>
+            <MeasureText text="Quick" position={[-1.5, -4.8, 0]} size={1.5} />
+            <MeasureText text="Measure" position={[0, -7.8, 0]} size={1.5} />
+          </Suspense>
+        </QuickMeasure>
       </Canvas>
     );
   } else if (windowSize.width >= 768) {

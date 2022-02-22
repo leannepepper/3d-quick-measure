@@ -22,7 +22,7 @@ export function CrossMeasurementLines(props: Measure): null | JSX.Element {
   const hoveredBoundingBox = hovered[0].geometry.boundingBox.clone();
   hoveredBoundingBox.applyMatrix4(hovered[0].matrixWorld);
 
-  const crossX = [
+  let crossX = [
     new THREE.Vector3(
       getClosestPointToSelected(
         multiSelectBoundingBox,
@@ -59,6 +59,7 @@ export function CrossMeasurementLines(props: Measure): null | JSX.Element {
 
   // TODO: Clean up this mess
   let additionalCrossY = null;
+  let additionalCrossX = null;
   const selectedBoundingBox = getBoundingBox(selected);
   if (
     (hoveredBoundingBox.min.y > selectedBoundingBox.min.y &&
@@ -90,6 +91,62 @@ export function CrossMeasurementLines(props: Measure): null | JSX.Element {
         hoveredBoundingBox.max.z
       ),
     ];
+  } else if (
+    hoveredBoundingBox.min.x > selectedBoundingBox.min.x &&
+    hoveredBoundingBox.max.x < selectedBoundingBox.max.x
+  ) {
+    additionalCrossX = [
+      new THREE.Vector3(
+        hoveredBoundingBox.min.x,
+        getMidPoint([multiSelectBoundingBox.min, multiSelectBoundingBox.max]).y,
+        hoveredBoundingBox.max.z
+      ),
+      new THREE.Vector3(
+        selectedBoundingBox.min.x,
+        getMidPoint([multiSelectBoundingBox.min, multiSelectBoundingBox.max]).y,
+        hoveredBoundingBox.max.z
+      ),
+    ];
+    crossX = [
+      new THREE.Vector3(
+        hoveredBoundingBox.max.x,
+        getMidPoint([multiSelectBoundingBox.min, multiSelectBoundingBox.max]).y,
+        hoveredBoundingBox.max.z
+      ),
+      new THREE.Vector3(
+        selectedBoundingBox.max.x,
+        getMidPoint([multiSelectBoundingBox.min, multiSelectBoundingBox.max]).y,
+        hoveredBoundingBox.max.z
+      ),
+    ];
+  } else if (
+    hoveredBoundingBox.min.z > selectedBoundingBox.min.z &&
+    hoveredBoundingBox.max.z < selectedBoundingBox.max.z
+  ) {
+    additionalCrossX = [
+      new THREE.Vector3(
+        hoveredBoundingBox.min.x,
+        getMidPoint([multiSelectBoundingBox.min, multiSelectBoundingBox.max]).y,
+        hoveredBoundingBox.min.z
+      ),
+      new THREE.Vector3(
+        selectedBoundingBox.min.x,
+        getMidPoint([multiSelectBoundingBox.min, multiSelectBoundingBox.max]).y,
+        hoveredBoundingBox.min.z
+      ),
+    ];
+    crossX = [
+      new THREE.Vector3(
+        hoveredBoundingBox.max.x,
+        getMidPoint([multiSelectBoundingBox.min, multiSelectBoundingBox.max]).y,
+        hoveredBoundingBox.min.z
+      ),
+      new THREE.Vector3(
+        selectedBoundingBox.max.x,
+        getMidPoint([multiSelectBoundingBox.min, multiSelectBoundingBox.max]).y,
+        hoveredBoundingBox.min.z
+      ),
+    ];
   }
 
   return (
@@ -113,6 +170,31 @@ export function CrossMeasurementLines(props: Measure): null | JSX.Element {
               <p>
                 {Math.round(
                   Math.abs(additionalCrossY[0].y - additionalCrossY[1].y)
+                )}
+              </p>
+            </Html>
+          </group>
+        </Line>
+      ) : null}
+      {additionalCrossX ? (
+        <Line
+          points={additionalCrossX}
+          color={quickMeasureTheme.colors.crossAxis}
+          lineWidth={1.0}
+          alphaWrite={undefined}
+        >
+          <group position={getMidPoint(additionalCrossX)}>
+            <Html
+              as="div"
+              wrapperClass="measure-text"
+              zIndexRange={[100, 0]}
+              center
+              transform={false}
+              sprite={true}
+            >
+              <p>
+                {Math.round(
+                  Math.abs(additionalCrossX[0].x - additionalCrossX[1].x)
                 )}
               </p>
             </Html>

@@ -71,6 +71,7 @@ export function MainMeasurementLines(props: Measure): null | JSX.Element {
 
   // TODO: Clean up this mess
   let additionalMainX = null;
+  let additionalMainY = null;
   const selectedBoundingBox = getBoundingBox(selected);
   if (
     hoveredBoundingBox.min.y > selectedBoundingBox.min.y &&
@@ -101,6 +102,24 @@ export function MainMeasurementLines(props: Measure): null | JSX.Element {
       new THREE.Vector3(
         mainXEnd,
         hoveredBoundingBox.min.y,
+        hoveredBoundingBox.max.z
+      ),
+    ];
+  } else if (
+    (hoveredBoundingBox.min.x > selectedBoundingBox.min.x &&
+      hoveredBoundingBox.max.x < selectedBoundingBox.max.x) ||
+    (hoveredBoundingBox.min.x < selectedBoundingBox.min.x &&
+      hoveredBoundingBox.max.x > selectedBoundingBox.max.x)
+  ) {
+    additionalMainY = [
+      new THREE.Vector3(
+        hoveredBoundingBox.max.x,
+        mainYStart,
+        hoveredBoundingBox.max.z
+      ),
+      new THREE.Vector3(
+        hoveredBoundingBox.max.x,
+        mainYEnd,
         hoveredBoundingBox.max.z
       ),
     ];
@@ -167,6 +186,16 @@ export function MainMeasurementLines(props: Measure): null | JSX.Element {
       {additionalMainX ? (
         <Line
           points={additionalMainX}
+          color={quickMeasureTheme.colors.mainAxis}
+          lineWidth={1.0}
+          dashed={true}
+          dashScale={10.0}
+          alphaWrite={undefined}
+        />
+      ) : null}
+      {additionalMainY ? (
+        <Line
+          points={additionalMainY}
           color={quickMeasureTheme.colors.mainAxis}
           lineWidth={1.0}
           dashed={true}

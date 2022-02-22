@@ -33,9 +33,10 @@ export function getBoundingBox(multiSelected: any[]): THREE.Box3 {
 
 export function MultiObjectBoundingBox({ ...props }) {
   const { multiSelected } = props;
-  if (multiSelected.length < 2) {
+  if (multiSelected.length < 1) {
     return null;
   }
+
   const boundingBox = getBoundingBox(multiSelected);
 
   return (
@@ -44,4 +45,55 @@ export function MultiObjectBoundingBox({ ...props }) {
       args={[boundingBox, new THREE.Color(0xffffff)]}
     />
   );
+}
+
+export type Axis = "x" | "y" | "z";
+export type Boundary = "min" | "max";
+
+export function getClosestMainAxisPoint(
+  selected: THREE.Mesh[],
+  hovered: THREE.Mesh[],
+  selectedBoundingBox: THREE.Box3,
+  hoveredBoundingBox: THREE.Box3,
+  axis: Axis
+) {
+  if (selected[0].position[axis] > hovered[0].position[axis]) {
+    return [hoveredBoundingBox.max[axis], selectedBoundingBox.max[axis]];
+  } else if (selected[0].position[axis] < hovered[0].position[axis]) {
+    return [hoveredBoundingBox.min[axis], selectedBoundingBox.min[axis]];
+  } else {
+    return [hoveredBoundingBox.max[axis], selectedBoundingBox.max[axis]];
+  }
+}
+
+export function getClosestPointToSelected(
+  multiSelectBoundingBox: THREE.Box3,
+  hoveredBoundingBox: THREE.Box3,
+  axis: Axis,
+  boundary: Boundary
+): number {
+  const goal = multiSelectBoundingBox.min[axis];
+
+  const closestPoint = [
+    hoveredBoundingBox.min[axis],
+    hoveredBoundingBox.max[axis],
+  ].reduce(function (prev, curr) {
+    return Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev;
+  });
+  return closestPoint;
+}
+
+export function getCrossAxisEndPoint(
+  selected: THREE.Mesh[],
+  hovered: THREE.Mesh[],
+  multiSelectBoundingBox: THREE.Box3,
+  axis: Axis
+) {
+  if (selected[0].position[axis] > hovered[0].position[axis]) {
+    return multiSelectBoundingBox.min[axis];
+  } else if (selected[0].position[axis] < hovered[0].position[axis]) {
+    return multiSelectBoundingBox.max[axis];
+  } else {
+    return multiSelectBoundingBox.min[axis];
+  }
 }

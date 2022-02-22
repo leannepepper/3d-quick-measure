@@ -11,7 +11,7 @@ import { createContext, useEffect, useMemo, useRef, useState } from "react";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
 import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
-import { Measurements } from "./Measure";
+import { Measurements } from "./MeasureLines";
 import { MultiObjectBoundingBox } from "./measureUtils";
 import { Hover } from "./Hover";
 import { hoverContext, selectContext } from "./contexts";

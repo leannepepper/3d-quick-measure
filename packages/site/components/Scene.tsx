@@ -37,6 +37,29 @@ export default function Scene() {
     };
   }, []);
 
+  // return (
+  //   <Canvas camera={{ position: [0, 0, 20], near: 0.1, far: 100, fov: 50 }}>
+  //     <pointLight position={[5, 15, 10]} intensity={1.0} />
+  //     <ambientLight intensity={0.7} />
+  //     <OrbitControls autoRotate={false} enableZoom={true} enablePan={false} />
+  //     <QuickMeasure>
+  //       {/* <Cube /> */}
+  //       <mesh position={[0, 7, 1]}>
+  //         <boxBufferGeometry attach="geometry" args={[1, 1, 1]} />
+  //         <meshStandardMaterial attach="material" color="pink" />
+  //       </mesh>
+  //       <mesh position={[6, 4, 1]}>
+  //         <boxBufferGeometry attach="geometry" args={[2, 2, 2]} />
+  //         <meshStandardMaterial attach="material" color="red" />
+  //       </mesh>
+  //       <mesh position={[-6, 2, 0]}>
+  //         <boxBufferGeometry attach="geometry" args={[3, 10, 2]} />
+  //         <meshStandardMaterial attach="material" color="darkgreen" />
+  //       </mesh>
+  //     </QuickMeasure>
+  //   </Canvas>
+  // );
+
   if (windowSize.width < 768) {
     return (
       <Canvas camera={{ position: [0, 0, 20], near: 0.1, far: 100, fov: 50 }}>

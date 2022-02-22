@@ -1,1 +1,1 @@
-export { QuickMeasure } from "./QuickMeasure";
+export { QuickMeasure, useQuickMeasure } from "./QuickMeasure";

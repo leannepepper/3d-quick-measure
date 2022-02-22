@@ -1,1 +1,0 @@
-export { QuickMeasure } from "./QuickMeasure";

@@ -7,7 +7,7 @@ import {
   useThree,
 } from "@react-three/fiber";
 import * as React from "react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { createContext, useEffect, useMemo, useRef, useState } from "react";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
 import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
@@ -37,6 +37,11 @@ declare global {
     }
   }
 }
+
+const context = createContext({
+  selected: [],
+  hovered: [],
+});
 
 export function QuickMeasure({
   children: _children,
@@ -74,7 +79,11 @@ export function QuickMeasure({
             setSelected(selectedObjs);
           }}
         >
-          <Hover>{_children}</Hover>
+          <Hover>
+            <context.Provider value={{ selected, hovered }}>
+              {_children}
+            </context.Provider>
+          </Hover>
         </Select>
 
         <MultiObjectBoundingBox multiSelected={selected} />
@@ -99,4 +108,8 @@ export function QuickMeasure({
       </selectContext.Provider>
     </hoverContext.Provider>
   );
+}
+
+export function useQuickMeasure() {
+  return React.useContext(context);
 }

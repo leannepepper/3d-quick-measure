@@ -21,6 +21,7 @@ export function TriangleSolid({ ...props }: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF(
     "/models/TriangleSolid2.glb"
   ) as GLTFResult;
+
   return (
     <group ref={group} {...props} dispose={null}>
       <mesh

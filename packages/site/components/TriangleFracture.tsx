@@ -70,55 +70,50 @@ export function Triangle({
   }
   return (
     <group ref={group} name="triangles" {...props} dispose={null}>
-      {/* {!visible ? ( */}
       <TriangleSolid
         onClick={() => removeSolidTriangle()}
         position={[-0.1, 0, 0.26]}
       />
-      {/* ) : ( */}
-      <>
-        <group name="Cone_cell" position={[0.02, 4.25, -0.06]}>
-          <mesh
-            geometry={nodes.Cone_cell004.geometry}
-            material={nodes.Cone_cell004.material}
-          />
-          <mesh
-            geometry={nodes.Cone_cell004_1.geometry}
-            material={glitterMaterial}
-          />
-        </group>
-        <group name="Cone_cell001" position={[0.45, 4.03, 0.45]}>
-          <mesh
-            geometry={nodes.Cone_cell005.geometry}
-            material={nodes.Cone_cell005.material}
-          />
-          <mesh
-            geometry={nodes.Cone_cell005_1.geometry}
-            material={glitterMaterial}
-          />
-        </group>
-        <group name="Cone_cell002" position={[-0.36, 4.05, 0.42]}>
-          <mesh
-            geometry={nodes.Cone_cell001_1.geometry}
-            material={nodes.Cone_cell001_1.material}
-          />
-          <mesh
-            geometry={nodes.Cone_cell001_2.geometry}
-            material={glitterMaterial}
-          />
-        </group>
-        <group name="Cone_cell003" position={[-0.01, 4.98, 0.31]}>
-          <mesh
-            geometry={nodes.Cone_cell002_1.geometry}
-            material={nodes.Cone_cell002_1.material}
-          />
-          <mesh
-            geometry={nodes.Cone_cell002_2.geometry}
-            material={glitterMaterial}
-          />
-        </group>
-      </>
-      {/* )} */}
+      <group name="Cone_cell" position={[0.02, 4.25, -0.06]}>
+        <mesh
+          geometry={nodes.Cone_cell004.geometry}
+          material={nodes.Cone_cell004.material}
+        />
+        <mesh
+          geometry={nodes.Cone_cell004_1.geometry}
+          material={glitterMaterial}
+        />
+      </group>
+      <group name="Cone_cell001" position={[0.45, 4.03, 0.45]}>
+        <mesh
+          geometry={nodes.Cone_cell005.geometry}
+          material={nodes.Cone_cell005.material}
+        />
+        <mesh
+          geometry={nodes.Cone_cell005_1.geometry}
+          material={glitterMaterial}
+        />
+      </group>
+      <group name="Cone_cell002" position={[-0.36, 4.05, 0.42]}>
+        <mesh
+          geometry={nodes.Cone_cell001_1.geometry}
+          material={nodes.Cone_cell001_1.material}
+        />
+        <mesh
+          geometry={nodes.Cone_cell001_2.geometry}
+          material={glitterMaterial}
+        />
+      </group>
+      <group name="Cone_cell003" position={[-0.01, 4.98, 0.31]}>
+        <mesh
+          geometry={nodes.Cone_cell002_1.geometry}
+          material={nodes.Cone_cell002_1.material}
+        />
+        <mesh
+          geometry={nodes.Cone_cell002_2.geometry}
+          material={glitterMaterial}
+        />
+      </group>
     </group>
   );
 }

@@ -29,10 +29,11 @@ export const ExampleText = ({ ...props }) => {
         position={[gridWidth / 5.5, gridHeight / 9, 0]}
         sprite
       >
-        <pre style={{ fontSize: "14px" }}>
+        <pre style={{ fontSize: "18px" }}>
           {`
 function MeasureComponent(){
- return (
+ 
+  return (
     <QuickMeasure>
       <Box/>
       <Torus/>

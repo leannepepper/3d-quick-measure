@@ -6,7 +6,7 @@ import { Cube } from "./Cube";
 import { Triangle } from "./TriangleFractureBaked6";
 
 export const ExampleShapes = ({ ...props }) => {
-  const { viewport } = useThree();
+  const { viewport, scene } = useThree();
   const gridWidth = viewport.width;
   const gridHeight = viewport.height;
 
@@ -32,7 +32,9 @@ export const ExampleShapes = ({ ...props }) => {
       <Suspense fallback={null}>
         <Triangle
           visible={clicked}
-          onClick={() => setClicked(true)}
+          onClick={() => {
+            setClicked(true);
+          }}
           position={[gridWidth / 3, 1, -0.5]}
           rotation={[0.24, 0.0, 0.0]}
         />

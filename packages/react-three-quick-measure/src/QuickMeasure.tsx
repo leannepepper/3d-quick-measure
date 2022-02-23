@@ -76,7 +76,13 @@ export function QuickMeasure({
           multiple
           onChange={(selectedObjs) => {
             setHover([]);
-            setSelected(selectedObjs);
+            const objs = [];
+            selectedObjs.forEach((obj) => {
+              if (scene.getObjectById(obj.id)) {
+                objs.push(obj);
+              }
+            });
+            setSelected(objs);
           }}
         >
           <Hover>

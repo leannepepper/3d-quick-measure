@@ -16,24 +16,22 @@ export function getMidPoint(points: THREE.Vector3[]) {
   return midPoint;
 }
 
-export function getBoundingBox(multiSelected: any[]): THREE.Box3 {
+export function getBoundingBox(selected: any[]): THREE.Box3 {
   const boundingBox = new THREE.Box3();
-  const group = new THREE.Group();
-  const clones: any[] = [];
 
-  multiSelected.forEach((obj3D: THREE.Mesh) => {
-    const clone = obj3D.clone();
-    clones.push(clone);
+  selected.forEach((obj3D: THREE.Mesh) => {
+    obj3D.geometry.computeBoundingBox();
+    const cloneBoundingBox = obj3D.geometry.boundingBox.clone();
+    cloneBoundingBox.applyMatrix4(obj3D.matrixWorld);
+
+    boundingBox.union(cloneBoundingBox);
   });
-
-  group.add(...clones);
-  boundingBox.setFromObject(group);
   return boundingBox;
 }
 
 export function MultiObjectBoundingBox({ ...props }) {
   const { multiSelected } = props;
-  if (multiSelected.length < 1) {
+  if (multiSelected.length < 2) {
     return null;
   }
 

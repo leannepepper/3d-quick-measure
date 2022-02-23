@@ -18,6 +18,7 @@ export function MainMeasurementLines(props: Measure): null | JSX.Element {
   }
 
   const multiSelectBoundingBox = getBoundingBox(selected);
+
   hovered[0].geometry.computeBoundingBox();
   const hoveredBoundingBox = hovered[0].geometry.boundingBox.clone();
   hoveredBoundingBox.applyMatrix4(hovered[0].matrixWorld);

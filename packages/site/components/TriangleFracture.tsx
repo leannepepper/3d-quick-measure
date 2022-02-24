@@ -72,7 +72,7 @@ export function Triangle({
     <group ref={group} name="triangles" {...props} dispose={null}>
       <TriangleSolid
         onClick={() => removeSolidTriangle()}
-        position={[-0.1, 0, 0.26]}
+        position={[0, 0, 0]}
       />
       <group name="Cone_cell" position={[0.02, 4.25, -0.06]}>
         <mesh

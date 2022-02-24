@@ -1,21 +1,15 @@
-import * as THREE from "three";
 import { Line, OrbitControls } from "@react-three/drei";
-import {
-  Canvas,
-  extend,
-  useThree,
-  useFrame,
-  ReactThreeFiber,
-} from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import * as React from "react";
-import { Suspense, useRef, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { QuickMeasure } from "react-three-quick-measure";
-import { ExampleShapes } from "./Shapes";
-import { MeasureText } from "./MeasureText";
-import { GridLines } from "./GridLines";
-import { Panels } from "./Panels";
-import { ExampleText } from "./ExampleText";
+import * as THREE from "three";
 import { Cube } from "./Cube";
+import { ExampleText } from "./ExampleText";
+import { GridLines } from "./GridLines";
+import { MeasureText } from "./MeasureText";
+import { Panels } from "./Panels";
+import { ExampleShapes } from "./Shapes";
 
 export default function Scene() {
   const [windowSize, setWindowSize] = useState({

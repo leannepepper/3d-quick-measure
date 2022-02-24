@@ -19,7 +19,7 @@ export function GridLines() {
 
   const yAxisLine2 = [
     new THREE.Vector3(-columnSize, rowSize * 3, 0),
-    new THREE.Vector3(-columnSize, -rowSize, 0),
+    new THREE.Vector3(-columnSize, -rowSize * 3, 0),
   ];
 
   const xAxisLine3 = [

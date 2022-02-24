@@ -13,9 +13,8 @@ export const ExampleText = ({ ...props }) => {
         as="div"
         wrapperClass={"html"}
         prepend
-        center
         position={[-gridWidth / 3, gridHeight / 3, 0]}
-        sprite
+        transform
       >
         <pre
           style={{ fontSize: "18px" }}
@@ -26,8 +25,8 @@ export const ExampleText = ({ ...props }) => {
         as="div"
         wrapperClass={"html"}
         prepend
-        position={[gridWidth / 5.5, gridHeight / 9, 0]}
-        sprite
+        position={[gridWidth / 3, 0, 0]}
+        transform
       >
         <pre style={{ fontSize: "18px" }}>
           {`

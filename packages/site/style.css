@@ -13,6 +13,10 @@ html {
   background: #fac407;
 }
 
+.html a {
+  cursor: pointer;
+}
+
 body {
   margin: 0;
 }

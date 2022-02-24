@@ -27,6 +27,7 @@ export const ExampleShapes = ({ ...props }) => {
           attach="material"
           color="#fac407"
           roughness={0.9}
+          side={THREE.DoubleSide}
         />
       </Sphere>
       <Suspense fallback={null}>

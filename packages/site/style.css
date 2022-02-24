@@ -17,6 +17,10 @@ html {
   cursor: pointer;
 }
 
+pre {
+  user-select: none;
+}
+
 body {
   margin: 0;
 }

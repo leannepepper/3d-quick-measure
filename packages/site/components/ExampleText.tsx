@@ -97,9 +97,9 @@ export const ExampleText = ({ ...props }) => {
       <Html
         as="div"
         wrapperClass={"html"}
-        prepend
         position={[gridWidth / 3, 0, 0]}
         transform
+        occlude={true}
       >
         <pre style={{ fontSize: "16px" }}>
           {`

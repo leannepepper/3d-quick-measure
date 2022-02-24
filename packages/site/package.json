@@ -6,6 +6,7 @@
     "build": "next build && next export"
   },
   "dependencies": {
+    "@react-three/a11y": "^2.2.3",
     "feather-icons": "^4.28.0",
     "framer-motion": "^6.2.6",
     "framer-motion-3d": "^6.2.6",

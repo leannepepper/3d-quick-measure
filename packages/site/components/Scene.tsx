@@ -10,6 +10,7 @@ import { GridLines } from "./GridLines";
 import { MeasureText } from "./MeasureText";
 import { Panels } from "./Panels";
 import { ExampleShapes } from "./Shapes";
+import { A11yAnnouncer } from "@react-three/a11y";
 
 export default function Scene() {
   const [windowSize, setWindowSize] = useState({
@@ -33,45 +34,60 @@ export default function Scene() {
 
   if (windowSize.width < 768) {
     return (
-      <Canvas camera={{ position: [0, 0, 20], near: 0.1, far: 100, fov: 50 }}>
-        <pointLight position={[5, 15, 10]} intensity={1.0} />
-        <ambientLight intensity={0.7} />
-        <OrbitControls autoRotate={false} enableZoom={true} enablePan={false} />
-        <Line
-          points={[
-            new THREE.Vector3(-windowSize.width, -3, 0),
-            new THREE.Vector3(windowSize.width, -3, 0),
-          ]}
-          color={"#000000"}
-          lineWidth={2.0}
-          alphaWrite={undefined}
-        ></Line>
-        <QuickMeasure>
-          <Cube />
-          <Suspense fallback={null}>
-            <MeasureText text="Quick" position={[-1.5, -4.8, 0]} size={1.5} />
-            <MeasureText text="Measure" position={[0, -7.8, 0]} size={1.5} />
-          </Suspense>
-        </QuickMeasure>
-      </Canvas>
+      <>
+        <Canvas camera={{ position: [0, 0, 20], near: 0.1, far: 100, fov: 50 }}>
+          <pointLight position={[5, 15, 10]} intensity={1.0} />
+          <ambientLight intensity={0.7} />
+          <OrbitControls
+            autoRotate={false}
+            enableZoom={true}
+            enablePan={false}
+          />
+          <Line
+            points={[
+              new THREE.Vector3(-windowSize.width, -3, 0),
+              new THREE.Vector3(windowSize.width, -3, 0),
+            ]}
+            color={"#000000"}
+            lineWidth={2.0}
+            alphaWrite={undefined}
+          ></Line>
+
+          <QuickMeasure>
+            <Cube />
+            <Suspense fallback={null}>
+              <MeasureText text="Quick" position={[-1.5, -4.8, 0]} size={1.5} />
+              <MeasureText text="Measure" position={[0, -7.8, 0]} size={1.5} />
+            </Suspense>
+          </QuickMeasure>
+        </Canvas>
+        <A11yAnnouncer />
+      </>
     );
   } else if (windowSize.width >= 768) {
     return (
-      <Canvas camera={{ position: [0, 0, 20], near: 0.1, far: 100, fov: 50 }}>
-        <pointLight position={[5, 15, 10]} intensity={1.0} />
-        <ambientLight intensity={0.7} />
-        <OrbitControls autoRotate={false} enableZoom={true} enablePan={false} />
-        <GridLines />
-        <Panels />
-        <ExampleText />
-        <QuickMeasure>
-          <Suspense fallback={null}>
-            <MeasureText text="Quick" position={[0.5, -4.8, 0]} />
-            <MeasureText text="Measure" position={[2.5, -7.8, 0]} />
-          </Suspense>
-          <ExampleShapes />
-        </QuickMeasure>
-      </Canvas>
+      <>
+        <Canvas camera={{ position: [0, 0, 20], near: 0.1, far: 100, fov: 50 }}>
+          <pointLight position={[5, 15, 10]} intensity={1.0} />
+          <ambientLight intensity={0.7} />
+          <OrbitControls
+            autoRotate={false}
+            enableZoom={true}
+            enablePan={false}
+          />
+          <GridLines />
+          <Panels />
+          <ExampleText />
+          <QuickMeasure>
+            <Suspense fallback={null}>
+              <MeasureText text="Quick" position={[0.5, -4.8, 0]} />
+              <MeasureText text="Measure" position={[2.5, -7.8, 0]} />
+            </Suspense>
+            <ExampleShapes />
+          </QuickMeasure>
+        </Canvas>
+        <A11yAnnouncer />
+      </>
     );
   }
 }

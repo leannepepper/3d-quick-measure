@@ -84,6 +84,7 @@ export function Triangle({
         <a
           target="_blank"
           href="https://medium.com/@leannewerner/creating-cell-fractured-animations-using-blender-and-react-three-fiber-dbd0299d4767"
+          aria-label="link to Medium article, creating cell fractured animations using blender and react three fiber"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

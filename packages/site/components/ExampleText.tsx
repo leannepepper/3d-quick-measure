@@ -35,6 +35,7 @@ export const ExampleText = ({ ...props }) => {
           className="gh-link"
           href="https://github.com/leannepepper/3d-quick-measure"
           target="_blank"
+          aria-label="Go to the 3d-quick-measure repository on GitHub"
         >
           <svg
             aria-hidden="false"
@@ -52,6 +53,7 @@ export const ExampleText = ({ ...props }) => {
           </svg>
         </a>
       </Html>
+
       <Html
         as="div"
         wrapperClass={"html"}
@@ -65,15 +67,22 @@ export const ExampleText = ({ ...props }) => {
           react three quick measure
         </pre>
       </Html>
+
       <Html
         as="div"
         wrapperClass={"html"}
         position={[-gridWidth / 5.2, gridHeight / 2.2, 0]}
         transform
       >
-        <a
+        <button
           onClick={() => {
             copyTextToClipboard("npm install react three quick measure");
+          }}
+          aria-label="Copy npm install react three quick measure to clipboard"
+          style={{
+            backgroundColor: "transparent",
+            border: "none",
+            cursor: "pointer",
           }}
         >
           <svg
@@ -91,7 +100,7 @@ export const ExampleText = ({ ...props }) => {
             <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
             <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
           </svg>
-        </a>
+        </button>
       </Html>
 
       <Html
@@ -119,7 +128,8 @@ function MeasureComponent(){
         position={[gridWidth / 2.09, gridHeight / 8, 0]}
         transform
       >
-        <a
+        <button
+          aria-label="Copy QuickMeasure example to clipboard"
           onClick={() => {
             copyTextToClipboard(`function MeasureComponent(){
               return (
@@ -128,6 +138,11 @@ function MeasureComponent(){
                   <Torus/>
                 </QuickMeasure>
             )}`);
+          }}
+          style={{
+            backgroundColor: "transparent",
+            border: "none",
+            cursor: "pointer",
           }}
         >
           <svg
@@ -145,7 +160,7 @@ function MeasureComponent(){
             <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
             <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
           </svg>
-        </a>
+        </button>
       </Html>
     </>
   );

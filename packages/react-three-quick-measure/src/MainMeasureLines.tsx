@@ -53,8 +53,7 @@ export function MainMeasurementLines(props: Measure): null | JSX.Element {
       getClosestPointToSelected(
         multiSelectBoundingBox,
         hoveredBoundingBox,
-        "y",
-        "min"
+        "y"
       ),
       hoveredBoundingBox.max.z
     ),
@@ -63,8 +62,7 @@ export function MainMeasurementLines(props: Measure): null | JSX.Element {
       getClosestPointToSelected(
         multiSelectBoundingBox,
         hoveredBoundingBox,
-        "y",
-        "min"
+        "y"
       ),
       hoveredBoundingBox.max.z
     ),
@@ -131,8 +129,7 @@ export function MainMeasurementLines(props: Measure): null | JSX.Element {
       getClosestPointToSelected(
         multiSelectBoundingBox,
         hoveredBoundingBox,
-        "x",
-        "min"
+        "x"
       ),
       mainYStart,
       hoveredBoundingBox.max.z
@@ -141,8 +138,7 @@ export function MainMeasurementLines(props: Measure): null | JSX.Element {
       getClosestPointToSelected(
         multiSelectBoundingBox,
         hoveredBoundingBox,
-        "x",
-        "min"
+        "x"
       ),
       mainYEnd,
       hoveredBoundingBox.max.z
@@ -154,14 +150,12 @@ export function MainMeasurementLines(props: Measure): null | JSX.Element {
       getClosestPointToSelected(
         multiSelectBoundingBox,
         hoveredBoundingBox,
-        "x",
-        "min"
+        "x"
       ),
       getClosestPointToSelected(
         multiSelectBoundingBox,
         hoveredBoundingBox,
-        "y",
-        "min"
+        "y"
       ),
       mainZStart
     ),
@@ -169,14 +163,12 @@ export function MainMeasurementLines(props: Measure): null | JSX.Element {
       getClosestPointToSelected(
         multiSelectBoundingBox,
         hoveredBoundingBox,
-        "x",
-        "min"
+        "x"
       ),
       getClosestPointToSelected(
         multiSelectBoundingBox,
         hoveredBoundingBox,
-        "y",
-        "min"
+        "y"
       ),
       mainZEnd
     ),

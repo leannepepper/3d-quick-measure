@@ -56,8 +56,8 @@ export default function Scene() {
           <QuickMeasure>
             <Cube />
             <Suspense fallback={null}>
-              <MeasureText text="Quick" position={[-1.5, -4.8, 0]} size={1.5} />
-              <MeasureText text="Measure" position={[0, -7.8, 0]} size={1.5} />
+              <MeasureText text="Quick" position={[-3, -4.8, 0]} size={1.5} />
+              <MeasureText text="Measure" position={[-4, -7.8, 0]} size={1.5} />
             </Suspense>
           </QuickMeasure>
         </Canvas>

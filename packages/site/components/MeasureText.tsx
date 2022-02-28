@@ -28,11 +28,6 @@ export function MeasureText({ ...props }) {
   );
   const textGeometry = new TextGeometry(props.text, config);
 
-  // useEffect(() => {
-  //   textGeometry.computeBoundingBox();
-  //   textGeometry.center();
-  // });
-
   return (
     <mesh ref={textMesh} {...props} geometry={textGeometry}>
       <meshPhysicalMaterial color={0x000000} reflectivity={0} roughness={0} />

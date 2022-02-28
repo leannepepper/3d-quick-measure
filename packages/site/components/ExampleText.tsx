@@ -108,7 +108,6 @@ export const ExampleText = ({ ...props }) => {
         wrapperClass={"html"}
         position={[gridWidth / 3, 0, 0]}
         transform
-        occlude={true}
       >
         <pre style={{ fontSize: "16px" }}>
           {`

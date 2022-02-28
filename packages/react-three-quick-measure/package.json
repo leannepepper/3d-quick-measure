@@ -12,7 +12,7 @@
   "scripts": {
     "prepublishOnly": "yarn build",
     "build": "microbundle --tsconfig tsconfig.json --jsxFragment React.Fragment --jsx React.createElement",
-    "dev": "microbundle watch --tsconfig tsconfig.json --jsxFragment React.Fragment --jsx React.createElement"
+    "dev": "microbundle --watch --tsconfig tsconfig.json --jsxFragment React.Fragment --jsx React.createElement"
   },
   "peerDependencies": {
     "@react-three/drei": ">=8.0.0",

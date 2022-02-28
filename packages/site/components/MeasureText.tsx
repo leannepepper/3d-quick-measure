@@ -28,10 +28,10 @@ export function MeasureText({ ...props }) {
   );
   const textGeometry = new TextGeometry(props.text, config);
 
-  useEffect(() => {
-    textGeometry.computeBoundingBox();
-    textGeometry.center();
-  });
+  // useEffect(() => {
+  //   textGeometry.computeBoundingBox();
+  //   textGeometry.center();
+  // });
 
   return (
     <mesh ref={textMesh} {...props} geometry={textGeometry}>

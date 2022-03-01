@@ -1,11 +1,15 @@
 import { Html } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import * as React from "react";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { CopyTooltip } from "./CopyTooltip";
 
 export const ExampleText = ({ ...props }) => {
   const { viewport } = useThree();
   const gridWidth = viewport.width;
   const gridHeight = viewport.height;
+  const [showTooltip, setShowTooltip] = useState(false);
 
   function copyTextToClipboard(text: string) {
     if (!navigator.clipboard) {
@@ -14,6 +18,10 @@ export const ExampleText = ({ ...props }) => {
     }
     navigator.clipboard.writeText(text).then(
       function () {
+        setShowTooltip(true);
+        setTimeout(() => {
+          setShowTooltip(false);
+        }, 1000);
         console.log("Copying to clipboard was successful!");
       },
       function (err) {
@@ -71,9 +79,31 @@ export const ExampleText = ({ ...props }) => {
       <Html
         as="div"
         wrapperClass={"html"}
-        position={[-gridWidth / 5.2, gridHeight / 2.2, 0]}
+        position={[-gridWidth / 4.8, gridHeight / 2.2, 0]}
         transform
       >
+        <motion.span
+          style={{
+            fontSize: "12px",
+            backgroundColor: "#000",
+            color: "#fac407",
+            padding: "3px",
+            borderRadius: "3px",
+            display: "inline-block",
+            position: "relative",
+            bottom: "5px",
+            opacity: showTooltip ? 1 : 0,
+          }}
+          animate={{
+            opacity: showTooltip ? 1 : 0,
+          }}
+          transition={{
+            duration: 0.2,
+            ease: "easeInOut",
+          }}
+        >
+          Copied!
+        </motion.span>
         <button
           onClick={() => {
             copyTextToClipboard("npm install react three quick measure");
@@ -87,12 +117,12 @@ export const ExampleText = ({ ...props }) => {
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
+            width="18"
+            height="18"
             viewBox="0 0 24 24"
             fill="none"
             stroke="rgba(0,0,0,0.5)"
-            strokeWidth="2"
+            strokeWidth="3"
             strokeLinecap="round"
             strokeLinejoin="round"
             className="feather feather-clipboard"
@@ -124,9 +154,32 @@ function MeasureComponent(){
       <Html
         as="div"
         wrapperClass={"html"}
-        position={[gridWidth / 2.09, gridHeight / 8, 0]}
+        position={[gridWidth / 2.2, gridHeight / 8, 0]}
         transform
       >
+        <motion.span
+          id="example-code"
+          style={{
+            fontSize: "12px",
+            backgroundColor: "#000",
+            color: "#fac407",
+            padding: "3px",
+            borderRadius: "3px",
+            display: "inline-block",
+            position: "relative",
+            bottom: "5px",
+            opacity: showTooltip ? 1 : 0,
+          }}
+          animate={{
+            opacity: showTooltip ? 1 : 0,
+          }}
+          transition={{
+            duration: 0.2,
+            ease: "easeInOut",
+          }}
+        >
+          Copied!
+        </motion.span>
         <button
           aria-label="Copy QuickMeasure example to clipboard"
           onClick={() => {
@@ -146,12 +199,12 @@ function MeasureComponent(){
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
+            width="18"
+            height="18"
             viewBox="0 0 24 24"
             fill="none"
             stroke="rgba(0,0,0,0.5)"
-            strokeWidth="2"
+            strokeWidth="3"
             strokeLinecap="round"
             strokeLinejoin="round"
             className="feather feather-clipboard"

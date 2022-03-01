@@ -3,6 +3,11 @@
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "build:quick-measure": "yarn workspace react-three-quick-measure build ",
+    "build:site": "yarn workspace site build",
+    "build": "yarn build:quick-measure && yarn build:site"
+  },
   "devDependencies": {
     "typescript": "^4.5.5"
   }

@@ -17,7 +17,6 @@ export function CopyButton({ ...props }) {
         setTimeout(() => {
           setShowTooltip(false);
         }, 1000);
-        console.log("Copying to clipboard was successful!");
       },
       function (err) {
         console.error("Could not copy text: ", err);
@@ -37,6 +36,7 @@ export function CopyButton({ ...props }) {
           display: "inline-block",
           position: "relative",
           bottom: "5px",
+          fontFamily: "sans-serif",
           opacity: showTooltip ? 1 : 0,
         }}
         animate={{

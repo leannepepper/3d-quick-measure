@@ -1,7 +1,7 @@
 import { Html, Line } from "@react-three/drei";
 import * as React from "react";
 import * as THREE from "three";
-import type { Measure } from "./QuickMeasure";
+
 import {
   getBoundingBox,
   getClosestMainAxisPoint,
@@ -10,23 +10,13 @@ import {
   quickMeasureTheme,
 } from "./measureUtils";
 
-export function MainMeasurementLines(props: Measure): null | JSX.Element {
-  const { hovered, selected } = props;
-
-  if (selected.length === 0 || hovered.length === 0) {
-    return null;
-  }
-
-  const multiSelectBoundingBox = getBoundingBox(selected);
-
-  hovered[0].geometry.computeBoundingBox();
-  const hoveredBoundingBox = hovered[0].geometry.boundingBox.clone();
-  hoveredBoundingBox.applyMatrix4(hovered[0].matrixWorld);
+export function MainMeasurementLines(props): null | JSX.Element {
+  const { hovered, selected, hoveredBoundingBox, selectBoundingBox } = props;
 
   const [mainXStart, mainXEnd] = getClosestMainAxisPoint(
     selected,
     hovered,
-    multiSelectBoundingBox,
+    selectBoundingBox,
     hoveredBoundingBox,
     "x"
   );
@@ -34,7 +24,7 @@ export function MainMeasurementLines(props: Measure): null | JSX.Element {
   const [mainYStart, mainYEnd] = getClosestMainAxisPoint(
     selected,
     hovered,
-    multiSelectBoundingBox,
+    selectBoundingBox,
     hoveredBoundingBox,
     "y"
   );
@@ -42,7 +32,7 @@ export function MainMeasurementLines(props: Measure): null | JSX.Element {
   const [mainZStart, mainZEnd] = getClosestMainAxisPoint(
     selected,
     hovered,
-    multiSelectBoundingBox,
+    selectBoundingBox,
     hoveredBoundingBox,
     "z"
   );
@@ -50,25 +40,16 @@ export function MainMeasurementLines(props: Measure): null | JSX.Element {
   const mainX = [
     new THREE.Vector3(
       mainXStart,
-      getClosestPointToSelected(
-        multiSelectBoundingBox,
-        hoveredBoundingBox,
-        "y"
-      ),
+      getClosestPointToSelected(selectBoundingBox, hoveredBoundingBox, "y"),
       hoveredBoundingBox.max.z
     ),
     new THREE.Vector3(
       mainXEnd,
-      getClosestPointToSelected(
-        multiSelectBoundingBox,
-        hoveredBoundingBox,
-        "y"
-      ),
+      getClosestPointToSelected(selectBoundingBox, hoveredBoundingBox, "y"),
       hoveredBoundingBox.max.z
     ),
   ];
 
-  // TODO: Clean up this mess
   let additionalMainX = null;
   let additionalMainY = null;
   const selectedBoundingBox = getBoundingBox(selected);
@@ -126,20 +107,12 @@ export function MainMeasurementLines(props: Measure): null | JSX.Element {
 
   const mainY = [
     new THREE.Vector3(
-      getClosestPointToSelected(
-        multiSelectBoundingBox,
-        hoveredBoundingBox,
-        "x"
-      ),
+      getClosestPointToSelected(selectBoundingBox, hoveredBoundingBox, "x"),
       mainYStart,
       hoveredBoundingBox.max.z
     ),
     new THREE.Vector3(
-      getClosestPointToSelected(
-        multiSelectBoundingBox,
-        hoveredBoundingBox,
-        "x"
-      ),
+      getClosestPointToSelected(selectBoundingBox, hoveredBoundingBox, "x"),
       mainYEnd,
       hoveredBoundingBox.max.z
     ),
@@ -147,29 +120,13 @@ export function MainMeasurementLines(props: Measure): null | JSX.Element {
 
   const mainZ = [
     new THREE.Vector3(
-      getClosestPointToSelected(
-        multiSelectBoundingBox,
-        hoveredBoundingBox,
-        "x"
-      ),
-      getClosestPointToSelected(
-        multiSelectBoundingBox,
-        hoveredBoundingBox,
-        "y"
-      ),
+      getClosestPointToSelected(selectBoundingBox, hoveredBoundingBox, "x"),
+      getClosestPointToSelected(selectBoundingBox, hoveredBoundingBox, "y"),
       mainZStart
     ),
     new THREE.Vector3(
-      getClosestPointToSelected(
-        multiSelectBoundingBox,
-        hoveredBoundingBox,
-        "x"
-      ),
-      getClosestPointToSelected(
-        multiSelectBoundingBox,
-        hoveredBoundingBox,
-        "y"
-      ),
+      getClosestPointToSelected(selectBoundingBox, hoveredBoundingBox, "x"),
+      getClosestPointToSelected(selectBoundingBox, hoveredBoundingBox, "y"),
       mainZEnd
     ),
   ];
@@ -223,13 +180,21 @@ export function MainMeasurementLines(props: Measure): null | JSX.Element {
         <group position={getMidPoint(mainZ)}>
           <Html
             as="div"
-            wrapperClass="measure-text"
             zIndexRange={[100, 0]}
             center
             transform={false}
             sprite={true}
           >
-            <p>{Math.round(Math.abs(mainZ[0].z - mainZ[1].z))}</p>
+            <p
+              style={{
+                color: "#fff",
+                backgroundColor: "#f17720",
+                padding: "1px 5px",
+                borderRadius: "5px",
+              }}
+            >
+              {Math.round(Math.abs(mainZ[0].z - mainZ[1].z))}
+            </p>
           </Html>
         </group>
       </Line>

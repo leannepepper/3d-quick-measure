@@ -1,7 +1,6 @@
 import { Html, Line } from "@react-three/drei";
 import * as React from "react";
 import * as THREE from "three";
-
 import {
   getBoundingBox,
   getClosestMainAxisPoint,

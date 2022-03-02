@@ -1,4 +1,3 @@
-import * as THREE from "three";
 import { Select } from "@react-three/drei";
 import {
   extend,
@@ -7,32 +6,21 @@ import {
   useThree,
 } from "@react-three/fiber";
 import * as React from "react";
-import { createContext, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import * as THREE from "three";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
 import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
+import { hoverContext, selectContext } from "./contexts";
+import { Hover } from "./Hover";
 import { Measurements } from "./MeasureLines";
 import { MultiObjectBoundingBox } from "./measureUtils";
-import { Hover } from "./Hover";
-import { hoverContext, selectContext } from "./contexts";
 
 extend({
   EffectComposer,
   RenderPass,
   OutlinePass,
 });
-
-export interface Measure {
-  selected: THREE.Mesh[];
-  hovered: THREE.Mesh[];
-}
-
-export interface QuickMeasureTheme {
-  colors: {
-    mainAxis: string;
-    crossAxis: string;
-  };
-}
 
 declare global {
   namespace JSX {
@@ -45,10 +33,12 @@ declare global {
   }
 }
 
-const context = createContext({
-  selected: [],
-  hovered: [],
-});
+export interface QuickMeasureTheme {
+  colors: {
+    mainAxis: string;
+    crossAxis: string;
+  };
+}
 
 const defaultSettings = {
   colors: {
@@ -109,11 +99,7 @@ export function QuickMeasure({
             setSelected(objs);
           }}
         >
-          <Hover>
-            <context.Provider value={{ selected, hovered }}>
-              {children}
-            </context.Provider>
-          </Hover>
+          <Hover>{children}</Hover>
         </Select>
 
         <MultiObjectBoundingBox multiSelected={selected} />
@@ -142,8 +128,4 @@ export function QuickMeasure({
       </selectContext.Provider>
     </hoverContext.Provider>
   );
-}
-
-export function useQuickMeasure() {
-  return React.useContext(context);
 }

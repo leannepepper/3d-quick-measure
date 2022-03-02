@@ -1,5 +1,4 @@
 import * as React from "react";
-import type { Measure } from "./QuickMeasure";
 import { CrossMeasurementLines } from "./CrossMeasureLines";
 import { MainMeasurementLines } from "./MainMeasureLines";
 import { getBoundingBox } from "./measureUtils";

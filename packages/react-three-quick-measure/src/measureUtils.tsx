@@ -39,7 +39,6 @@ export function MultiObjectBoundingBox({ ...props }) {
 }
 
 export type Axis = "x" | "y" | "z";
-export type Boundary = "min" | "max";
 
 export function getClosestMainAxisPoint(
   selected: THREE.Mesh[],

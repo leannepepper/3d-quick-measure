@@ -3,16 +3,13 @@ import React, { useRef } from "react";
 import * as THREE from "three";
 
 export function Cube({ ...props }) {
-  const group = useRef();
-  const meshRef = useRef();
   const material = new THREE.MeshStandardMaterial({
     color: 0x000000,
   });
 
   return (
-    <group ref={group} {...props} dispose={null}>
+    <>
       <motion.mesh
-        ref={meshRef}
         material={material}
         scale={[2, 1, 1]}
         animate={{
@@ -26,6 +23,41 @@ export function Cube({ ...props }) {
       >
         <boxGeometry args={[2, 2, 2]} />
       </motion.mesh>
-    </group>
+      {props.includeHorizontalCube && (
+        <>
+          <motion.mesh
+            material={material}
+            scale={[1, 1, 1]}
+            position={[0, 0, 0]}
+            animate={{
+              x: [-5, -5, -5, 0, 5, 5, 5, 5, 0, -5, -5],
+              scaleX: [1, 1, 1, 6, 1, 1, 1, 1, 6, 1, 1],
+            }}
+            transition={{
+              duration: 16,
+              repeat: Infinity,
+            }}
+          >
+            <boxGeometry args={[2, 2, 2]} />
+          </motion.mesh>
+          <motion.mesh
+            material={material}
+            scale={[1, 1, 1]}
+            position={[0, 6, 0]}
+            animate={{
+              x: [5, 5, 5, 0, -5, -5, -5, -5, 0, 5, 5],
+              scaleX: [1, 1, 1, 6, 1, 1, 1, 1, 6, 1, 1],
+            }}
+            transition={{
+              delay: 4,
+              duration: 16,
+              repeat: Infinity,
+            }}
+          >
+            <boxGeometry args={[2, 2, 2]} />
+          </motion.mesh>
+        </>
+      )}
+    </>
   );
 }

@@ -52,7 +52,7 @@ export default function Scene() {
           ></Line>
 
           <QuickMeasure>
-            <Cube />
+            <Cube includeHorizontalCube={true} />
             <Suspense fallback={null}>
               <MeasureText text="Quick" position={[-4, -5.5, 0]} size={1.5} />
               <MeasureText text="Measure" position={[-4, -7.8, 0]} size={1.5} />

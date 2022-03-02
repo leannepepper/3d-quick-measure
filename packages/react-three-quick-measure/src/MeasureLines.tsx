@@ -4,7 +4,7 @@ import { CrossMeasurementLines } from "./CrossMeasureLines";
 import { MainMeasurementLines } from "./MainMeasureLines";
 import { getBoundingBox } from "./measureUtils";
 
-export function Measurements(props: Measure): null | JSX.Element {
+export function Measurements({ ...props }): null | JSX.Element {
   const { hovered, selected } = props;
 
   if (selected.length === 0 || hovered.length === 0) {

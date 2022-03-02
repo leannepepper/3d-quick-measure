@@ -7,11 +7,11 @@ import {
   getClosestPointToHovered,
   getClosestPointToSelected,
   getMidPoint,
-  quickMeasureTheme,
 } from "./measureUtils";
 
-export function CrossMeasurementLines(props): null | JSX.Element {
-  const { selected, hoveredBoundingBox, selectBoundingBox } = props;
+export function CrossMeasurementLines({ ...props }): null | JSX.Element {
+  const { selected, hoveredBoundingBox, selectBoundingBox, quickMeasureTheme } =
+    props;
 
   let crossX = [
     new THREE.Vector3(
@@ -149,10 +149,11 @@ export function CrossMeasurementLines(props): null | JSX.Element {
             >
               <p
                 style={{
-                  color: "#fff",
-                  backgroundColor: "#f17720",
+                  color: quickMeasureTheme.colors.textColor,
+                  backgroundColor: quickMeasureTheme.colors.textBackgroundColor,
                   padding: "1px 5px",
                   borderRadius: "5px",
+                  fontFamily: "sans-serif",
                 }}
               >
                 {Math.round(
@@ -180,10 +181,11 @@ export function CrossMeasurementLines(props): null | JSX.Element {
             >
               <p
                 style={{
-                  color: "#fff",
-                  backgroundColor: "#f17720",
+                  color: quickMeasureTheme.colors.textColor,
+                  backgroundColor: quickMeasureTheme.colors.textBackgroundColor,
                   padding: "1px 5px",
                   borderRadius: "5px",
+                  fontFamily: "sans-serif",
                 }}
               >
                 {Math.round(
@@ -210,10 +212,11 @@ export function CrossMeasurementLines(props): null | JSX.Element {
           >
             <p
               style={{
-                color: "#fff",
-                backgroundColor: "#f17720",
+                color: quickMeasureTheme.colors.textColor,
+                backgroundColor: quickMeasureTheme.colors.textBackgroundColor,
                 padding: "1px 5px",
                 borderRadius: "5px",
+                fontFamily: "sans-serif",
               }}
             >
               {Math.round(Math.abs(crossX[0].x - crossX[1].x))}
@@ -237,10 +240,11 @@ export function CrossMeasurementLines(props): null | JSX.Element {
           >
             <p
               style={{
-                color: "#fff",
-                backgroundColor: "#f17720",
+                color: quickMeasureTheme.colors.textColor,
+                backgroundColor: quickMeasureTheme.colors.textBackgroundColor,
                 padding: "1px 5px",
                 borderRadius: "5px",
+                fontFamily: "sans-serif",
               }}
             >
               {Math.round(Math.abs(crossY[0].y - crossY[1].y))}

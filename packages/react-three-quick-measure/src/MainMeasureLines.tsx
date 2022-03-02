@@ -7,11 +7,16 @@ import {
   getClosestMainAxisPoint,
   getClosestPointToSelected,
   getMidPoint,
-  quickMeasureTheme,
 } from "./measureUtils";
 
-export function MainMeasurementLines(props): null | JSX.Element {
-  const { hovered, selected, hoveredBoundingBox, selectBoundingBox } = props;
+export function MainMeasurementLines({ ...props }): null | JSX.Element {
+  const {
+    hovered,
+    selected,
+    hoveredBoundingBox,
+    selectBoundingBox,
+    quickMeasureTheme,
+  } = props;
 
   const [mainXStart, mainXEnd] = getClosestMainAxisPoint(
     selected,
@@ -187,10 +192,11 @@ export function MainMeasurementLines(props): null | JSX.Element {
           >
             <p
               style={{
-                color: "#fff",
-                backgroundColor: "#f17720",
+                color: quickMeasureTheme.colors.textColor,
+                backgroundColor: quickMeasureTheme.colors.textBackgroundColor,
                 padding: "1px 5px",
                 borderRadius: "5px",
+                fontFamily: "sans-serif",
               }}
             >
               {Math.round(Math.abs(mainZ[0].z - mainZ[1].z))}

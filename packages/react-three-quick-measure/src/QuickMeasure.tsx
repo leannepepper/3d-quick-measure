@@ -27,6 +27,13 @@ export interface Measure {
   hovered: THREE.Mesh[];
 }
 
+export interface QuickMeasureTheme {
+  colors: {
+    mainAxis: string;
+    crossAxis: string;
+  };
+}
+
 declare global {
   namespace JSX {
     interface IntrinsicElements {
@@ -43,10 +50,27 @@ const context = createContext({
   hovered: [],
 });
 
+const defaultSettings = {
+  colors: {
+    mainAxis: "#41a5f5",
+    crossAxis: "#f17720",
+    textColor: "#fff",
+    textBackgroundColor: "#f17720",
+  },
+};
+
 export function QuickMeasure({
-  children: _children,
-  ...props
-}: ReactThreeFiber.Object3DNode<THREE.Object3D, THREE.Object3D>) {
+  children,
+  quickMeasureTheme = defaultSettings,
+  active = true,
+}: {
+  children: React.ReactNode;
+  quickMeasureTheme?: QuickMeasureTheme;
+  active?: boolean;
+}) {
+  if (active === false) {
+    return <>{children}</>;
+  }
   const composer = useRef(null);
   const { scene, gl, size, camera } = useThree();
   const aspect = useMemo(() => new THREE.Vector2(1024, 1024), []);
@@ -87,13 +111,17 @@ export function QuickMeasure({
         >
           <Hover>
             <context.Provider value={{ selected, hovered }}>
-              {_children}
+              {children}
             </context.Provider>
           </Hover>
         </Select>
 
         <MultiObjectBoundingBox multiSelected={selected} />
-        <Measurements selected={selected} hovered={hovered} />
+        <Measurements
+          quickMeasureTheme={quickMeasureTheme}
+          selected={selected}
+          hovered={hovered}
+        />
         <effectComposer ref={composer} args={[gl]}>
           <renderPass attachArray="passes" scene={scene} camera={camera} />
           <outlinePass

@@ -3,39 +3,28 @@ import * as React from "react";
 import * as THREE from "three";
 import {
   getBoundingBox,
-  getClosestMainAxisPoint,
+  getMainAxisStartAndEndPoints,
   getClosestPointToSelected,
   getMidPoint,
 } from "./measureUtils";
 
 export function MainMeasurementLines({ ...props }): null | JSX.Element {
-  const {
-    hovered,
-    selected,
-    hoveredBoundingBox,
-    selectBoundingBox,
-    quickMeasureTheme,
-  } = props;
+  const { selected, hoveredBoundingBox, selectBoundingBox, quickMeasureTheme } =
+    props;
 
-  const [mainXStart, mainXEnd] = getClosestMainAxisPoint(
-    selected,
-    hovered,
+  const [mainXStart, mainXEnd] = getMainAxisStartAndEndPoints(
     selectBoundingBox,
     hoveredBoundingBox,
     "x"
   );
 
-  const [mainYStart, mainYEnd] = getClosestMainAxisPoint(
-    selected,
-    hovered,
+  const [mainYStart, mainYEnd] = getMainAxisStartAndEndPoints(
     selectBoundingBox,
     hoveredBoundingBox,
     "y"
   );
 
-  const [mainZStart, mainZEnd] = getClosestMainAxisPoint(
-    selected,
-    hovered,
+  const [mainZStart, mainZEnd] = getMainAxisStartAndEndPoints(
     selectBoundingBox,
     hoveredBoundingBox,
     "z"

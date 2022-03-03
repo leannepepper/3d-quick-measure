@@ -35,8 +35,8 @@ declare global {
 
 export interface QuickMeasureTheme {
   colors: {
-    mainAxis: string;
-    crossAxis: string;
+    mainAxis: string | THREE.Color;
+    crossAxis: string | THREE.Color;
   };
 }
 

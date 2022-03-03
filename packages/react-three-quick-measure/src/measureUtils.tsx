@@ -9,7 +9,7 @@ export function getMidPoint(points: THREE.Vector3[]) {
   return midPoint;
 }
 
-export function getBoundingBox(selected: any[]): THREE.Box3 {
+export function getBoundingBox(selected: THREE.Mesh[]): THREE.Box3 {
   const boundingBox = new THREE.Box3();
 
   selected.forEach((obj3D: THREE.Mesh) => {
@@ -40,16 +40,14 @@ export function MultiObjectBoundingBox({ ...props }) {
 
 export type Axis = "x" | "y" | "z";
 
-export function getClosestMainAxisPoint(
-  selected: THREE.Mesh[],
-  hovered: THREE.Mesh[],
+export function getMainAxisStartAndEndPoints(
   selectedBoundingBox: THREE.Box3,
   hoveredBoundingBox: THREE.Box3,
   axis: Axis
 ) {
-  if (selected[0].position[axis] > hovered[0].position[axis]) {
+  if (selectedBoundingBox.min[axis] > hoveredBoundingBox.min[axis]) {
     return [hoveredBoundingBox.max[axis], selectedBoundingBox.max[axis]];
-  } else if (selected[0].position[axis] < hovered[0].position[axis]) {
+  } else if (selectedBoundingBox.min[axis] < hoveredBoundingBox.min[axis]) {
     return [hoveredBoundingBox.min[axis], selectedBoundingBox.min[axis]];
   } else {
     return [hoveredBoundingBox.max[axis], selectedBoundingBox.max[axis]];
@@ -57,11 +55,11 @@ export function getClosestMainAxisPoint(
 }
 
 export function getClosestPointToSelected(
-  multiSelectBoundingBox: THREE.Box3,
+  selectedBoundingBox: THREE.Box3,
   hoveredBoundingBox: THREE.Box3,
   axis: Axis
 ): number {
-  const goal = multiSelectBoundingBox.min[axis];
+  const goal = selectedBoundingBox.min[axis];
 
   const closestPoint = [
     hoveredBoundingBox.min[axis],
@@ -73,15 +71,15 @@ export function getClosestPointToSelected(
 }
 
 export function getClosestPointToHovered(
-  multiSelectBoundingBox: THREE.Box3,
+  selectedBoundingBox: THREE.Box3,
   hoveredBoundingBox: THREE.Box3,
   axis: Axis
 ): number {
   const goal = hoveredBoundingBox.min[axis];
 
   const closestPoint = [
-    multiSelectBoundingBox.min[axis],
-    multiSelectBoundingBox.max[axis],
+    selectedBoundingBox.min[axis],
+    selectedBoundingBox.max[axis],
   ].reduce(function (prev, curr) {
     return Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev;
   });

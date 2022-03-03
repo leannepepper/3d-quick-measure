@@ -14,7 +14,7 @@ export const ExampleText = ({ ...props }) => {
       <GHLink position={[-gridWidth / 2, gridHeight / 2.05, 0]} />
       <CopyButton
         position={[-gridWidth / 4.8, gridHeight / 2.2, 0]}
-        text="npm install react three quick measure"
+        text="npm install react-three-quick-measure"
       />
 
       <Html
@@ -27,7 +27,7 @@ export const ExampleText = ({ ...props }) => {
       >
         <pre style={{ fontSize: "18px", textAlign: "left", lineHeight: 1.5 }}>
           npm install <br />
-          react three quick measure
+          react-three-quick-measure
         </pre>
       </Html>
       <Html

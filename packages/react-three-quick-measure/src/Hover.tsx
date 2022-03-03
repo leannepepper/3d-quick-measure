@@ -8,6 +8,7 @@ export function Hover({ children }: JSX.IntrinsicElements["group"]) {
 
   const onPointerOver = useCallback(
     (e) => {
+      e.stopPropagation();
       setHover((state: any) => {
         return selected.includes(e.object) ? [] : [...state, e.object];
       });
@@ -16,6 +17,7 @@ export function Hover({ children }: JSX.IntrinsicElements["group"]) {
   );
 
   const onPointerOut = useCallback((e) => {
+    e.stopPropagation();
     setHover([]);
   }, []);
 

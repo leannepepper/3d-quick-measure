@@ -40,9 +40,10 @@ const theme = {
     textBackgroundColor: '#f17720'
   }
 }
-
-<QuickMeasure active={true} quickMeasureTheme={theme}>
-  <Box />
-  <Torus />
-</QuickMeasure>
+return (
+  <QuickMeasure active={true} quickMeasureTheme={theme}>
+    <Box />
+    <Torus />
+  </QuickMeasure>
+)
 ```

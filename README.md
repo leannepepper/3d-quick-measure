@@ -41,8 +41,10 @@ const theme = {
   }
 }
 
-<QuickMeasure active={true} quickMeasureTheme={theme}>
-  <Box />
-  <Torus />
-</QuickMeasure>
+return (
+  <QuickMeasure active={true} quickMeasureTheme={theme}>
+    <Box />
+    <Torus />
+  </QuickMeasure>
+)
 ```
